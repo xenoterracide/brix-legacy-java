@@ -161,7 +161,7 @@ public class PebbleTemplateProcessor {
     String readLine( String fmt, Object... args ) {
       var console = System.console();
       if ( console == null ) {
-        throw new IllegalStateException();
+        throw new IllegalStateException( "unable to prompt for overwrite, console is not available" );
       }
       return console.readLine( fmt, args );
     }
