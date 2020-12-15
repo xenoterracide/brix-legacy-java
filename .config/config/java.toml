@@ -1,0 +1,17 @@
+[[migrations]]
+dest = "{{name}}/{{type}}/src/test/java/com/xenoterracide/TestApplication.java"
+template_file = "TestApplication.java.pbl"
+
+[[migrations]]
+parse = false
+dest = "{{name}}/{{type}}/src/test/resources/application.properties"
+template_file = "application.properties"
+
+[[migrations]]
+dest = "{{name}}/{{type}}/build.gradle.kts"
+template_file = "java/module-build.gradle.kts"
+
+[[migrations]]
+dest = "settings.gradle.kts"
+template_string = '":{{name}}:{{type}}"'
+after = "include(\n"

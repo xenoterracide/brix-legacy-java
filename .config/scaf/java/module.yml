@@ -1,0 +1,5 @@
+workdir:
+templates:
+  TestApplication.java:
+    source: TestApplication.java.peb
+    destination: '{{name}}/{{args[0]}}/src/test/java/com/xenoterracide/TestApplication.java'
