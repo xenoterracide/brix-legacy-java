@@ -9,6 +9,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 plugins {
   application
   checkstyle
+  distribution
   // NOTE: external plugin version is specified in implementation dependency artifact of the project's build file
   id("com.github.spotbugs").version("4.6.0")
   id("com.diffplug.spotless").version("5.8.2")
@@ -17,7 +18,7 @@ plugins {
   id("de.inetsoftware.setupbuilder").version("4.8.7")
 }
 
-group = "com.xenoterracide.scaf"
+group = "com.xenoterracide.brix"
 version = "0.1.0-SNAPSHOT"
 
 repositories {
@@ -55,14 +56,14 @@ dependencies {
 }
 
 application {
-  mainClass.set("com.xenoterracide.scaf.Application")
+  mainClass.set("com.xenoterracide.brix.Application")
 }
 
 tasks.withType<Jar> {
   manifest {
     attributes(
       "Class-Path" to configurations.compile.get().joinToString(" ") { it.name },
-      "Main-Class" to "com.xenoterracide.scaf.Application"
+      "Main-Class" to "com.xenoterracide.brix.Application"
     )
   }
 }

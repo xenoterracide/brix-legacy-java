@@ -38,16 +38,6 @@ public final class Application implements Runnable {
   @SuppressWarnings( {"NullAway.Init"} )
   private List<String> args;
 
-  @SuppressWarnings( {"NullAway.Init"} )
-  @CommandLine.Option(
-    names = {"-d", "--dir"},
-    defaultValue = ".config/scaf",
-    showDefaultValue = CommandLine.Help.Visibility.ALWAYS,
-    description = "Directory path from the current working directory. " +
-      "Templates and configs are looked up relative to here"
-  )
-  private Path dir;
-
   @SuppressWarnings( "NullAway.Init" )
   @CommandLine.Option(
     names = {"--root-log-level"},
@@ -55,12 +45,10 @@ public final class Application implements Runnable {
     showDefaultValue = CommandLine.Help.Visibility.ALWAYS,
     description = "change root logging level"
   )
-  private Level logLevel = Level.ERROR;
-
+  private final Level logLevel = Level.ERROR;
   @SuppressWarnings( {"NullAway.Init"} )
   @CommandLine.Option( names = {"--log-level"}, description = "log level of specific package" )
-  private Map<String, Level> levelMap = Map.of();
-
+  private final Map<String, Level> levelMap = Map.of();
   @SuppressWarnings( "NullAway.Init" )
   @CommandLine.Option(
     names = {"--workdir"},
@@ -69,7 +57,16 @@ public final class Application implements Runnable {
     description = "The working directory you want your destination paths to be relative to." +
       " Defaults to current working directory"
   )
-  private Path workdir = Paths.get( "" );
+  private final Path workdir = Paths.get( "" );
+  @SuppressWarnings( {"NullAway.Init"} )
+  @CommandLine.Option(
+    names = {"-d", "--dir"},
+    defaultValue = ".config/brix",
+    showDefaultValue = CommandLine.Help.Visibility.ALWAYS,
+    description = "Directory path from the current working directory. " +
+      "Templates and configs are looked up relative to here"
+  )
+  private Path dir;
 
   private final ConfigLoader configLoader = new ConfigLoader();
 
