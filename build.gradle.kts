@@ -52,6 +52,7 @@ dependencies {
   testImplementation(platform("org.junit:junit-bom:5.+"))
   testImplementation("org.junit.jupiter:junit-jupiter-params")
   testImplementation("org.assertj:assertj-core:3.+")
+  testImplementation("org.mockito:mockito-core:3.+")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 

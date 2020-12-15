@@ -1,8 +1,8 @@
 /*
-* Copyright © 2020 Caleb Cushing.
-* Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
-* https://choosealicense.com/licenses/apache-2.0/#
-*/
+ * Copyright © 2020 Caleb Cushing.
+ * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+ * https://choosealicense.com/licenses/apache-2.0/#
+ */
 package com.xenoterracide.brix;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
@@ -30,6 +30,7 @@ public class PebbleTemplateProcessor {
   private final Logger log = LogManager.getLogger( this.getClass() );
   private final Path configDir;
   private final Path workdir;
+  private final ConsoleWrapper console;
 
   private final PebbleEngine fileEngine = new PebbleEngine.Builder()
     .newLineTrimming( false )
@@ -44,8 +45,17 @@ public class PebbleTemplateProcessor {
     .build();
 
   PebbleTemplateProcessor( @NotNull Path configDir, @NotNull Path workdir ) {
+    this( configDir, workdir, new ConsoleWrapper() );
+  }
+
+  PebbleTemplateProcessor(
+    @NotNull Path configDir,
+    @NotNull Path workdir,
+    @NotNull ConsoleWrapper console
+  ) {
     this.configDir = Objects.requireNonNull( configDir );
     this.workdir = Objects.requireNonNull( workdir );
+    this.console = Objects.requireNonNull( console );
   }
 
   void process(
@@ -63,7 +73,7 @@ public class PebbleTemplateProcessor {
   @NotNull
   Path getPath(
     @NotNull Path relativeTo,
-    @NotNull String pathTemplate,
+    @NotNull Path pathTemplate,
     @NotNull Map<String, Object> context
   )
     throws UncheckedIOException {
@@ -106,9 +116,8 @@ public class PebbleTemplateProcessor {
   }
 
   void askWhetherToWriteTemplate(
-    PebbleTemplate source, Path dest, Map<String, Object> context
+    @NotNull PebbleTemplate source, @NotNull Path dest, @NotNull Map<String, Object> context
   ) {
-    var console = Objects.requireNonNull( System.console() );
     var line = console.readLine( "Overwrite [yN] %s ", dest );
     if ( BooleanUtils.toBoolean( line ) ) {
       writeTemplate( source, dest, context );
@@ -145,6 +154,16 @@ public class PebbleTemplateProcessor {
     }
     catch ( IOException e ) {
       throw new UncheckedIOException( e );
+    }
+  }
+
+  static class ConsoleWrapper {
+    String readLine( String fmt, Object... args ) {
+      var console = System.console();
+      if ( console == null ) {
+        throw new IllegalStateException();
+      }
+      return console.readLine( fmt, args );
     }
   }
 }

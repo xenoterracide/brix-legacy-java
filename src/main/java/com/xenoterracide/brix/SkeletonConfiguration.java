@@ -12,6 +12,7 @@ import org.immutables.value.Value;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -28,9 +29,9 @@ abstract class SkeletonConfiguration {
 
   abstract @Nullable Pattern getAfter();
 
-  abstract @NotNull String getSource();
+  abstract @NotNull Path getSource();
 
-  abstract @NotNull String getDestination();
+  abstract @NotNull Path getDestination();
 
   @Override
   public @NotNull String toString() {

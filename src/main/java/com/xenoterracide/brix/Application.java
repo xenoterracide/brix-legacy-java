@@ -5,17 +5,16 @@
 */
 package com.xenoterracide.brix;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.jetbrains.annotations.NotNull;
 import picocli.CommandLine;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -27,44 +26,43 @@ import java.util.Map;
 @CommandLine.Command( name = "skaf" )
 public final class Application implements Runnable {
 
-  @SuppressWarnings( {"NullAway.Init"} )
-  @CommandLine.Parameters( index = "0", description = "first configuration directory" )
-  private String arg;
-
-  @CommandLine.Parameters(
-    index = "1..*",
-    description = "path to configuration directories separated by space"
-  )
-  @SuppressWarnings( {"NullAway.Init"} )
-  private List<String> args;
-
   @SuppressWarnings( "NullAway.Init" )
   @CommandLine.Option(
-    names = {"--root-log-level"},
+    names = { "--root-log-level" },
     defaultValue = "error",
     showDefaultValue = CommandLine.Help.Visibility.ALWAYS,
     description = "change root logging level"
   )
   private final Level logLevel = Level.ERROR;
-  @SuppressWarnings( {"NullAway.Init"} )
-  @CommandLine.Option( names = {"--log-level"}, description = "log level of specific package" )
+  @SuppressWarnings( { "NullAway.Init" } )
+  @CommandLine.Option( names = { "--log-level" }, description = "log level of specific package" )
   private final Map<String, Level> levelMap = Map.of();
   @SuppressWarnings( "NullAway.Init" )
   @CommandLine.Option(
-    names = {"--workdir"},
+    names = { "--workdir" },
     defaultValue = "",
     showDefaultValue = CommandLine.Help.Visibility.ALWAYS,
     description = "The working directory you want your destination paths to be relative to." +
       " Defaults to current working directory"
   )
   private final Path workdir = Paths.get( "" );
-  @SuppressWarnings( {"NullAway.Init"} )
+  @SuppressWarnings( { "NullAway.Init" } )
+  @CommandLine.Parameters( index = "0", description = "first configuration directory" )
+  private String arg;
+  @CommandLine.Parameters(
+    index = "1..*",
+    description = "path to configuration directories separated by space"
+  )
+  @SuppressWarnings( { "NullAway.Init" } )
+  private List<String> args;
+  @SuppressWarnings( { "NullAway.Init" } )
   @CommandLine.Option(
-    names = {"-d", "--dir"},
+    names = { "-d", "--dir" },
     defaultValue = ".config/brix",
     showDefaultValue = CommandLine.Help.Visibility.ALWAYS,
     description = "Directory path from the current working directory. " +
-      "Templates and configs are looked up relative to here"
+      "Templates and configs are looked up relative to here. If the config " +
+      "isn't found here, then we will search ~/.config/brix"
   )
   private Path dir;
 
@@ -74,6 +72,7 @@ public final class Application implements Runnable {
     var cli = new CommandLine( new Application() );
     cli.setCaseInsensitiveEnumValuesAllowed( true );
     cli.registerConverter( Level.class, Level::valueOf );
+    cli.setExecutionExceptionHandler( new ExceptionHandler() );
     System.exit( cli.execute( args ) );
   }
 
@@ -86,13 +85,12 @@ public final class Application implements Runnable {
     var splitArgs = new ArrayList<>( args );
 
     var name = splitArgs.remove( splitArgs.size() - 1 );
-    var fn = splitArgs.remove( splitArgs.size() - 1 ) + ".yml";
+    var configFile = getAbsoluteConfigFile( splitArgs );
+    log.debug( "config file: {}", configFile );
 
-    var configDir = dir.resolve( Path.of( arg, splitArgs.toArray( new String[ 0 ] ) ) );
-    var pathToConfig = configDir.resolve( fn ).toAbsolutePath();
-    var config = configLoader.load( pathToConfig );
+    var config = configLoader.load( configFile );
 
-    var templateProcessor = new PebbleTemplateProcessor( configDir, workdir );
+    var templateProcessor = new PebbleTemplateProcessor( configFile.getParent(), workdir );
     config
       .entrySet()
       .forEach(
@@ -106,6 +104,7 @@ public final class Application implements Runnable {
   }
 
   private static void configureLog4j( Level rootLevel, Map<String, Level> levelMap ) {
+    /*
     var pattern = PatternLayout.newBuilder()
       .withPattern( "%highlight{[%t] %-5level: %msg%n%throwable}\n" )
       .build();
@@ -119,12 +118,43 @@ public final class Application implements Runnable {
     appenders.keySet().forEach( root::removeAppender );
     root.addAppender( console, rootLevel, null );
     Configurator.reconfigure( config );
+    */
     Configurator.setRootLevel( rootLevel );
     Configurator.setLevel( levelMap );
+  }
+
+  /**
+   * mutates args
+   *
+   * @param args pieces of file arguments
+   * @return config file Path
+   */
+  Path getAbsoluteConfigFile( List<String> args ) {
+    var filename = args.remove( args.size() - 1 ) + ".yml";
+    var home = SystemUtils.getUserHome().toPath();
+    var relPathToConfigFIle = Path.of( arg, args.toArray( new String[ 0 ] ) ).resolve( filename );
+    var cwdConfigFile = dir.resolve( relPathToConfigFIle );
+
+    var confFile = Files.exists( cwdConfigFile ) ? cwdConfigFile : home.resolve( relPathToConfigFIle );
+    return confFile.toAbsolutePath();
   }
 
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString( this, ToStringStyle.MULTI_LINE_STYLE );
+  }
+
+  static class ExceptionHandler implements CommandLine.IExecutionExceptionHandler {
+
+    @Override
+    public int handleExecutionException(
+      Exception ex,
+      CommandLine commandLine,
+      CommandLine.ParseResult parseResult
+    ) {
+      LogManager.getLogger( this.getClass() ).debug( "", ex );
+      System.err.println( ex.getMessage() );
+      return 1;
+    }
   }
 }
