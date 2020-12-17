@@ -10,7 +10,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.builder.api.AppenderComponentBuilder;
+import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilder;
+import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilderFactory;
+import org.apache.logging.log4j.core.config.builder.impl.BuiltConfiguration;
 import org.jetbrains.annotations.NotNull;
 import picocli.CommandLine;
 
@@ -104,23 +109,15 @@ public final class Application implements Runnable {
   }
 
   private static void configureLog4j( Level rootLevel, Map<String, Level> levelMap ) {
-    /*
-    var pattern = PatternLayout.newBuilder()
-      .withPattern( "%highlight{[%t] %-5level: %msg%n%throwable}\n" )
-      .build();
-    var console = ConsoleAppender.createDefaultAppenderForLayout( pattern );
-    console.start();
-
-    var config = LoggerContext.getContext( false ).getConfiguration();
-
-    var root = config.getRootLogger();
-    var appenders = root.getAppenders();
-    appenders.keySet().forEach( root::removeAppender );
-    root.addAppender( console, rootLevel, null );
-    Configurator.reconfigure( config );
-    */
-    Configurator.setRootLevel( rootLevel );
-    Configurator.setLevel( levelMap );
+    ConfigurationBuilder<BuiltConfiguration> builder = ConfigurationBuilderFactory.newConfigurationBuilder();
+    AppenderComponentBuilder appenderBuilder = builder.newAppender( "console", "CONSOLE" )
+      .addAttribute( "target", ConsoleAppender.Target.SYSTEM_OUT );
+    appenderBuilder.add( builder.newLayout( "PatternLayout" )
+      .addAttribute( "pattern", "%highlight{%-5level} - %msg%n%throwable" ) );
+    builder.add( appenderBuilder );
+    builder.add( builder.newRootLogger( rootLevel ).add( builder.newAppenderRef( "console" ) ) );
+    levelMap.forEach( ( s, level ) -> builder.add( builder.newLogger( s, level ) ) );
+    Configurator.initialize( builder.build() );
   }
 
   /**
@@ -152,8 +149,9 @@ public final class Application implements Runnable {
       CommandLine commandLine,
       CommandLine.ParseResult parseResult
     ) {
-      LogManager.getLogger( this.getClass() ).debug( "", ex );
-      System.err.println( ex.getMessage() );
+      var log = LogManager.getLogger( this.getClass() );
+      log.debug( "", ex );
+      log.error( ex.getMessage() );
       return 1;
     }
   }
