@@ -4,7 +4,9 @@
     <annotationProcessing>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
+        <option name="stubs" value="$PROJECT_DIR$/build/../config/stubs/org/apache/logging/log4j/Logger.stub" />
         <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker/3.8.0/b228a4b8777c157a68cc99b827048aa4a14b123a/checker-3.8.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_core/2.4.0/ae8ef63e28e269972672797175f195a59edde69b/error_prone_core-2.4.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.uber.nullaway/nullaway/0.8.0/ca83f089c88a94cc2ac640d18358acf1ef1e1ba2/nullaway-0.8.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.pcollections/pcollections/2.1.2/15925fd6c32a29fe3f40a048d238c5ca58cb8362/pcollections-2.1.2.jar" />
@@ -29,12 +31,15 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.4.0/32ecccc595e4e4d813a80ee9e3ab5813d65874eb/error_prone_annotations-2.4.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/failureaccess/1.0.1/1dcf1de382a0bf95a3d8b0849546c88bac1292c9/failureaccess-1.0.1.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.4.0/b32aba0cbe737a4ca953f71688725972e3ee927c/protobuf-java-3.4.0.jar" />
+          <entry name="$PROJECT_DIR$/build/checkerframework" />
         </processorPath>
         <module name="brix.test" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
+        <option name="stubs" value="$PROJECT_DIR$/build/../config/stubs/org/apache/logging/log4j/Logger.stub" />
         <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker/3.8.0/b228a4b8777c157a68cc99b827048aa4a14b123a/checker-3.8.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.immutables/value/2.8.9-ea-1/b844add1565c5e3844ff271eb9b365b25079ef7a/value-2.8.9-ea-1.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_core/2.4.0/ae8ef63e28e269972672797175f195a59edde69b/error_prone_core-2.4.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.uber.nullaway/nullaway/0.8.0/ca83f089c88a94cc2ac640d18358acf1ef1e1ba2/nullaway-0.8.0.jar" />
@@ -60,6 +65,7 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.4.0/32ecccc595e4e4d813a80ee9e3ab5813d65874eb/error_prone_annotations-2.4.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/failureaccess/1.0.1/1dcf1de382a0bf95a3d8b0849546c88bac1292c9/failureaccess-1.0.1.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.4.0/b32aba0cbe737a4ca953f71688725972e3ee927c/protobuf-java-3.4.0.jar" />
+          <entry name="$PROJECT_DIR$/build/checkerframework" />
         </processorPath>
         <module name="brix.main" />
       </profile>

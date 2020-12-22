@@ -16,7 +16,7 @@ import org.apache.logging.log4j.core.config.builder.api.AppenderComponentBuilder
 import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilder;
 import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilderFactory;
 import org.apache.logging.log4j.core.config.builder.impl.BuiltConfiguration;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import picocli.CommandLine;
 
 import java.nio.file.Files;
@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CommandLine.Command( name = "skaf" )
+@CommandLine.Command( name = "brix" )
 public final class Application implements Runnable {
 
   @SuppressWarnings( "NullAway.Init" )
@@ -39,10 +39,12 @@ public final class Application implements Runnable {
     description = "change root logging level"
   )
   private final Level logLevel = Level.ERROR;
-  @SuppressWarnings( { "NullAway.Init" } )
+
+  @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
   @CommandLine.Option( names = { "--log-level" }, description = "log level of specific package" )
   private final Map<String, Level> levelMap = Map.of();
-  @SuppressWarnings( "NullAway.Init" )
+
+  @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
   @CommandLine.Option(
     names = { "--workdir" },
     defaultValue = "",
@@ -51,16 +53,19 @@ public final class Application implements Runnable {
       " Defaults to current working directory"
   )
   private final Path workdir = Paths.get( "" );
-  @SuppressWarnings( { "NullAway.Init" } )
+
+  @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
   @CommandLine.Parameters( index = "0", description = "first configuration directory" )
   private String arg;
+
   @CommandLine.Parameters(
     index = "1..*",
     description = "path to configuration directories separated by space"
   )
-  @SuppressWarnings( { "NullAway.Init" } )
+  @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
   private List<String> args;
-  @SuppressWarnings( { "NullAway.Init" } )
+
+  @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
   @CommandLine.Option(
     names = { "-d", "--dir" },
     defaultValue = ".config/brix",
@@ -73,7 +78,7 @@ public final class Application implements Runnable {
 
   private final ConfigLoader configLoader = new ConfigLoader();
 
-  public static void main( @NotNull String... args ) {
+  public static void main( @NonNull String... args ) {
     var cli = new CommandLine( new Application() );
     cli.setCaseInsensitiveEnumValuesAllowed( true );
     cli.registerConverter( Level.class, Level::valueOf );
@@ -126,7 +131,8 @@ public final class Application implements Runnable {
    * @param args pieces of file arguments
    * @return config file Path
    */
-  Path getAbsoluteConfigFile( List<String> args ) {
+  @NonNull
+  Path getAbsoluteConfigFile( @NonNull List<String> args ) {
     var filename = args.remove( args.size() - 1 ) + ".yml";
     var home = SystemUtils.getUserHome().toPath();
     var relPathToConfigFIle = Path.of( arg, args.toArray( new String[ 0 ] ) ).resolve( filename );
@@ -151,7 +157,7 @@ public final class Application implements Runnable {
     ) {
       var log = LogManager.getLogger( this.getClass() );
       log.debug( "", ex );
-      log.error( ex.getMessage() );
+      log.error( "{}", ex.getMessage() );
       return 1;
     }
   }

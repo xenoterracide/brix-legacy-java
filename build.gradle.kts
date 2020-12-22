@@ -16,6 +16,7 @@ plugins {
   id("net.ltgt.errorprone").version("1.3.0")
   id("net.ltgt.nullaway").version("1.0.2")
   id("de.inetsoftware.setupbuilder").version("4.8.7")
+  id("org.checkerframework").version("0.5.13")
 }
 
 group = "com.xenoterracide.brix"
@@ -34,7 +35,8 @@ dependencies {
   compileOnly("org.immutables:value-annotations:2.+")
   errorprone("com.google.errorprone:error_prone_core:2.4.+")
   errorprone("com.uber.nullaway:nullaway:0.8.+")
-  compileOnly("org.jetbrains:annotations:16.+")
+  checkerFramework("org.checkerframework:checker:3.+")
+  compileOnly("org.checkerframework:checker-qual:3.+")
   implementation(platform("org.apache.logging.log4j:log4j-bom:2.+"))
   runtimeOnly("org.apache.logging.log4j:log4j-slf4j18-impl")
   implementation("org.apache.logging.log4j:log4j-core")
@@ -97,6 +99,15 @@ tasks.withType<Checkstyle>().configureEach {
     html.isEnabled = false
     xml.isEnabled = false
   }
+}
+
+checkerFramework {
+  extraJavacArgs.addAll(listOf("-Astubs=$buildDir/../config/stubs"))
+  checkers.addAll(
+    listOf(
+      "org.checkerframework.checker.nullness.NullnessChecker"
+    )
+  )
 }
 
 spotbugs {

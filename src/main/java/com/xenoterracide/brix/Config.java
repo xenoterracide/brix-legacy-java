@@ -8,9 +8,9 @@ package com.xenoterracide.brix;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.immutables.value.Value;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.util.Map;
@@ -21,10 +21,10 @@ abstract class Config {
 
   abstract @Nullable Path getWorkdir();
 
-  abstract @NotNull Map<String, SkeletonConfiguration> getTemplates();
+  abstract @NonNull Map<String, SkeletonConfiguration> getTemplates();
 
   @Override
-  public @NotNull String toString() {
+  public @NonNull String toString() {
     return ToStringBuilder.reflectionToString( this, ToStringStyle.MULTI_LINE_STYLE );
   }
 }

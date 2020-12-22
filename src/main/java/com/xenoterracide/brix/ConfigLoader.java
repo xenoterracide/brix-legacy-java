@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.vavr.control.Try;
 import org.apache.logging.log4j.LogManager;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.nio.file.Path;
 import java.util.Map;
@@ -24,8 +24,8 @@ class ConfigLoader {
     .enable( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES )
     .findAndRegisterModules();
 
-  @NotNull
-  Map<String, SkeletonConfiguration> load( @NotNull Path path ) throws RuntimeException {
+  @NonNull
+  Map<String, SkeletonConfiguration> load( @NonNull Path path ) throws RuntimeException {
     var log = LogManager.getLogger( this.getClass() );
 
     var config = Try

@@ -8,9 +8,9 @@ package com.xenoterracide.brix;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.immutables.value.Value;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.util.Map;
@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 abstract class SkeletonConfiguration {
 
   @Value.Default
-  @NotNull Map<String, String> getContext() {
+  @NonNull Map<String, String> getContext() {
     return Map.of();
   }
 
@@ -29,12 +29,12 @@ abstract class SkeletonConfiguration {
 
   abstract @Nullable Pattern getAfter();
 
-  abstract @NotNull Path getSource();
+  abstract @NonNull Path getSource();
 
-  abstract @NotNull Path getDestination();
+  abstract @NonNull Path getDestination();
 
   @Override
-  public @NotNull String toString() {
+  public @NonNull String toString() {
     return ToStringBuilder.reflectionToString( this, ToStringStyle.MULTI_LINE_STYLE );
   }
 }
