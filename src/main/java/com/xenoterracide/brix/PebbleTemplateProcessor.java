@@ -25,11 +25,14 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Objects;
 
-public class PebbleTemplateProcessor {
+public class PebbleTemplateProcessor implements TemplateProcessor {
 
   private final Logger log = LogManager.getLogger( this.getClass() );
+
   private final Path configDir;
+
   private final Path workdir;
+
   private final ConsoleWrapper console;
 
   private final PebbleEngine fileEngine = new PebbleEngine.Builder()
@@ -58,7 +61,8 @@ public class PebbleTemplateProcessor {
     this.console = Objects.requireNonNull( console );
   }
 
-  void process(
+  @Override
+  public void process(
     Map.@NonNull Entry<String, SkeletonConfiguration> entry,
     @NonNull Map<String, Object> context
   ) {

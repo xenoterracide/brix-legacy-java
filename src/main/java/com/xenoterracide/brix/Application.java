@@ -5,30 +5,20 @@
  */
 package com.xenoterracide.brix;
 
-import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.appender.ConsoleAppender;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.logging.log4j.core.config.builder.api.AppenderComponentBuilder;
-import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilder;
-import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilderFactory;
-import org.apache.logging.log4j.core.config.builder.impl.BuiltConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import picocli.CommandLine;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 @CommandLine.Command( name = "brix" )
-public final class Application implements Runnable {
+public final class Application implements Runnable, CliConfiguration, LoggingConfiguration {
 
   @SuppressWarnings( "NullAway.Init" )
   @CommandLine.Option(
@@ -82,8 +72,6 @@ public final class Application implements Runnable {
   )
   private Path configDir;
 
-  private final ConfigLoader configLoader = new ConfigLoader();
-
   public static void main( @NonNull String... args ) {
     var cli = new CommandLine( new Application() );
     cli.setCaseInsensitiveEnumValuesAllowed( true );
@@ -94,63 +82,52 @@ public final class Application implements Runnable {
 
   @Override
   public void run() {
-    configureLog4j( logLevel, levelMap );
-    var log = LogManager.getLogger( this.getClass() );
-    log.debug( "processed args: {}", this );
-
-    var configFile = getAbsoluteConfigFile();
-    log.debug( "config file: {}", configFile );
-
-    var config = configLoader.load( configFile );
-
-    var templateProcessor = new PebbleTemplateProcessor( configFile.getParent(), workdir );
-    config
-      .entrySet()
-      .forEach(
-        e -> {
-          var argMap = new HashMap<String, Object>();
-          argMap.put( "language", language );
-          argMap.put( "moduleType", moduleType );
-          argMap.put( "project", project );
-          argMap.put( "name", name );
-
-          var context = new HashMap<String, Object>();
-          context.putAll( argMap );
-          context.putAll( e.getValue().getContext() );
-
-          templateProcessor.process( e, Collections.unmodifiableMap( context ) );
-        }
-      );
-  }
-
-  private static void configureLog4j( Level rootLevel, Map<String, Level> levelMap ) {
-    ConfigurationBuilder<BuiltConfiguration> builder = ConfigurationBuilderFactory.newConfigurationBuilder();
-
-    AppenderComponentBuilder defaultAppender = builder.newAppender( "console", "CONSOLE" )
-      .addAttribute( "target", ConsoleAppender.Target.SYSTEM_OUT );
-    defaultAppender.add( builder.newLayout( "PatternLayout" )
-      .addAttribute( "pattern", "%highlight{%-5level} - %msg%n%throwable" ) );
-
-    builder.add( defaultAppender );
-    builder.add( builder.newRootLogger( rootLevel ).add( builder.newAppenderRef( "console" ) ) );
-    levelMap.forEach( ( s, level ) -> builder.add( builder.newLogger( s, level ) ) );
-    Configurator.initialize( builder.build() );
-  }
-
-  @NonNull
-  Path getAbsoluteConfigFile() {
-    var filename = moduleType + ".yml";
-    var relPathToConfigFIle = Path.of( language ).resolve( filename );
-    var cwdConfigFile = configDir.resolve( relPathToConfigFIle );
-
-    var home = SystemUtils.getUserHome().toPath();
-    var confFile = Files.exists( cwdConfigFile ) ? cwdConfigFile : home.resolve( relPathToConfigFIle );
-    return confFile.toAbsolutePath();
+    Coordinator.with( this ).run();
   }
 
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString( this, ToStringStyle.MULTI_LINE_STYLE );
+  }
+
+  @Override
+  public @NonNull Level getLogLevel() {
+    return logLevel;
+  }
+
+  @Override
+  public @NonNull Map<String, Level> getLevelMap() {
+    return levelMap;
+  }
+
+  @Override
+  public @NonNull Path getConfigDir() {
+    return configDir;
+  }
+
+  @Override
+  public @NonNull Path getWorkDir() {
+    return workdir;
+  }
+
+  @Override
+  public @NonNull String getProject() {
+    return project;
+  }
+
+  @Override
+  public @NonNull String getLanguage() {
+    return language;
+  }
+
+  @Override
+  public @NonNull String getModuleType() {
+    return moduleType;
+  }
+
+  @Override
+  public @Nullable String getName() {
+    return name;
   }
 
   static class ExceptionHandler implements CommandLine.IExecutionExceptionHandler {
