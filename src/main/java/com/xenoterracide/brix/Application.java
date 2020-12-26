@@ -44,21 +44,32 @@ public final class Application implements Runnable, CliConfiguration, LoggingCon
   private final Path workdir = Paths.get( "" );
 
   @SuppressWarnings({ "NullAway.Init", "initialization.fields.uninitialized" })
-  @CommandLine.Parameters(index = "0", description = "The programming language you're generating code for." +
-    " Directory under --dir")
+  @CommandLine.Parameters(
+    index = "0",
+    description = "The programming language you're generating code for. Directory under --dir"
+  )
   private String language;
 
   @SuppressWarnings({ "NullAway.Init", "initialization.fields.uninitialized" })
-  @CommandLine.Parameters(index = "1", description = "The type of code you're generating e.g controller," +
-    " also the name of the config file without the extension.")
+  @CommandLine.Parameters(
+    index = "1",
+    description = "The type of code you're generating e.g controller, also the name of the config" +
+      " file without the extension."
+  )
   private String moduleType;
 
   @SuppressWarnings({ "NullAway.Init", "initialization.fields.uninitialized" })
-  @CommandLine.Parameters(index = "2", description = "The name of the project you're generating code for.")
+  @CommandLine.Parameters(
+    index = "2",
+    description = "The name of the project you're generating code for."
+  )
   private String project;
 
-  @CommandLine.Parameters(index = "3", description = "The name of the module to be created within the project.",
-    arity = "0")
+  @CommandLine.Parameters(
+    index = "3",
+    description = "The name of the module to be created within the project.",
+    arity = "0"
+  )
   private @Nullable String name;
 
   @SuppressWarnings({ "NullAway.Init", "initialization.fields.uninitialized" })
