@@ -19,4 +19,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - run: ./gradlew --version
-      - run: ./gradlew install
+      - run: ./gradlew distTar dmg --info
