@@ -17,10 +17,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-@CommandLine.Command( name = "brix" )
+@CommandLine.Command(name = "brix")
 public final class Application implements Runnable, CliConfiguration, LoggingConfiguration {
 
-  @SuppressWarnings( "NullAway.Init" )
+  @SuppressWarnings("NullAway.Init")
   @CommandLine.Option(
     names = { "--root-log-level" },
     defaultValue = "error",
@@ -29,11 +29,11 @@ public final class Application implements Runnable, CliConfiguration, LoggingCon
   )
   private final Level logLevel = Level.ERROR;
 
-  @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
-  @CommandLine.Option( names = { "--log-level" }, description = "log level of specific package" )
+  @SuppressWarnings({ "NullAway.Init", "initialization.fields.uninitialized" })
+  @CommandLine.Option(names = { "--log-level" }, description = "log level of specific package")
   private final Map<String, Level> levelMap = Map.of();
 
-  @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
+  @SuppressWarnings({ "NullAway.Init", "initialization.fields.uninitialized" })
   @CommandLine.Option(
     names = { "--workdir" },
     defaultValue = "",
@@ -43,25 +43,25 @@ public final class Application implements Runnable, CliConfiguration, LoggingCon
   )
   private final Path workdir = Paths.get( "" );
 
-  @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
-  @CommandLine.Parameters( index = "0", description = "The programming language you're generating code for." +
-    " Directory under --dir" )
+  @SuppressWarnings({ "NullAway.Init", "initialization.fields.uninitialized" })
+  @CommandLine.Parameters(index = "0", description = "The programming language you're generating code for." +
+    " Directory under --dir")
   private String language;
 
-  @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
-  @CommandLine.Parameters( index = "1", description = "The type of code you're generating e.g controller," +
-    " also the name of the config file without the extension." )
+  @SuppressWarnings({ "NullAway.Init", "initialization.fields.uninitialized" })
+  @CommandLine.Parameters(index = "1", description = "The type of code you're generating e.g controller," +
+    " also the name of the config file without the extension.")
   private String moduleType;
 
-  @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
-  @CommandLine.Parameters( index = "2", description = "The name of the project you're generating code for." )
+  @SuppressWarnings({ "NullAway.Init", "initialization.fields.uninitialized" })
+  @CommandLine.Parameters(index = "2", description = "The name of the project you're generating code for.")
   private String project;
 
-  @CommandLine.Parameters( index = "3", description = "The name of the module to be created within the project.",
-    arity = "0" )
+  @CommandLine.Parameters(index = "3", description = "The name of the module to be created within the project.",
+    arity = "0")
   private @Nullable String name;
 
-  @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
+  @SuppressWarnings({ "NullAway.Init", "initialization.fields.uninitialized" })
   @CommandLine.Option(
     names = { "-d", "--dir" },
     defaultValue = ".config/brix",
