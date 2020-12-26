@@ -165,7 +165,8 @@ public class PebbleTemplateProcessor implements TemplateProcessor {
     String readLine( @NonNull String fmt, @NonNull Object... args ) {
       var console = System.console();
       if ( console == null ) {
-        throw new IllegalStateException( "unable to prompt for overwrite, console is not available" );
+        throw new IllegalStateException( "unable to prompt for overwrite, console is not " +
+          "available" );
       }
       var line = console.readLine( fmt, args );
       if ( line == null ) {

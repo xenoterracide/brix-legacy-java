@@ -3,10 +3,7 @@ package com.xenoterracide.brix;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.logging.log4j.core.config.builder.api.AppenderComponentBuilder;
-import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilder;
 import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilderFactory;
-import org.apache.logging.log4j.core.config.builder.impl.BuiltConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.nio.file.Path;
@@ -14,7 +11,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.function.BiFunction;
 
-class Coordinator implements Runnable {
+final class Coordinator implements Runnable {
   private final BiFunction<Path, Path, TemplateProcessor> processorFactory;
 
   private final CliConfiguration cliConfig;
@@ -33,15 +30,17 @@ class Coordinator implements Runnable {
   }
 
   private static void configureLog4j( LoggingConfiguration config ) {
-    ConfigurationBuilder<BuiltConfiguration> builder = ConfigurationBuilderFactory.newConfigurationBuilder();
+    var console = "console";
+    var builder = ConfigurationBuilderFactory.newConfigurationBuilder();
 
-    AppenderComponentBuilder defaultAppender = builder.newAppender( "console", "CONSOLE" )
+    var defaultAppender = builder.newAppender( console, "CONSOLE" )
       .addAttribute( "target", ConsoleAppender.Target.SYSTEM_OUT );
     defaultAppender.add( builder.newLayout( "PatternLayout" )
       .addAttribute( "pattern", "%highlight{%-5level} - %msg%n%throwable" ) );
 
     builder.add( defaultAppender );
-    builder.add( builder.newRootLogger( config.getLogLevel() ).add( builder.newAppenderRef( "console" ) ) );
+    builder.add( builder.newRootLogger( config.getLogLevel() )
+      .add( builder.newAppenderRef( console ) ) );
     config.getLevelMap().forEach( ( s, level ) -> builder.add( builder.newLogger( s, level ) ) );
     Configurator.initialize( builder.build() );
   }
@@ -68,7 +67,10 @@ class Coordinator implements Runnable {
 
     var config = configLoader.load( configFile );
 
-    var templateProcessor = processorFactory.apply( configFile.getParent(), cliConfig.getWorkDir() );
+    var templateProcessor = processorFactory.apply(
+      configFile.getParent(),
+      cliConfig.getWorkDir()
+    );
     config
       .entrySet()
       .forEach(

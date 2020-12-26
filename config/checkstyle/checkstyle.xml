@@ -84,15 +84,7 @@
   <!-- Checks for whitespace                               -->
   <!-- See https://checkstyle.org/config_whitespace.html -->
   <module name="FileTabCharacter"/>
-  <module name="OperatorWrap">
-    <property name="tokens" value="QUESTION, COLON"/>
-  </module>
-  <module name="OperatorWrap">
-    <property name="tokens" value="EQUAL, NOT_EQUAL, DIV, PLUS, MINUS, STAR, MOD, SR, BSR, GE, GT, SL, LE, LT, BXOR,
-     BOR, LOR, BAND, LAND, TYPE_EXTENSION_AND, LITERAL_INSTANCEOF"
-    />
-    <property name="option" value="eol"/>
-  </module>
+
 
   <!-- Miscellaneous other checks.                   -->
   <!-- See https://checkstyle.org/config_misc.html -->
@@ -186,6 +178,15 @@
 
     <!-- Checks for whitespace                               -->
     <!-- See https://checkstyle.org/config_whitespace.html -->
+    <module name="OperatorWrap">
+      <property name="tokens" value="QUESTION, COLON"/>
+    </module>
+    <module name="OperatorWrap">
+      <property name="tokens" value="EQUAL, NOT_EQUAL, DIV, PLUS, MINUS, STAR, MOD, SR, BSR, GE, GT, SL, LE, LT, BXOR,
+     BOR, LOR, BAND, LAND, TYPE_EXTENSION_AND, LITERAL_INSTANCEOF"
+      />
+      <property name="option" value="eol"/>
+    </module>
     <module name="EmptyLineSeparator">
       <property name="allowNoEmptyLineBetweenFields" value="true"/>
       <property
@@ -222,12 +223,6 @@
     </module>
     <module name="AvoidDoubleBraceInitialization"/>
     <module name="AvoidNoArgumentSuperConstructorCall"/>
-    <module name="OperatorWrap">
-      <property name="tokens" value="QUESTION, COLON"/>
-    </module>
-    <module name="OperatorWrap">
-      <property name="tokens" value="QUESTION, COLON"/>
-    </module>
     <module name="EmptyCatchBlock"/>
     <module name="DeclarationOrder"/>
     <module name="DefaultComesLast"/>
