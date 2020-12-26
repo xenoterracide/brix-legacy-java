@@ -8,9 +8,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    defaults:
-      run:
-        working-directory: api
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -21,6 +18,5 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - run: ls -l
       - run: ./gradlew --version
       - run: ./gradlew install
