@@ -69,7 +69,7 @@ final class Coordinator implements Runnable {
 
     var templateProcessor = processorFactory.apply(
       configFile.getParent(),
-      cliConfig.getWorkDir()
+      cliConfig.getWorkdir()
     );
     config
       .entrySet()

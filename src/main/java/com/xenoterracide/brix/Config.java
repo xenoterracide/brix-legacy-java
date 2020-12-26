@@ -19,7 +19,7 @@ import java.util.Map;
 @JsonDeserialize(as = ImmutableConfig.class)
 abstract class Config {
 
-  abstract @Nullable Path getWorkDir();
+  abstract @Nullable Path getWorkdir();
 
   abstract @NonNull Map<String, SkeletonConfiguration> getTemplates();
 

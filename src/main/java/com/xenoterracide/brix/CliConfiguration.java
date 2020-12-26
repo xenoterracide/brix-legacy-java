@@ -8,7 +8,7 @@ import java.nio.file.Path;
 interface CliConfiguration extends LoggingConfiguration {
   @NonNull Path getConfigDir();
 
-  @NonNull Path getWorkDir();
+  @NonNull Path getWorkdir();
 
   @NonNull String getProject();
 

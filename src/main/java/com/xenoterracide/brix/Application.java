@@ -117,7 +117,7 @@ public final class Application implements Runnable, CliConfiguration, LoggingCon
   }
 
   @Override
-  public @NonNull Path getWorkDir() {
+  public @NonNull Path getWorkdir() {
     return workdir;
   }
 
