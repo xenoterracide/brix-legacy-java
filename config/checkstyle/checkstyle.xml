@@ -84,14 +84,23 @@
   <!-- Checks for whitespace                               -->
   <!-- See https://checkstyle.org/config_whitespace.html -->
   <module name="FileTabCharacter"/>
+  <module name="OperatorWrap">
+    <property name="tokens" value="QUESTION, COLON"/>
+  </module>
+  <module name="OperatorWrap">
+    <property name="tokens" value="EQUAL, NOT_EQUAL, DIV, PLUS, MINUS, STAR, MOD, SR, BSR, GE, GT, SL, LE, LT, BXOR,
+     BOR, LOR, BAND, LAND, TYPE_EXTENSION_AND, LITERAL_INSTANCEOF"
+    />
+    <property name="option" value="eol"/>
+  </module>
 
   <!-- Miscellaneous other checks.                   -->
   <!-- See https://checkstyle.org/config_misc.html -->
   <module name="RegexpSingleline">
-    <property name="format" value="\s+$" />
-    <property name="minimum" value="0" />
-    <property name="maximum" value="0" />
-    <property name="message" value="Line has trailing spaces." />
+    <property name="format" value="\s+$"/>
+    <property name="minimum" value="0"/>
+    <property name="maximum" value="0"/>
+    <property name="message" value="Line has trailing spaces."/>
   </module>
 
   <!-- Checks for Headers                                -->
@@ -161,6 +170,10 @@
       <property name="processJavadoc" value="false"/>
     </module>
 
+    <!-- Metrics -->
+    <!-- See https://checkstyle.sourceforge.io/config_metrics.html -->
+    <module name="BooleanExpressionComplexity"/>
+
     <!-- Checks for Size Violations.                    -->
     <!-- See https://checkstyle.org/config_sizes.html -->
     <module name="MethodLength"/>
@@ -204,7 +217,12 @@
     </module>
     <module name="AvoidDoubleBraceInitialization"/>
     <module name="AvoidNoArgumentSuperConstructorCall"/>
-    <module name="OperatorWrap"/>
+    <module name="OperatorWrap">
+      <property name="tokens" value="QUESTION, COLON"/>
+    </module>
+    <module name="OperatorWrap">
+      <property name="tokens" value="QUESTION, COLON"/>
+    </module>
     <module name="EmptyCatchBlock"/>
     <module name="DeclarationOrder"/>
     <module name="DefaultComesLast"/>
