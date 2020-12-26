@@ -1,8 +1,8 @@
 /*
-* Copyright © 2020 Caleb Cushing.
-* Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
-* https://choosealicense.com/licenses/apache-2.0/#
-*/
+ * Copyright © 2020 Caleb Cushing.
+ * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+ * https://choosealicense.com/licenses/apache-2.0/#
+ */
 package com.xenoterracide.brix;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -17,15 +17,14 @@ import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilder;
 import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilderFactory;
 import org.apache.logging.log4j.core.config.builder.impl.BuiltConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import picocli.CommandLine;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @CommandLine.Command( name = "brix" )
@@ -55,15 +54,22 @@ public final class Application implements Runnable {
   private final Path workdir = Paths.get( "" );
 
   @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
-  @CommandLine.Parameters( index = "0", description = "first configuration directory" )
-  private String arg;
+  @CommandLine.Parameters( index = "0", description = "The programming language you're generating code for." +
+    " Directory under --dir" )
+  private String language;
 
-  @CommandLine.Parameters(
-    index = "1..*",
-    description = "path to configuration directories separated by space"
-  )
   @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
-  private List<String> args;
+  @CommandLine.Parameters( index = "1", description = "The type of code you're generating e.g controller," +
+    " also the name of the config file without the extension." )
+  private String moduleType;
+
+  @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
+  @CommandLine.Parameters( index = "2", description = "The name of the project you're generating code for." )
+  private String project;
+
+  @CommandLine.Parameters( index = "3", description = "The name of the module to be created within the project.",
+    arity = "0" )
+  private @Nullable String name;
 
   @SuppressWarnings( { "NullAway.Init", "initialization.fields.uninitialized" } )
   @CommandLine.Option(
@@ -74,7 +80,7 @@ public final class Application implements Runnable {
       "Templates and configs are looked up relative to here. If the config " +
       "isn't found here, then we will search ~/.config/brix"
   )
-  private Path dir;
+  private Path configDir;
 
   private final ConfigLoader configLoader = new ConfigLoader();
 
@@ -92,10 +98,7 @@ public final class Application implements Runnable {
     var log = LogManager.getLogger( this.getClass() );
     log.debug( "processed args: {}", this );
 
-    var splitArgs = new ArrayList<>( args );
-
-    var name = splitArgs.remove( splitArgs.size() - 1 );
-    var configFile = getAbsoluteConfigFile( splitArgs );
+    var configFile = getAbsoluteConfigFile();
     log.debug( "config file: {}", configFile );
 
     var config = configLoader.load( configFile );
@@ -105,9 +108,16 @@ public final class Application implements Runnable {
       .entrySet()
       .forEach(
         e -> {
-          Map<String, Object> context = new HashMap<>();
-          context.putAll( Map.of( "args", args, "name", name ) );
+          var argMap = new HashMap<String, Object>();
+          argMap.put( "language", language );
+          argMap.put( "moduleType", moduleType );
+          argMap.put( "project", project );
+          argMap.put( "name", name );
+
+          var context = new HashMap<String, Object>();
+          context.putAll( argMap );
           context.putAll( e.getValue().getContext() );
+
           templateProcessor.process( e, Collections.unmodifiableMap( context ) );
         }
       );
@@ -115,29 +125,25 @@ public final class Application implements Runnable {
 
   private static void configureLog4j( Level rootLevel, Map<String, Level> levelMap ) {
     ConfigurationBuilder<BuiltConfiguration> builder = ConfigurationBuilderFactory.newConfigurationBuilder();
-    AppenderComponentBuilder appenderBuilder = builder.newAppender( "console", "CONSOLE" )
+
+    AppenderComponentBuilder defaultAppender = builder.newAppender( "console", "CONSOLE" )
       .addAttribute( "target", ConsoleAppender.Target.SYSTEM_OUT );
-    appenderBuilder.add( builder.newLayout( "PatternLayout" )
+    defaultAppender.add( builder.newLayout( "PatternLayout" )
       .addAttribute( "pattern", "%highlight{%-5level} - %msg%n%throwable" ) );
-    builder.add( appenderBuilder );
+
+    builder.add( defaultAppender );
     builder.add( builder.newRootLogger( rootLevel ).add( builder.newAppenderRef( "console" ) ) );
     levelMap.forEach( ( s, level ) -> builder.add( builder.newLogger( s, level ) ) );
     Configurator.initialize( builder.build() );
   }
 
-  /**
-   * mutates args
-   *
-   * @param args pieces of file arguments
-   * @return config file Path
-   */
   @NonNull
-  Path getAbsoluteConfigFile( @NonNull List<String> args ) {
-    var filename = args.remove( args.size() - 1 ) + ".yml";
-    var home = SystemUtils.getUserHome().toPath();
-    var relPathToConfigFIle = Path.of( arg, args.toArray( new String[ 0 ] ) ).resolve( filename );
-    var cwdConfigFile = dir.resolve( relPathToConfigFIle );
+  Path getAbsoluteConfigFile() {
+    var filename = moduleType + ".yml";
+    var relPathToConfigFIle = Path.of( language ).resolve( filename );
+    var cwdConfigFile = configDir.resolve( relPathToConfigFIle );
 
+    var home = SystemUtils.getUserHome().toPath();
     var confFile = Files.exists( cwdConfigFile ) ? cwdConfigFile : home.resolve( relPathToConfigFIle );
     return confFile.toAbsolutePath();
   }
@@ -157,7 +163,7 @@ public final class Application implements Runnable {
     ) {
       var log = LogManager.getLogger( this.getClass() );
       log.debug( "", ex );
-      log.error( "{}", ex.getMessage() );
+      log.error( ex );
       return 1;
     }
   }
