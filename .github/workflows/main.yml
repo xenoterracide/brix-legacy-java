@@ -22,6 +22,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - run: ./gradlew --version
-      - run: ./gradlew install distTar --info
+      - run: ./gradlew build install distTar --info
       - run: tar -xf  build/distributions/brix-0.1.0-SNAPSHOT.tar
       - run: ./brix-0.1.0-SNAPSHOT/bin/brix --log-level com.xenoterracide=debug java module foo bar
