@@ -1,8 +1,8 @@
 /*
-* Copyright © 2020 Caleb Cushing.
-* Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
-* https://choosealicense.com/licenses/apache-2.0/#
-*/
+ * Copyright © 2020 Caleb Cushing.
+ * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+ * https://choosealicense.com/licenses/apache-2.0/#
+ */
 package com.xenoterracide.brix;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import java.util.Map;
 
 @Value.Immutable
-@JsonDeserialize( as = ImmutableConfig.class )
+@JsonDeserialize(as = ImmutableConfig.class)
 abstract class Config {
 
   abstract @Nullable Path getWorkdir();

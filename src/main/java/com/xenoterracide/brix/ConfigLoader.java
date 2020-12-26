@@ -47,7 +47,9 @@ class ConfigLoader {
     var cwdConfigFile = configDir.resolve( relPathToConfigFIle );
 
     var home = SystemUtils.getUserHome().toPath();
-    var confFile = Files.exists( cwdConfigFile ) ? cwdConfigFile : home.resolve( relPathToConfigFIle );
+    var confFile = Files.exists( cwdConfigFile )
+                   ? cwdConfigFile
+                   : home.resolve( relPathToConfigFIle );
     return confFile.toAbsolutePath();
   }
 
