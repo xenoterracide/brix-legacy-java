@@ -101,7 +101,16 @@ tasks.withType<Checkstyle>().configureEach {
   }
 }
 
+tasks.named<Checkstyle>("checkstyleMain") {
+  configFile = file("config/checkstyle/main.xml")
+}
+
+tasks.named<Checkstyle>("checkstyleTest") {
+  configFile = file("config/checkstyle/test.xml")
+}
+
 checkerFramework {
+  excludeTests = true
   extraJavacArgs.addAll(listOf("-Astubs=$buildDir/../config/stubs"))
   checkers.addAll(
     listOf(
