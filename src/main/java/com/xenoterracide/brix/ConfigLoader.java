@@ -1,8 +1,8 @@
 /*
-* Copyright © 2020 Caleb Cushing.
-* Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
-* https://choosealicense.com/licenses/apache-2.0/#
-*/
+ * Copyright © 2020 Caleb Cushing.
+ * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+ * https://choosealicense.com/licenses/apache-2.0/#
+ */
 package com.xenoterracide.brix;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -12,6 +12,8 @@ import io.vavr.control.Try;
 import org.apache.logging.log4j.LogManager;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.util.Map;
 
@@ -30,7 +32,12 @@ class ConfigLoader {
 
     var config = Try
       .of( () -> mapper.readValue( path.toFile(), Config.class ) )
-      .getOrElseThrow( e -> new RuntimeException( e ) );
+      .getOrElseThrow( e -> {
+        if ( e instanceof IOException ) {
+          throw new UncheckedIOException( (IOException) e );
+        }
+        throw new RuntimeException( e );
+      } );
 
     log.debug( "config: {}", config );
 
