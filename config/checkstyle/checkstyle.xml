@@ -204,9 +204,7 @@
     </module>
     <module name="AvoidDoubleBraceInitialization"/>
     <module name="AvoidNoArgumentSuperConstructorCall"/>
-    <module name="OperatorWrap">
-      <property name="option" value="eol"/>
-    </module>
+    <module name="OperatorWrap"/>
     <module name="EmptyCatchBlock"/>
     <module name="DeclarationOrder"/>
     <module name="DefaultComesLast"/>
