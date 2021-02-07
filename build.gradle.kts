@@ -17,9 +17,10 @@ plugins {
   id("net.ltgt.nullaway").version("1.0.2")
   id("de.inetsoftware.setupbuilder").version("4.8.7")
   id("org.checkerframework").version("0.5.13")
+  id("com.xenoterracide.gradle.sem-ver").version("0.7.10")
 }
 
-group = "com.xenoterracide.brix"
+group = "com.xenoterracide"
 version = "0.1.0-SNAPSHOT"
 
 repositories {
