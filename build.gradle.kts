@@ -72,6 +72,11 @@ tasks.withType<Jar> {
   }
 }
 
+tasks.withType<Tar> {
+  compression = Compression.GZIP
+  archiveExtension.set("tar.gz")
+}
+
 java {
   toolchain {
     languageVersion.set(JavaLanguageVersion.of(11))
