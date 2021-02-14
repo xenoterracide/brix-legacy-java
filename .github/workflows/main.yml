@@ -24,7 +24,7 @@ jobs:
       - run: ./gradlew --version
       - run: ./gradlew build install distTar --info --stacktrace
       - run: tar -xf  build/distributions/brix-*.tar.gz
-      - run: ./brix-0.1.0-SNAPSHOT/bin/brix --log-level com.xenoterracide=debug java module foo bar
+      - run: ./brix-0.1.0/bin/brix --log-level com.xenoterracide=debug java module foo bar
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/v')
