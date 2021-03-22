@@ -1,0 +1,8 @@
+workdir:
+templates:
+  settings.gradle.kts:
+    destination: '{{name}}/settings.gradle.kts'
+    pattern: '^(include\($)'
+    replace: '$1  :"{{moduleType}}"'
+    context:
+      project: ''
