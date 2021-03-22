@@ -8,6 +8,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
   application
+  `java-test-fixtures`
   checkstyle
   distribution
   // NOTE: external plugin version is specified in implementation dependency artifact of the project's build file
@@ -52,11 +53,29 @@ dependencies {
   implementation("io.vavr:vavr:0.+")
   implementation("commons-io:commons-io:2.+")
   implementation("info.picocli:picocli:4.+")
+
+  testFixturesImplementation(platform("org.apache.logging.log4j:log4j-bom:2.+"))
+  testFixturesAnnotationProcessor("org.immutables:value:2.+")
+  testFixturesCompileOnly("org.immutables:value-annotations:2.+")
+  testFixturesCompileOnly("org.checkerframework:checker-qual:3.+")
+  testFixturesImplementation("org.apache.logging.log4j:log4j-core")
+  testFixturesImplementation("io.vavr:vavr:0.+")
+  testFixturesImplementation("org.apache.commons:commons-lang3:3.+")
+
   testImplementation(platform("org.junit:junit-bom:5.+"))
   testImplementation("org.junit.jupiter:junit-jupiter-params")
   testImplementation("org.assertj:assertj-core:3.+")
   testImplementation("org.mockito:mockito-core:3.+")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+}
+
+configurations.all {
+  resolutionStrategy
+    .componentSelection
+    .all {
+      val nonRelease = Regex("^[\\d.]+-(M|ea).*$")
+      if (candidate.version.matches(nonRelease)) reject("no milestone version")
+    }
 }
 
 application {
@@ -66,7 +85,7 @@ application {
 tasks.withType<Jar> {
   manifest {
     attributes(
-      "Class-Path" to configurations.compile.get().joinToString(" ") { it.name },
+      "Class-Path" to configurations.runtimeClasspath.get().joinToString(" ") { it.name },
       "Main-Class" to "com.xenoterracide.brix.Application"
     )
   }
@@ -161,7 +180,6 @@ tasks.withType<JavaCompile>().configureEach {
   options.compilerArgs.addAll(
     listOf(
       "-parameters",
-      "-Werror",
       "-Xlint:deprecation",
       "-Xlint:unchecked"
     )

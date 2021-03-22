@@ -84,6 +84,7 @@ public final class Application implements Runnable, CliConfiguration, LoggingCon
   private Path configDir;
 
   public static void main( @NonNull String... args ) {
+    LogManager.getLogger().error( "IN APP ARGS: {}", (Object) args );
     var cli = new CommandLine( new Application() );
     cli.setCaseInsensitiveEnumValuesAllowed( true );
     cli.registerConverter( Level.class, Level::valueOf );
