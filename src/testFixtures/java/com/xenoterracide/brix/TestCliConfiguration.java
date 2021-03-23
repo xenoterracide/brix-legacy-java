@@ -1,3 +1,8 @@
+/*
+* Copyright © 2021 Caleb Cushing.
+* Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+* https://choosealicense.com/licenses/apache-2.0/#
+*/
 package com.xenoterracide.brix;
 
 import io.vavr.control.Try;
@@ -26,7 +31,7 @@ interface TestCliConfiguration extends CliConfiguration {
       .mapTry( URL::toURI )
       .map( Path::of )
       .map( Optional::of )
-      .getOrElse( Optional.empty());
+      .getOrElse( Optional.empty() );
   }
 
   @Override
@@ -38,7 +43,8 @@ interface TestCliConfiguration extends CliConfiguration {
   @Override
   @Value.Default
   default String getProject() {
-    return RandomStringUtils.randomAlphabetic( 8 );
+    var numberOfChars = 8;
+    return RandomStringUtils.randomAlphabetic( numberOfChars );
   }
 
   @Override

@@ -130,6 +130,10 @@ tasks.named<Checkstyle>("checkstyleMain") {
   configFile = file("config/checkstyle/main.xml")
 }
 
+tasks.named<Checkstyle>("checkstyleTestFixtures") {
+  configFile = file("config/checkstyle/test.xml")
+}
+
 tasks.named<Checkstyle>("checkstyleTest") {
   configFile = file("config/checkstyle/test.xml")
 }
