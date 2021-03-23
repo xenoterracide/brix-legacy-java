@@ -3,9 +3,10 @@ package com.xenoterracide.brix;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.nio.file.Path;
+import java.util.Optional;
 
 interface CliConfiguration extends LoggingConfiguration {
-  Path getConfigDir();
+  Optional<Path> getConfigDir();
 
   Path getWorkdir();
 

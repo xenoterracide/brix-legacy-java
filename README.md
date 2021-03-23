@@ -1,6 +1,8 @@
 # Running
 
-here's the instruction for running this for now
+```sh
+./gradlew run --args="foo bar baz" # logger options doen't seem to work
+```
 
 ```sh
 ./gradlew install

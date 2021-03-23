@@ -35,21 +35,23 @@ class ConfigLoader {
     .findAndRegisterModules();
 
   ConfigLoader( CliConfiguration cliConfig ) {
-    this.configDir = cliConfig.getConfigDir();
+    this.configDir = cliConfig.getConfigDir().orElse( Path.of( ".config", "brix" ) );
     this.language = cliConfig.getLanguage();
     this.moduleType = cliConfig.getModuleType();
   }
 
   Path pathToConfigFile() {
     var filename = moduleType + ".yml";
-    var relPathToConfigFIle = Path.of( language ).resolve( filename );
-    var cwdConfigFile = configDir.resolve( relPathToConfigFIle );
+    var relPathToConfigFile = Path.of( language ).resolve( filename );
+    var cwdConfigFile = configDir.resolve( relPathToConfigFile );
 
-    var home = SystemUtils.getUserHome().toPath();
+    var home = SystemUtils.getUserDir().toPath();
+    log.debug( "searching at: {}", cwdConfigFile );
     var confFile = Files.exists( cwdConfigFile )
                    ? cwdConfigFile
-                   : home.resolve( relPathToConfigFIle );
-    log.debug( "config file {}", relPathToConfigFIle );
+                   : home.resolve( cwdConfigFile );
+
+    log.debug( "using location: {}", confFile );
     return confFile.toAbsolutePath();
   }
 
