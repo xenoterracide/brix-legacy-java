@@ -20,7 +20,7 @@ class RegexCaptureGroupTest {
     .build();
 
   @Test
-  void test () throws IOException, URISyntaxException {
+  void test() throws IOException, URISyntaxException {
     var configDir = Path.of( this.getClass().getClassLoader().getResource( "templates" ).toURI() );
     var templatePath = configDir.resolve( "testTemplate.yml" );
 
@@ -31,7 +31,7 @@ class RegexCaptureGroupTest {
     template.evaluate( writer, ctx );
     var output = writer.toString();
 
-    Assertions.assertThat(output).contains("destination: \'test/settings.gradle.kts\'");
-    Assertions.assertThat(output).contains("replace: \'$1  :\"foo\"\'");
+    Assertions.assertThat( output ).contains( "destination: \'test/settings.gradle.kts\'" );
+    Assertions.assertThat( output ).contains( "replace: \'$1  :\"foo\"\'" );
   }
 }
