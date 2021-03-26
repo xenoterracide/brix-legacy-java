@@ -1,7 +1,7 @@
 # Running
 
 ```sh
-./gradlew run --args="foo bar baz" # logger options doen't seem to work
+./gradlew run --args="foo bar baz" # logger options don't seem to work
 ```
 
 ```sh
