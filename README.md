@@ -102,8 +102,7 @@ Any configuraton string may be a template string and processed using the configu
   * flags - should name as the value, allow singular or list.
   * mode - first or all, e.g. `String#replaceAll`. all should be the default.
 
-#### Mutually exclusive keys
+#### Mutually exclusive skeleton configuration keys
 
 * source, destination, overwrite
 * destination, instructions
-* shell
