@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Writer;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -17,13 +17,13 @@ import java.nio.file.Path;
 import java.util.Map;
 
 class RegexCaptureGroupTest {
+  private static final String SETTINGS_FILE = "settings.txt";
+
   private final PebbleEngine pebbleEngine = new PebbleEngine.Builder()
     .newLineTrimming( false )
     .strictVariables( true )
     .loader( new FileLoader() )
     .build();
-
-  private static final String SETTINGS_FILE = "settings.txt";
 
   @Test
   void test() throws IOException, URISyntaxException {
@@ -43,10 +43,13 @@ class RegexCaptureGroupTest {
     File settings = new File( configDir.toString(), SETTINGS_FILE );
     Assertions.assertThat( settings.exists() ).isEqualTo( true );
     Writer fileWriter = Files.newBufferedWriter( settings.toPath(), Charset.defaultCharset() );
-    fileWriter.write( String.format( "rootProject.name = \"test-template\"\n\n include(\n\t\":%s\"\n)", "foo" ) );
+    fileWriter.write( String.format( "rootProject.name =" +
+      "\"test-template\"\n\n include(\n\t\":%s\"\n)", "foo" ) );
     fileWriter.close();
 
-    String fileContent = Files.readString( Path.of( configDir.toString(), SETTINGS_FILE ), StandardCharsets.US_ASCII );
+    String fileContent = Files.readString(
+      Path.of( configDir.toString(), SETTINGS_FILE ),
+      StandardCharsets.US_ASCII );
     Assertions.assertThat( fileContent ).contains( "\":foo\"" );
   }
 }
