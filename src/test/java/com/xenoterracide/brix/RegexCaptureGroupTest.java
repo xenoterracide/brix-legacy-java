@@ -17,8 +17,6 @@ import java.nio.file.Path;
 import java.util.Map;
 
 class RegexCaptureGroupTest {
-  private static final String SETTINGS_FILE = "settings.txt";
-
   private final PebbleEngine pebbleEngine = new PebbleEngine.Builder()
     .newLineTrimming( false )
     .strictVariables( true )
@@ -40,7 +38,7 @@ class RegexCaptureGroupTest {
     Assertions.assertThat( output ).contains( "destination: \'test/settings.gradle.kts\'" );
     Assertions.assertThat( output ).contains( "replace: \'$1  :\"foo\"\'" );
 
-    File settings = new File( configDir.toString(), SETTINGS_FILE );
+    File settings = new File( configDir.toString(), "settings.txt" );
     Assertions.assertThat( settings.exists() ).isEqualTo( true );
     Writer fileWriter = Files.newBufferedWriter( settings.toPath(), Charset.defaultCharset() );
     fileWriter.write( String.format( "rootProject.name =" +
@@ -48,7 +46,7 @@ class RegexCaptureGroupTest {
     fileWriter.close();
 
     String fileContent = Files.readString(
-      Path.of( configDir.toString(), SETTINGS_FILE ),
+      Path.of( configDir.toString(), "settings.txt" ),
       StandardCharsets.US_ASCII );
     Assertions.assertThat( fileContent ).contains( "\":foo\"" );
   }
