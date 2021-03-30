@@ -23,6 +23,11 @@ jobs:
             ${{ runner.os }}-gradle-
       - run: ./gradlew --version
       - run: ./gradlew build install distTar --info --stacktrace
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: spotbugs-report
+          path: build/reports/spotbugs/test.html
       - run: tar -xf  build/distributions/brix-*.tar.gz
       - run: ./brix-0.1.0/bin/brix --log-level com.xenoterracide=debug java module foo bar
       - name: Release
