@@ -43,7 +43,7 @@ class RegexCaptureGroupTest {
     File settings = new File( configDir.toString(), SETTINGS_FILE );
     Assertions.assertThat( settings.exists() ).isEqualTo( true );
     try ( Writer fileWriter = Files.newBufferedWriter( settings.toPath(),
-    Charset.defaultCharset() ) ) {
+      Charset.defaultCharset() ) ) {
       fileWriter.write( String.format( "rootProject.name =" +
         "\"test-template\"%n%n include(%n\t\":%s\"%n)", "foo" ) );
     }
