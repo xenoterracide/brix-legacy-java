@@ -43,9 +43,9 @@ class RegexCaptureGroupTest {
     File settings = new File( configDir.toString(), SETTINGS_FILE );
     Assertions.assertThat( settings.exists() ).isEqualTo( true );
     try ( Writer fileWriter = Files.newBufferedWriter( settings.toPath(),
-      Charset.defaultCharset() ) ) {
-        fileWriter.write( String.format( "rootProject.name =" +
-          "\"test-template\"%n%n include(%n\t\":%s\"%n)", "foo" ) );
+    Charset.defaultCharset() ) ) {
+      fileWriter.write( String.format( "rootProject.name =" +
+        "\"test-template\"%n%n include(%n\t\":%s\"%n)", "foo" ) );
     }
     String fileContent = Files.readString(
       Path.of( configDir.toString(), SETTINGS_FILE ),
