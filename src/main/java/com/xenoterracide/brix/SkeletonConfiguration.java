@@ -8,7 +8,6 @@ package com.xenoterracide.brix;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.immutables.value.Value;
 
@@ -21,7 +20,7 @@ import java.util.regex.Pattern;
 abstract class SkeletonConfiguration {
 
   @Value.Default
-  @NonNull Map<String, String> getContext() {
+  Map<String, String> getContext() {
     return Map.of();
   }
 
@@ -29,12 +28,12 @@ abstract class SkeletonConfiguration {
 
   abstract @Nullable Pattern getAfter();
 
-  abstract @NonNull Path getSource();
+  abstract Path getSource();
 
-  abstract @NonNull Path getDestination();
+  abstract Path getDestination();
 
   @Override
-  public @NonNull String toString() {
+  public String toString() {
     return ToStringBuilder.reflectionToString( this, ToStringStyle.MULTI_LINE_STYLE );
   }
 }
