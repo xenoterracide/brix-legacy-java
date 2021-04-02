@@ -1,20 +1,20 @@
 package com.xenoterracide.brix;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.nio.file.Path;
+import java.util.Optional;
 
 interface CliConfiguration extends LoggingConfiguration {
-  @NonNull Path getConfigDir();
+  Optional<Path> getConfigDir();
 
-  @NonNull Path getWorkdir();
+  Path getWorkdir();
 
-  @NonNull String getProject();
+  String getProject();
 
-  @NonNull String getLanguage();
+  String getLanguage();
 
-  @NonNull String getModuleType();
+  String getModuleType();
 
   @Nullable String getName();
 }

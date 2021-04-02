@@ -1,3 +1,8 @@
+/*
+* Copyright © 2021 Caleb Cushing.
+* Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+* https://choosealicense.com/licenses/apache-2.0/#
+*/
 package com.xenoterracide.brix;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
@@ -35,7 +40,11 @@ class PebbleTemplateProcessorTest {
   @Test
   void testAsk() throws IOException, URISyntaxException {
     var workdir = Files.createTempDirectory( "brix" );
-    var classpathRoot = this.getClass().getClassLoader().getResource( "templates" ).toURI();
+    var classpathRoot = this.getClass()
+      .getClassLoader()
+      .getResource( "config/java/templates" )
+      .toURI();
+
     var configDir = Path.of( classpathRoot );
     var templatePath = configDir.resolve( "testTemplate.peb" );
     var pathToOutput = workdir.resolve( "testTemplate" );

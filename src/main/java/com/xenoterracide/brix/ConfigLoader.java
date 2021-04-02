@@ -1,8 +1,8 @@
 /*
- * Copyright © 2020 Caleb Cushing.
- * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
- * https://choosealicense.com/licenses/apache-2.0/#
- */
+* Copyright © 2020-2021 Caleb Cushing.
+* Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+* https://choosealicense.com/licenses/apache-2.0/#
+*/
 package com.xenoterracide.brix;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -11,15 +11,15 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.vavr.control.Try;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
 class ConfigLoader {
+
+  private final Logger log = LogManager.getLogger( this.getClass() );
 
   private final Path configDir;
 
@@ -34,37 +34,29 @@ class ConfigLoader {
     .enable( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES )
     .findAndRegisterModules();
 
-  ConfigLoader( @NonNull CliConfiguration cliConfig ) {
-    this.configDir = cliConfig.getConfigDir();
+  ConfigLoader( CliConfiguration cliConfig ) {
+    this.configDir = cliConfig.getConfigDir().orElse( Path.of( ".config", "brix" ) );
     this.language = cliConfig.getLanguage();
     this.moduleType = cliConfig.getModuleType();
   }
 
-  @NonNull
   Path pathToConfigFile() {
     var filename = moduleType + ".yml";
-    var relPathToConfigFIle = Path.of( language ).resolve( filename );
-    var cwdConfigFile = configDir.resolve( relPathToConfigFIle );
+    var relPathToConfigFile = Path.of( language ).resolve( filename );
+    var cwdConfigFile = configDir.resolve( relPathToConfigFile );
 
-    var home = SystemUtils.getUserHome().toPath();
+    var home = SystemUtils.getUserDir().toPath();
+    log.debug( "searching at: {}", cwdConfigFile );
     var confFile = Files.exists( cwdConfigFile )
                    ? cwdConfigFile
-                   : home.resolve( relPathToConfigFIle );
+                   : home.resolve( cwdConfigFile );
+
+    log.debug( "using location: {}", confFile );
     return confFile.toAbsolutePath();
   }
 
-  @NonNull
-  Map<String, SkeletonConfiguration> load( @NonNull Path path ) throws RuntimeException {
-    var log = LogManager.getLogger( this.getClass() );
-
-    var config = Try
-      .of( () -> mapper.readValue( path.toFile(), Config.class ) )
-      .getOrElseThrow( e -> {
-        if ( e instanceof IOException ) {
-          throw new UncheckedIOException( (IOException) e );
-        }
-        throw new RuntimeException( e );
-      } );
+  Map<String, SkeletonConfiguration> load( Path path ) {
+    var config = Try.of( () -> mapper.readValue( path.toFile(), Config.class ) ).get();
 
     log.debug( "config: {}", config );
 

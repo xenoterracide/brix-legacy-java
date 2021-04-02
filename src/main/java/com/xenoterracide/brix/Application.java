@@ -16,6 +16,7 @@ import picocli.CommandLine;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.Optional;
 
 @CommandLine.Command(name = "brix")
 public final class Application implements Runnable, CliConfiguration, LoggingConfiguration {
@@ -74,16 +75,15 @@ public final class Application implements Runnable, CliConfiguration, LoggingCon
 
   @SuppressWarnings({ "NullAway.Init", "initialization.field.uninitialized" })
   @CommandLine.Option(
-    names = { "-d", "--dir" },
-    defaultValue = ".config/brix",
-    showDefaultValue = CommandLine.Help.Visibility.ALWAYS,
+    names = { "-d", "--config-dir" },
     description = "Directory path from the current working directory. " +
       "Templates and configs are looked up relative to here. If the config " +
       "isn't found here, then we will search ~/.config/brix"
   )
-  private Path configDir;
+  private @Nullable Path configDir;
 
   public static void main( @NonNull String... args ) {
+    LogManager.getLogger().error( "IN APP ARGS: {}", (Object) args );
     var cli = new CommandLine( new Application() );
     cli.setCaseInsensitiveEnumValuesAllowed( true );
     cli.registerConverter( Level.class, Level::valueOf );
@@ -102,37 +102,37 @@ public final class Application implements Runnable, CliConfiguration, LoggingCon
   }
 
   @Override
-  public @NonNull Level getLogLevel() {
+  public Level getLogLevel() {
     return logLevel;
   }
 
   @Override
-  public @NonNull Map<String, Level> getLevelMap() {
+  public Map<String, Level> getLevelMap() {
     return levelMap;
   }
 
   @Override
-  public @NonNull Path getConfigDir() {
-    return configDir;
+  public Optional<Path> getConfigDir() {
+    return Optional.ofNullable( configDir );
   }
 
   @Override
-  public @NonNull Path getWorkdir() {
+  public Path getWorkdir() {
     return workdir;
   }
 
   @Override
-  public @NonNull String getProject() {
+  public String getProject() {
     return project;
   }
 
   @Override
-  public @NonNull String getLanguage() {
+  public String getLanguage() {
     return language;
   }
 
   @Override
-  public @NonNull String getModuleType() {
+  public String getModuleType() {
     return moduleType;
   }
 
