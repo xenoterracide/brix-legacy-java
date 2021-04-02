@@ -1,3 +1,8 @@
+/*
+* Copyright © 2020-2021 Caleb Cushing.
+* Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+* https://choosealicense.com/licenses/apache-2.0/#
+*/
 package com.xenoterracide.brix;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
@@ -5,6 +10,7 @@ import com.mitchellbosecke.pebble.loader.FileLoader;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -41,12 +47,16 @@ class RegexCaptureGroupTest {
     Assertions.assertThat( output ).contains( "replace: \'$1  :\"foo\"\'" );
 
     File settings = new File( configDir.toString(), SETTINGS_FILE );
-    Assertions.assertThat( settings.exists() ).isEqualTo( true );
-    try ( Writer fileWriter = Files.newBufferedWriter( settings.toPath(),
-      Charset.defaultCharset() ) ) {
-      fileWriter.write( String.format( "rootProject.name =" +
+    BufferedWriter bufferedWriter = Files.newBufferedWriter( settings.toPath(),
+      Charset.defaultCharset() );
+    try {
+      bufferedWriter.write( String.format( "rootProject.name =" +
         "\"test-template\"%n%n include(%n\t\":%s\"%n)", "foo" ) );
     }
+    finally {
+      bufferedWriter.close();
+    }
+
     String fileContent = Files.readString(
       Path.of( configDir.toString(), SETTINGS_FILE ),
       StandardCharsets.US_ASCII );
