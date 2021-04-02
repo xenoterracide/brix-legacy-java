@@ -47,14 +47,10 @@ class RegexCaptureGroupTest {
     Assertions.assertThat( output ).contains( "replace: \'$1  :\"foo\"\'" );
 
     File settings = new File( configDir.toString(), SETTINGS_FILE );
-    BufferedWriter bufferedWriter = Files.newBufferedWriter( settings.toPath(),
-      Charset.defaultCharset() );
-    try {
+    try ( BufferedWriter bufferedWriter = Files.newBufferedWriter( settings.toPath(),
+      Charset.defaultCharset() ) ) {
       bufferedWriter.write( String.format( "rootProject.name =" +
         "\"test-template\"%n%n include(%n\t\":%s\"%n)", "foo" ) );
-    }
-    finally {
-      bufferedWriter.close();
     }
 
     String fileContent = Files.readString(

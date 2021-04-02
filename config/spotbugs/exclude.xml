@@ -4,6 +4,9 @@
   xsi:schemaLocation="https://github.com/spotbugs/filter/3.0.0 https://raw.githubusercontent.com/spotbugs/spotbugs/3.1.0/spotbugs/etc/findbugsfilter.xsd"
 >
   <Match>
-    <Class name="~com.xenoterracide.brix.Immutable.*" />
+    <Or>
+      <Class name="~com.xenoterracide.brix.Immutable.*" />
+      <Class name="~com.xenoterracide.brix.RegexCaptureGroupTest.*" />
+    </Or>
   </Match>
 </FindBugsFilter>
