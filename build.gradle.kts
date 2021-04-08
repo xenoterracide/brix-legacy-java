@@ -33,40 +33,45 @@ dependencyLocking {
 }
 
 dependencies {
-  annotationProcessor("org.immutables:value:2.+")
-  compileOnly("org.immutables:value-annotations:2.+")
+  val springBoot = "2.+"
+  val immutables = "2.+"
+  val checker = "3.12.+"
+
+  implementation(platform("org.springframework.boot:spring-boot-starter-parent:${springBoot}"))
+  testFixturesImplementation(platform("org.springframework.boot:spring-boot-starter-parent:${springBoot}"))
+
+  annotationProcessor("org.immutables:value:${immutables}")
+  compileOnly("org.immutables:value-annotations:${immutables}")
   errorprone("com.google.errorprone:error_prone_core:2.4.+")
   errorprone("com.uber.nullaway:nullaway:0.8.+")
-  checkerFramework("org.checkerframework:checker:3.+")
-  compileOnly("org.checkerframework:checker-qual:3.+")
-  implementation(platform("org.apache.logging.log4j:log4j-bom:2.+"))
+  checkerFramework("org.checkerframework:checker:${checker}")
+  compileOnly("org.checkerframework:checker-qual:${checker}")
   runtimeOnly("org.apache.logging.log4j:log4j-slf4j18-impl")
   implementation("org.apache.logging.log4j:log4j-core")
   implementation("org.apache.logging.log4j:log4j-api")
-  implementation(platform("com.fasterxml.jackson:jackson-bom:2.+"))
   implementation("com.fasterxml.jackson.core:jackson-core")
   implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
   runtimeOnly("com.fasterxml.jackson.core:jackson-databind")
   runtimeOnly("com.fasterxml.jackson.module:jackson-module-parameter-names")
-  implementation("org.apache.commons:commons-lang3:3.+")
+  implementation("org.apache.commons:commons-lang3")
   implementation("io.pebbletemplates:pebble:3.+")
   implementation("io.vavr:vavr:0.+")
   implementation("commons-io:commons-io:2.+")
   implementation("info.picocli:picocli:4.+")
-  implementation("org.apache.tika:tika:1.+")
+  implementation("org.apache.tika:tika-core:1.+")
+  implementation("org.springframework:spring-core")
 
-  testFixturesImplementation(platform("org.apache.logging.log4j:log4j-bom:2.+"))
-  testFixturesAnnotationProcessor("org.immutables:value:2.+")
+  testFixturesAnnotationProcessor("org.immutables:value:${immutables}")
   testFixturesCompileOnly("org.immutables:value-annotations:2.+")
   testFixturesCompileOnly("org.checkerframework:checker-qual:3.+")
+
   testFixturesImplementation("org.apache.logging.log4j:log4j-core")
   testFixturesImplementation("io.vavr:vavr:0.+")
-  testFixturesImplementation("org.apache.commons:commons-lang3:3.+")
+  testFixturesImplementation("org.apache.commons:commons-lang3")
 
-  testImplementation(platform("org.junit:junit-bom:5.+"))
   testImplementation("org.junit.jupiter:junit-jupiter-params")
-  testImplementation("org.assertj:assertj-core:3.+")
-  testImplementation("org.mockito:mockito-core:3.+")
+  testImplementation("org.assertj:assertj-core")
+  testImplementation("org.mockito:mockito-core")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
