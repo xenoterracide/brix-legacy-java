@@ -74,9 +74,9 @@ final class Coordinator implements Runnable {
       cliConfig.getWorkdir()
     );
     config
-      .entrySet()
+      .values()
       .forEach(
-        e -> {
+        fileConfig -> {
           var argMap = new HashMap<String, Object>();
           argMap.put( "language", cliConfig.getLanguage() );
           argMap.put( "moduleType", cliConfig.getModuleType() );
@@ -85,9 +85,9 @@ final class Coordinator implements Runnable {
 
           var context = new HashMap<String, Object>();
           context.putAll( argMap );
-          context.putAll( e.getValue().getContext() );
+          context.putAll( fileConfig.getContext() );
 
-          templateProcessor.process( e, Collections.unmodifiableMap( context ) );
+          templateProcessor.process( fileConfig, Collections.unmodifiableMap( context ) );
         }
       );
   }

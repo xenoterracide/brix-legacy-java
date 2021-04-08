@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface Processor {
   void process(
-    Map.@NonNull Entry<String, FileConfiguration> entry,
+    @NonNull FileConfiguration fileConfig,
     @NonNull Map<String, Object> context
   );
 }

@@ -24,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
-import java.util.Objects;
 
 public class PebbleTemplateProcessor implements Processor {
 
@@ -57,22 +56,22 @@ public class PebbleTemplateProcessor implements Processor {
     @NonNull Path workdir,
     @NonNull ConsoleWrapper console
   ) {
-    this.configDir = Objects.requireNonNull( configDir );
-    this.workdir = Objects.requireNonNull( workdir );
-    this.console = Objects.requireNonNull( console );
+    this.configDir = configDir;
+    this.workdir = workdir;
+    this.console = console;
   }
 
   @Override
   public void process(
-    Map.@NonNull Entry<String, FileConfiguration> entry,
+    @NonNull FileConfiguration fileConfig,
     @NonNull Map<String, Object> context
   ) {
     log.debug( "context: {}", context );
-    var templatePath = getPath( configDir, entry.getValue().getSource(), context );
-    var destPath = getPath( workdir, entry.getValue().getDestination(), context );
+    var templatePath = getPath( configDir, fileConfig.getSource(), context );
+    var destPath = getPath( workdir, fileConfig.getDestination(), context );
     log.debug( "processing: {}", templatePath.toAbsolutePath() );
 
-    writeFile( templatePath, destPath, entry.getValue(), context );
+    writeFile( templatePath, destPath, fileConfig, context );
   }
 
   @NonNull

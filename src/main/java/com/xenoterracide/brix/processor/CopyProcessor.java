@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class CopyProcessor implements Processor {
   @Override public void process(
-    Map.@NonNull Entry<String, FileConfiguration> entry,
+    @NonNull FileConfiguration fileConfig,
     @NonNull Map<String, Object> context
   ) {
 
