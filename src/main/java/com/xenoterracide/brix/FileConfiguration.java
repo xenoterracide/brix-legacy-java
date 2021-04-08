@@ -17,21 +17,21 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 @Value.Immutable
-@JsonDeserialize(as = ImmutableSkeletonConfiguration.class)
-abstract class SkeletonConfiguration {
+@JsonDeserialize(as = ImmutableFileConfiguration.class)
+public abstract class FileConfiguration {
 
   @Value.Default
-  @NonNull Map<String, String> getContext() {
+  public @NonNull Map<String, String> getContext() {
     return Map.of();
   }
 
-  abstract @Nullable Boolean getOverwrite();
+  public abstract @Nullable Boolean getOverwrite();
 
-  abstract @Nullable Pattern getAfter();
+  public abstract @Nullable Pattern getAfter();
 
-  abstract @NonNull Path getSource();
+  public abstract @NonNull Path getSource();
 
-  abstract @NonNull Path getDestination();
+  public abstract @NonNull Path getDestination();
 
   @Override
   public @NonNull String toString() {

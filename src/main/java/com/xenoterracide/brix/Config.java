@@ -21,7 +21,7 @@ abstract class Config {
 
   abstract @Nullable Path getWorkdir();
 
-  abstract @NonNull Map<String, SkeletonConfiguration> getTemplates();
+  abstract @NonNull Map<String, FileConfiguration> getTemplates();
 
   @Override
   public @NonNull String toString() {

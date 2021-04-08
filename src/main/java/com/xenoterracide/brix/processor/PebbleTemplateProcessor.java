@@ -3,12 +3,13 @@
  * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
  * https://choosealicense.com/licenses/apache-2.0/#
  */
-package com.xenoterracide.brix;
+package com.xenoterracide.brix.processor;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.loader.FileLoader;
 import com.mitchellbosecke.pebble.loader.StringLoader;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
+import com.xenoterracide.brix.FileConfiguration;
 import io.vavr.control.Try;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +26,7 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Objects;
 
-public class PebbleTemplateProcessor implements TemplateProcessor {
+public class PebbleTemplateProcessor implements Processor {
 
   private final Logger log = LogManager.getLogger( this.getClass() );
 
@@ -47,7 +48,7 @@ public class PebbleTemplateProcessor implements TemplateProcessor {
     .loader( new StringLoader() )
     .build();
 
-  PebbleTemplateProcessor( @NonNull Path configDir, @NonNull Path workdir ) {
+  public PebbleTemplateProcessor( @NonNull Path configDir, @NonNull Path workdir ) {
     this( configDir, workdir, new ConsoleWrapper() );
   }
 
@@ -63,7 +64,7 @@ public class PebbleTemplateProcessor implements TemplateProcessor {
 
   @Override
   public void process(
-    Map.@NonNull Entry<String, SkeletonConfiguration> entry,
+    Map.@NonNull Entry<String, FileConfiguration> entry,
     @NonNull Map<String, Object> context
   ) {
     log.debug( "context: {}", context );
@@ -85,21 +86,20 @@ public class PebbleTemplateProcessor implements TemplateProcessor {
       relativeTo.resolve( pathTemplate ).toAbsolutePath().toString()
     );
 
-    return Try
-      .of(
-        () -> {
-          var writer = new StringWriter();
-          template.evaluate( writer, context );
-          return Path.of( writer.toString() ).toAbsolutePath();
-        }
-      )
+    return Try.of(
+      () -> {
+        var writer = new StringWriter();
+        template.evaluate( writer, context );
+        return Path.of( writer.toString() ).toAbsolutePath();
+      }
+    )
       .getOrElseThrow( e -> new RuntimeException( e ) );
   }
 
   void writeFile(
     @NonNull Path template,
     @NonNull Path dest,
-    @NonNull SkeletonConfiguration skel,
+    @NonNull FileConfiguration skel,
     @NonNull Map<String, Object> context
   )
     throws UncheckedIOException {

@@ -53,6 +53,7 @@ dependencies {
   implementation("io.vavr:vavr:0.+")
   implementation("commons-io:commons-io:2.+")
   implementation("info.picocli:picocli:4.+")
+  implementation("org.apache.tika:tika:1.+")
 
   testFixturesImplementation(platform("org.apache.logging.log4j:log4j-bom:2.+"))
   testFixturesAnnotationProcessor("org.immutables:value:2.+")

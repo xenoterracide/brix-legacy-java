@@ -55,7 +55,7 @@ class ConfigLoader {
     return confFile.toAbsolutePath();
   }
 
-  Map<String, SkeletonConfiguration> load( Path path ) {
+  Map<String, FileConfiguration> load( Path path ) {
     var config = Try.of( () -> mapper.readValue( path.toFile(), Config.class ) ).get();
 
     log.debug( "config: {}", config );

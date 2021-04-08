@@ -1,5 +1,7 @@
 package com.xenoterracide.brix;
 
+import com.xenoterracide.brix.processor.PebbleTemplateProcessor;
+import com.xenoterracide.brix.processor.Processor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -12,7 +14,7 @@ import java.util.HashMap;
 import java.util.function.BiFunction;
 
 final class Coordinator implements Runnable {
-  private final BiFunction<Path, Path, TemplateProcessor> processorFactory;
+  private final BiFunction<Path, Path, Processor> processorFactory;
 
   private final CliConfiguration cliConfig;
 
@@ -21,7 +23,7 @@ final class Coordinator implements Runnable {
   private Coordinator(
     CliConfiguration cliConfig,
     ConfigLoader configLoader,
-    BiFunction<Path, Path, TemplateProcessor> processorFactory
+    BiFunction<Path, Path, Processor> processorFactory
   ) {
     this.cliConfig = cliConfig;
     this.configLoader = configLoader;
@@ -52,7 +54,7 @@ final class Coordinator implements Runnable {
   static Coordinator with(
     @NonNull CliConfiguration cliConfig,
     @NonNull ConfigLoader configLoader,
-    @NonNull BiFunction<Path, Path, TemplateProcessor> templateProcessorFactory
+    @NonNull BiFunction<Path, Path, Processor> templateProcessorFactory
   ) {
     return new Coordinator( cliConfig, configLoader, templateProcessorFactory );
   }
