@@ -1,5 +1,5 @@
 /*
-* Copyright © 2020 Caleb Cushing.
+* Copyright © 2020-2021 Caleb Cushing.
 * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
 * https://choosealicense.com/licenses/apache-2.0/#
 */
@@ -26,11 +26,13 @@ abstract class SkeletonConfiguration {
 
   abstract @Nullable Boolean getOverwrite();
 
-  abstract @Nullable Pattern getAfter();
-
   abstract Path getSource();
 
   abstract Path getDestination();
+
+  abstract @Nullable Pattern getSearch();
+
+  abstract @Nullable String getReplace();
 
   @Override
   public String toString() {

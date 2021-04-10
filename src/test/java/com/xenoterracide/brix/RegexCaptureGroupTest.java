@@ -35,11 +35,13 @@ class RegexCaptureGroupTest {
 
   @Test
   void test() throws IOException, URISyntaxException {
+    // Get configDir and templatePath
     var configDir = Path.of( this.getClass().getClassLoader().getResource( "templates" ).toURI() );
     var templatePath = configDir.resolve( "testTemplate.yml" );
 
     var template = pebbleEngine.getTemplate( templatePath.toString() );
 
+    // Evaluate the template with values
     Writer writer = new StringWriter();
     Map<String, Object> ctx = Map.of( "name", "test", "moduleType", "foo" );
     template.evaluate( writer, ctx );
@@ -53,28 +55,33 @@ class RegexCaptureGroupTest {
       .moduleType( "module" )
       .build();
 
+    // Load the skeleton from yaml
     var loader = new ConfigLoader( config );
     var map = loader.load( templatePath );
     var skeleton = map.get( "settings.txt" );
+    // Make sure keys are present (only specific to this test)
     if ( skeleton == null ) {
       throw new FileNotFoundException( "settings.txt not present" );
     }
-    if ( skeleton.getAfter() == null ) {
-      throw new MissingFormatArgumentException( "after pattern not provided" );
+    if ( skeleton.getSearch() == null ) {
+      throw new MissingFormatArgumentException( "search pattern not provided" );
+    }
+    if ( skeleton.getReplace() == null ) {
+      throw new MissingFormatArgumentException( "replace pattern not provided" );
     }
 
     String fileContent = Files.readString(
       Path.of( configDir.toString(), skeleton.getDestination().toString() ),
       StandardCharsets.US_ASCII );
 
-    Pattern pattern = Pattern.compile( skeleton.getAfter().pattern() );
+    // Match regex
+    Pattern pattern = Pattern.compile( skeleton.getSearch().pattern() );
     Matcher matcher = pattern.matcher( fileContent );
-    if ( matcher.find() ) {
-      String start = fileContent.substring( 0, matcher.end() );
-      String end = fileContent.substring( matcher.end() );
-      String updatedContent = start + "\n\t\":" + ctx.get( "moduleType" ) + "\"," + end;
-
-      Assertions.assertThat( updatedContent ).contains( "\":" + ctx.get( "moduleType" ) + "\"" );
+    while ( matcher.find() ) {
+      // Execute the search and replace
+      var replace = String.format( skeleton.getReplace() );
+      String updatedContent = fileContent.replace( matcher.group( 0 ), replace );
+      Assertions.assertThat( updatedContent ).contains( replace );
     }
   }
 }

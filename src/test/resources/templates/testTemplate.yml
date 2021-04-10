@@ -3,6 +3,7 @@ templates:
   settings.txt:
     source: settings.txt
     destination: '{{name}}/settings.txt'
-    after: 'include\('
+    search: 'include\('
+    replace: 'include(%n    ":{{moduleType}}"'
     context:
       project: ''
