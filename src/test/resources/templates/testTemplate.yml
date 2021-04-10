@@ -1,0 +1,9 @@
+workdir:
+templates:
+  settings.txt:
+    source: settings.txt
+    destination: '{{name}}/settings.txt'
+    search: 'include\('
+    replace: 'include(%n    ":{{moduleType}}"'
+    context:
+      project: ''

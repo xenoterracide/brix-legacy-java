@@ -57,11 +57,11 @@ class PebbleTemplateProcessorTest {
 
     Map<String, Object> ctx1 = Map.of( "test", "foo" );
     processor.writeTemplate( template, pathToOutput, ctx1 );
-    Assertions.assertThat( Files.readString( pathToOutput ) ).isEqualTo( "foo\n" );
+    Assertions.assertThat( Files.readString( pathToOutput ) ).isEqualTo( "%s%n", "foo" );
 
     Map<String, Object> ctx2 = Map.of( "test", "bar" );
     processor.askWhetherToWriteTemplate( template, pathToOutput, ctx2 );
-    Assertions.assertThat( Files.readString( pathToOutput ) ).isEqualTo( "bar\n" );
+    Assertions.assertThat( Files.readString( pathToOutput ) ).isEqualTo( "%s%n", "bar" );
 
     PathUtils.delete( workdir );
   }
