@@ -11,7 +11,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedWriter;
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -21,9 +21,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.MissingFormatArgumentException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class RegexCaptureGroupTest {
-  private static final String SETTINGS_FILE = "settings.txt";
 
   private final PebbleEngine pebbleEngine = new PebbleEngine.Builder()
     .newLineTrimming( false )
@@ -41,21 +43,38 @@ class RegexCaptureGroupTest {
     Writer writer = new StringWriter();
     Map<String, Object> ctx = Map.of( "name", "test", "moduleType", "foo" );
     template.evaluate( writer, ctx );
-    var output = writer.toString();
-
-    Assertions.assertThat( output ).contains( "destination: \'test/settings.gradle.kts\'" );
-    Assertions.assertThat( output ).contains( "replace: \'$1  :\"foo\"\'" );
-
-    File settings = new File( configDir.toString(), SETTINGS_FILE );
-    try ( BufferedWriter bufferedWriter = Files.newBufferedWriter( settings.toPath(),
+    try ( BufferedWriter bufWriter = Files.newBufferedWriter( templatePath,
       Charset.defaultCharset() ) ) {
-      bufferedWriter.write( String.format( "rootProject.name =" +
-        "\"test-template\"%n%n include(%n\t\":%s\"%n)", "foo" ) );
+      bufWriter.write( writer.toString() );
+    }
+
+    var config
+      = ImmutableTestCliConfiguration.builder()
+      .moduleType( "module" )
+      .build();
+
+    var loader = new ConfigLoader( config );
+    var map = loader.load( templatePath );
+    var skeleton = map.get( "settings.txt" );
+    if ( skeleton == null ) {
+      throw new FileNotFoundException( "settings.txt not present" );
+    }
+    if ( skeleton.getAfter() == null ) {
+      throw new MissingFormatArgumentException( "after pattern not provided" );
     }
 
     String fileContent = Files.readString(
-      Path.of( configDir.toString(), SETTINGS_FILE ),
+      Path.of( configDir.toString(), "settings.txt" ),
       StandardCharsets.US_ASCII );
-    Assertions.assertThat( fileContent ).contains( "\":foo\"" );
+
+    Pattern pattern = Pattern.compile( skeleton.getAfter().pattern() );
+    Matcher matcher = pattern.matcher( fileContent );
+    if ( matcher.find() ) {
+      String start = fileContent.substring( 0, matcher.end() );
+      String end = fileContent.substring( matcher.end() );
+      String updatedContent = start + "\n\t\":" + ctx.get( "moduleType" ) + "\"" + end;
+
+      Assertions.assertThat( updatedContent ).contains( "\":" + ctx.get( "moduleType" ) + "\"" );
+    }
   }
 }

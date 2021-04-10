@@ -1,8 +1,8 @@
 workdir:
 templates:
-  settings.gradle.kts:
-    destination: '{{name}}/settings.gradle.kts'
-    pattern: '^(include\($)'
-    replace: '$1  :"{{moduleType}}"'
+  settings.txt:
+    source: settings.txt
+    destination: '{{name}}/settings.txt'
+    after: 'include\('
     context:
       project: ''
