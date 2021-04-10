@@ -64,7 +64,7 @@ class RegexCaptureGroupTest {
     }
 
     String fileContent = Files.readString(
-      Path.of( configDir.toString(), "settings.txt" ),
+      Path.of( configDir.toString(), skeleton.getDestination().toString() ),
       StandardCharsets.US_ASCII );
 
     Pattern pattern = Pattern.compile( skeleton.getAfter().pattern() );
@@ -72,7 +72,7 @@ class RegexCaptureGroupTest {
     if ( matcher.find() ) {
       String start = fileContent.substring( 0, matcher.end() );
       String end = fileContent.substring( matcher.end() );
-      String updatedContent = start + "\n\t\":" + ctx.get( "moduleType" ) + "\"" + end;
+      String updatedContent = start + "\n\t\":" + ctx.get( "moduleType" ) + "\"," + end;
 
       Assertions.assertThat( updatedContent ).contains( "\":" + ctx.get( "moduleType" ) + "\"" );
     }
