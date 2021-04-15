@@ -1,14 +1,23 @@
 package com.xenoterracide.brix.processor;
 
-import com.xenoterracide.brix.FileConfiguration;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.springframework.stereotype.Component;
 
+import java.nio.file.Path;
 import java.util.Map;
 
-public class CopyProcessor implements Processor {
-  @Override public void process(
-    @NonNull FileConfiguration fileConfig,
-    @NonNull Map<String, Object> context
+@Component
+class CopyProcessor implements Processor {
+
+  @Override
+  public boolean shouldProcess( ProcessorInstruction instruction ) {
+    return false;
+  }
+
+  @Override
+  public void process(
+    Path configDir,
+    ProcessorInstruction instruction,
+    Map<String, Object> context
   ) {
 
   }

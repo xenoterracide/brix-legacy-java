@@ -6,100 +6,57 @@
 package com.xenoterracide.brix.processor;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
-import com.mitchellbosecke.pebble.loader.FileLoader;
-import com.mitchellbosecke.pebble.loader.StringLoader;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
-import com.xenoterracide.brix.FileConfiguration;
-import io.vavr.control.Try;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
-public class PebbleTemplateProcessor implements Processor {
+@Component
+class PebbleTemplateProcessor implements Processor {
 
   private final Logger log = LogManager.getLogger( this.getClass() );
 
-  private final Path configDir;
-
-  private final Path workdir;
-
   private final ConsoleWrapper console;
+  private final PebbleEngine fileEngine;
 
-  private final PebbleEngine fileEngine = new PebbleEngine.Builder()
-    .newLineTrimming( false )
-    .strictVariables( true )
-    .loader( new FileLoader() )
-    .build();
-
-  private final PebbleEngine stringEngine = new PebbleEngine.Builder()
-    .newLineTrimming( false )
-    .strictVariables( true )
-    .loader( new StringLoader() )
-    .build();
-
-  public PebbleTemplateProcessor( @NonNull Path configDir, @NonNull Path workdir ) {
-    this( configDir, workdir, new ConsoleWrapper() );
+  PebbleTemplateProcessor( ConsoleWrapper console, PebbleEngine fileEngine ) {
+    this.console = console;
+    this.fileEngine = fileEngine;
   }
 
-  PebbleTemplateProcessor(
-    @NonNull Path configDir,
-    @NonNull Path workdir,
-    @NonNull ConsoleWrapper console
-  ) {
-    this.configDir = configDir;
-    this.workdir = workdir;
-    this.console = console;
+  @Override
+  public boolean shouldProcess( ProcessorInstruction instruction ) {
+    return instruction.getSource().isPresent();
   }
 
   @Override
   public void process(
-    @NonNull FileConfiguration fileConfig,
-    @NonNull Map<String, Object> context
+    Path configDir,
+    ProcessorInstruction instruction,
+    Map<String, Object> context
   ) {
     log.debug( "context: {}", context );
-    var templatePath = getPath( configDir, fileConfig.getSource(), context );
-    var destPath = getPath( workdir, fileConfig.getDestination(), context );
-    log.debug( "processing: {}", templatePath.toAbsolutePath() );
+    var template = instruction.getSource().orElseThrow();
+    log.debug( "processing: {}", template.toAbsolutePath() );
 
-    writeFile( templatePath, destPath, fileConfig, context );
+    writeFile( template, instruction.getDestination(), instruction, context );
   }
 
-  @NonNull
-  Path getPath(
-    @NonNull Path relativeTo,
-    @NonNull Path pathTemplate,
-    @NonNull Map<String, Object> context
-  )
-    throws UncheckedIOException {
-    var template = stringEngine.getTemplate(
-      relativeTo.resolve( pathTemplate ).toAbsolutePath().toString()
-    );
-
-    return Try.of(
-      () -> {
-        var writer = new StringWriter();
-        template.evaluate( writer, context );
-        return Path.of( writer.toString() ).toAbsolutePath();
-      }
-    )
-      .getOrElseThrow( e -> new RuntimeException( e ) );
-  }
 
   void writeFile(
-    @NonNull Path template,
-    @NonNull Path dest,
-    @NonNull FileConfiguration skel,
-    @NonNull Map<String, Object> context
+    Path template,
+    Path dest,
+    ProcessorInstruction skel,
+    Map<String, Object> context
   )
     throws UncheckedIOException {
     var sourceTemplate = fileEngine.getTemplate( template.toAbsolutePath().toString() );
@@ -118,9 +75,7 @@ public class PebbleTemplateProcessor implements Processor {
     }
   }
 
-  void askWhetherToWriteTemplate(
-    @NonNull PebbleTemplate source, @NonNull Path dest, @NonNull Map<String, Object> context
-  ) {
+  void askWhetherToWriteTemplate( PebbleTemplate source, Path dest, Map<String, Object> context ) {
     var line = console.readLine( "Overwrite [yN] %s ", dest );
     if ( BooleanUtils.toBoolean( line ) ) {
       writeTemplate( source, dest, context );
@@ -130,11 +85,7 @@ public class PebbleTemplateProcessor implements Processor {
     }
   }
 
-  void writeTemplate(
-    @NonNull PebbleTemplate source,
-    @NonNull Path dest,
-    @NonNull Map<String, Object> context
-  ) {
+  void writeTemplate( PebbleTemplate source, Path dest, Map<String, Object> context ) {
     try {
       var parent = dest.getParent();
 
@@ -160,18 +111,4 @@ public class PebbleTemplateProcessor implements Processor {
     }
   }
 
-  static class ConsoleWrapper {
-    String readLine( @NonNull String fmt, @NonNull Object... args ) {
-      var console = System.console();
-      if ( console == null ) {
-        throw new IllegalStateException( "unable to prompt for overwrite, console is not " +
-          "available" );
-      }
-      var line = console.readLine( fmt, args );
-      if ( line == null ) {
-        throw new IllegalStateException( "stream should not be terminated" );
-      }
-      return line;
-    }
-  }
 }

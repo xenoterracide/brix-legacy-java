@@ -12,11 +12,13 @@ import io.vavr.control.Try;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Map;
+import java.util.List;
 
+@Component
 class ConfigLoader {
 
   private final Logger log = LogManager.getLogger( this.getClass() );
@@ -55,7 +57,7 @@ class ConfigLoader {
     return confFile.toAbsolutePath();
   }
 
-  Map<String, FileConfiguration> load( Path path ) {
+  List<FileConfiguration> load( Path path ) {
     var config = Try.of( () -> mapper.readValue( path.toFile(), Config.class ) ).get();
 
     log.debug( "config: {}", config );

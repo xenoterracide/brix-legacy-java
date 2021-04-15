@@ -1,13 +1,15 @@
 package com.xenoterracide.brix.processor;
 
-import com.xenoterracide.brix.FileConfiguration;
-import org.checkerframework.checker.nullness.qual.NonNull;
-
+import java.nio.file.Path;
 import java.util.Map;
 
 public interface Processor {
+
+  boolean shouldProcess( ProcessorInstruction instruction );
+
   void process(
-    @NonNull FileConfiguration fileConfig,
-    @NonNull Map<String, Object> context
+    Path configDir,
+    ProcessorInstruction instruction,
+    Map<String, Object> context
   );
 }

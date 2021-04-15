@@ -3,11 +3,10 @@
 * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
 * https://choosealicense.com/licenses/apache-2.0/#
 */
-package com.xenoterracide.brix;
+package com.xenoterracide.brix.cli.api;
 
 import io.vavr.control.Try;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.logging.log4j.Level;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.immutables.value.Value;
 
@@ -18,11 +17,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Value.Immutable
-@Value.Style
 interface TestCliConfiguration extends CliConfiguration {
 
   @Override
   @Value.Default
+  @SuppressWarnings("immutables:untype")
   default Optional<Path> getConfigDir() {
     return Try.ofSupplier( this::getClassLoader )
       .filter( Objects::nonNull )
@@ -59,14 +58,10 @@ interface TestCliConfiguration extends CliConfiguration {
     return "project";
   }
 
-  @Override
-  @Value.Default
-  default Level getLogLevel() {
-    return Level.DEBUG;
-  }
-
-  @Nullable ClassLoader getClassLoader();
+  @Nullable
+  ClassLoader getClassLoader();
 
   @Override
-  @Nullable String getName();
+  @Nullable
+  String getName();
 }
