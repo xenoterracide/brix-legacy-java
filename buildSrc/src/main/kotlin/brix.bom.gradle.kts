@@ -2,7 +2,7 @@ plugins {
   `java-base`
 }
 
-configurations.all {
+configurations.configureEach {
   resolutionStrategy {
     componentSelection {
       all {
@@ -11,8 +11,14 @@ configurations.all {
       }
     }
     eachDependency {
-      if (requested.group === "org.immutables") useVersion("2.+")
-      if (requested.group === "org.checkerframework") useVersion("3.+")
+      when (requested.group) {
+        "org.immutables" -> useVersion("2.+")
+        "org.checkerframework" -> useVersion("3.+")
+        "io.vavr" -> useVersion("0.+")
+      }
+      if (requested.module.toString() == "org.springframework.boot:spring-boot-starter-parent") {
+        useVersion("2.+")
+      }
     }
   }
 }

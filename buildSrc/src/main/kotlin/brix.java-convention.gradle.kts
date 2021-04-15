@@ -19,9 +19,8 @@ dependencyLocking {
 }
 
 dependencies {
-  val sbv = "2.+"
-  implementation(platform("org.springframework.boot:spring-boot-starter-parent:${sbv}"))
-  testFixturesImplementation(platform("org.springframework.boot:spring-boot-starter-parent:${sbv}"))
+  implementation(platform("org.springframework.boot:spring-boot-starter-parent"))
+  testFixturesImplementation(platform("org.springframework.boot:spring-boot-starter-parent"))
 
   runtimeOnly("org.springframework.boot:spring-boot-starter-log4j2")
 

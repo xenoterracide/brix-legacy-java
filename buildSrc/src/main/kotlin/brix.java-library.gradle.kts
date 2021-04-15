@@ -11,9 +11,9 @@ plugins {
 
 dependencies {
   errorprone("com.google.errorprone:error_prone_core:2.4.+")
-  checkerFramework("org.checkerframework:checker:3.12.+")
-  compileOnly("org.checkerframework:checker-qual:3.12.+")
-  testFixturesCompileOnly("org.checkerframework:checker-qual:3.12.+")
+  checkerFramework("org.checkerframework:checker")
+  compileOnly("org.checkerframework:checker-qual")
+  testFixturesCompileOnly("org.checkerframework:checker-qual")
 }
 
 java {

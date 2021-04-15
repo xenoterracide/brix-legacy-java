@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
-  testFixturesAnnotationProcessor("org.immutables:value:2.+")
-  testFixturesCompileOnly("org.immutables:value-annotations:2.+")
-  testFixturesImplementation("io.vavr:vavr:0.+")
+  testFixturesAnnotationProcessor("org.immutables:value")
+  testFixturesCompileOnly("org.immutables:value-annotations")
+  testFixturesImplementation("io.vavr:vavr")
   testFixturesImplementation("org.apache.commons:commons-lang3")
 }
