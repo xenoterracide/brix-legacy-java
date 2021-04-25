@@ -5,6 +5,7 @@ plugins {
 dependencies {
   implementation(project(":config-loader:api"))
   implementation(project(":cli:api"))
+  testImplementation(testFixtures(project(":cli:api")))
   annotationProcessor("org.immutables:value")
   compileOnly("org.immutables:value-annotations")
   implementation("io.vavr:vavr")
@@ -12,6 +13,7 @@ dependencies {
   implementation("org.apache.tika:tika-core")
   implementation("com.fasterxml.jackson.core:jackson-databind")
   implementation("org.springframework:spring-context")
-  runtimeOnly("io.pebbletemplates:pebble-spring-boot-starter")
+  testImplementation("org.springframework:spring-test")
+  implementation("org.springframework.boot:spring-boot-autoconfigure")
   implementation("io.pebbletemplates:pebble")
 }

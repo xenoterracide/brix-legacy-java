@@ -8,4 +8,7 @@ dependencies {
   testFixturesCompileOnly("org.immutables:value-annotations")
   testFixturesImplementation("io.vavr:vavr")
   testFixturesImplementation("org.apache.commons:commons-lang3")
+  testFixturesImplementation("org.springframework:spring-test")
+  testFixturesImplementation("org.springframework.boot:spring-boot-autoconfigure")
+  testFixturesImplementation("org.springframework.boot:spring-boot-test")
 }

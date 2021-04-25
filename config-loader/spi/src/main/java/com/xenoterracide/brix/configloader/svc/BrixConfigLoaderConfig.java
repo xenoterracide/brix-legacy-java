@@ -1,5 +1,6 @@
 package com.xenoterracide.brix.configloader.svc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.loader.StringLoader;
 import com.xenoterracide.brix.cli.api.CliConfiguration;
@@ -7,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -20,9 +22,9 @@ import java.util.Optional;
 
 @Configuration
 @PropertySource("classpath:jackson.properties")
-class ConfigFileFinder {
+class BrixConfigLoaderConfig {
 
-  private final Logger log = LogManager.getLogger( this.getClass() );
+  private final Logger log = LogManager.getLogger( BrixConfigLoaderConfig.class );
 
   private final CliConfiguration config;
 
@@ -30,8 +32,8 @@ class ConfigFileFinder {
 
   private final List<String> extensions;
 
-  ConfigFileFinder(
-    @Value("user.home")
+  BrixConfigLoaderConfig(
+    @Value("${user.home}")
       Path home,
     CliConfiguration config,
     List<String> extensions
@@ -39,6 +41,12 @@ class ConfigFileFinder {
     this.config = config;
     this.home = home;
     this.extensions = extensions;
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  ObjectMapper objectMapper() {
+    return new ObjectMapper();
   }
 
   @Bean
@@ -70,7 +78,7 @@ class ConfigFileFinder {
     return config.getConfigDir()
       .map( dir -> dir.resolve( this.pathFromConfigDir( extension ) ) )
       .filter( Files::exists )
-      .or( () -> this.findConfig( extension, Path.of( "" ) ) );
+      .or( () -> this.findConfig( extension, Path.of( "" ).toAbsolutePath() ) );
   }
 
   Optional<Path> findConfig( String extension, Path searchDir ) {
@@ -78,9 +86,9 @@ class ConfigFileFinder {
       .resolve( "brix" )
       .resolve( this.pathFromConfigDir( extension ) );
 
-    log.trace( "searching for: '{}'", configFile::toAbsolutePath );
+    log.trace( "searching for: '{}'", configFile );
     if ( Files.exists( configFile ) ) {
-      log.debug( "found: '{}'", configFile::toAbsolutePath );
+      log.debug( "found: '{}'", configFile );
       return Optional.of( configFile );
     }
 

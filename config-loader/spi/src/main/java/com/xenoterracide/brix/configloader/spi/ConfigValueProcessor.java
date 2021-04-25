@@ -35,12 +35,12 @@ public class ConfigValueProcessor {
     CliConfiguration cliConfiguration,
     PebbleEngine stringEngine,
     ObjectMapper mapper,
-    Path foundConfigFile
+    Path foundConfig
   ) {
     this.engine = stringEngine;
     this.cliConfiguration = cliConfiguration;
     this.mapper = mapper;
-    this.configDir = foundConfigFile.getParent();
+    this.configDir = foundConfig.getParent();
   }
 
   public ProcessedConfig from( RawConfig config ) {
