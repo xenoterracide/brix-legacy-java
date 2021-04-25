@@ -1,11 +1,5 @@
-/*
-* Copyright © 2020 Caleb Cushing.
-* Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
-* https://choosealicense.com/licenses/apache-2.0/#
-*/
-package com.xenoterracide.brix;
+package com.xenoterracide.brix.configloader.api;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -15,13 +9,9 @@ import java.nio.file.Path;
 import java.util.Map;
 
 @Value.Immutable
-@JsonDeserialize(as = ImmutableFileConfiguration.class)
-public abstract class FileConfiguration {
+public abstract class ProcessedFileConfiguration {
 
-  @Value.Default
-  public Map<String, String> getContext() {
-    return Map.of();
-  }
+  public abstract Map<String, Object> getContext();
 
   public abstract @Nullable Boolean getOverwrite();
 

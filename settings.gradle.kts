@@ -2,8 +2,10 @@ rootProject.name = "brix"
 enableFeaturePreview("ONE_LOCKFILE_PER_PROJECT")
 
 include(
+  "util",
   "cli:api",
-  "configLoader:api",
-  "configLoader:yaml",
+  "config-loader:spi",
+  "config-loader:api",
+  "config-loader:yaml",
   "app"
 )

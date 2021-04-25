@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Value.Immutable
-interface TestCliConfiguration extends CliConfiguration {
+public interface TestCliConfiguration extends CliConfiguration {
 
   @Override
   @Value.Default

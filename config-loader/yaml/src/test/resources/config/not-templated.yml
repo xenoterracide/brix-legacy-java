@@ -1,0 +1,3 @@
+templates:
+- source: TestApplication.java.peb
+  destination: src/test/java/com/xenoterracide/TestApplication.java
