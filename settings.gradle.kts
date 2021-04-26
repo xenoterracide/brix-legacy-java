@@ -1,6 +1,5 @@
 rootProject.name = "brix"
-enableFeaturePreview("ONE_LOCKFILE_PER_PROJECT")
-
+enableFeaturePreview("VERSION_CATALOGS")
 include(
   "util",
   "cli:api",

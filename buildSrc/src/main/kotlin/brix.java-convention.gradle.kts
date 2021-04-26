@@ -1,6 +1,8 @@
 import com.github.spotbugs.snom.Confidence
 import com.github.spotbugs.snom.Effort
 import com.github.spotbugs.snom.SpotBugsTask
+import org.gradle.accessors.dm.LibrariesForLibs
+import org.gradle.accessors.dm.LibrariesForSpring
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
@@ -18,9 +20,12 @@ dependencyLocking {
   lockAllConfigurations()
 }
 
+val libs = the<LibrariesForLibs>()
+val spring = the<LibrariesForSpring>()
+
 dependencies {
-  implementation(platform("org.springframework.boot:spring-boot-starter-parent"))
-  testFixturesImplementation(platform("org.springframework.boot:spring-boot-starter-parent"))
+  implementation(platform(spring.platform))
+  testFixturesImplementation(platform(spring.platform))
 
   runtimeOnly("org.springframework.boot:spring-boot-starter-log4j2")
 

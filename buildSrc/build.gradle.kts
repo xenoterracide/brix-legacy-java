@@ -5,10 +5,6 @@ plugins {
   `kotlin-dsl`
 }
 
-kotlinDslPluginOptions {
-  experimentalWarning.set(false)
-}
-
 repositories {
   gradlePluginPortal()
 }
@@ -18,6 +14,8 @@ dependencyLocking {
 }
 
 dependencies {
+  implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+  implementation(files(spring.javaClass.superclass.protectionDomain.codeSource.location))
   implementation("com.diffplug.spotless:spotless-plugin-gradle:5.+")
   implementation("gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.+")
   implementation("net.ltgt.gradle:gradle-errorprone-plugin:1.+")
