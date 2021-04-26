@@ -1,3 +1,8 @@
+/*
+ * Copyright © 2021 Caleb Cushing.
+ * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+ * https://choosealicense.com/licenses/apache-2.0/#
+ */
 package com.xenoterracide.brix.configloader.svc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +23,7 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Configuration
@@ -93,10 +99,10 @@ class BrixConfigLoaderConfig {
       return Optional.of( configFile );
     }
 
-    if ( home.equals( searchDir ) ) {
+    if ( Objects.equals( home, searchDir ) ) {
       return Optional.empty();
     }
-    return findConfig( extension, searchDir.getParent() );
+    return this.findConfig( extension, searchDir.getParent() );
   }
 
   Path pathFromConfigDir( String extension ) {
