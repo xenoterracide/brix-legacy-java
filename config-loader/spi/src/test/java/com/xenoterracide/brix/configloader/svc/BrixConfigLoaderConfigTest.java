@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -21,9 +22,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class BrixConfigLoaderConfigTest {
 
-  final static Path CONFIG_DIR = Path.of( ".config", "brix" );
+  static final Path CONFIG_DIR = Path.of( ".config", "brix" );
 
-  final static Path HOME_CONFIG_DIR = SystemUtils.getUserHome().toPath().resolve( CONFIG_DIR );
+  static final Path HOME_CONFIG_DIR = SystemUtils.getUserHome().toPath().resolve( CONFIG_DIR );
 
   @Autowired Path foundConfig;
 
@@ -43,7 +44,7 @@ class BrixConfigLoaderConfigTest {
         var langDir = Files.createDirectories( HOME_CONFIG_DIR.resolve( "brixTestDir" ) );
         Files.copy( config.getFile().toPath(), langDir.resolve( "home.yml" ) );
       }
-      catch ( Exception e ) {
+      catch ( IOException e ) {
         LogManager.getLogger( this.getClass() ).warn( e );
       }
     }

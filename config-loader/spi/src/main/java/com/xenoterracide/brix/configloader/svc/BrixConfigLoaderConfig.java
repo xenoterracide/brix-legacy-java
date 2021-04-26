@@ -81,6 +81,7 @@ class BrixConfigLoaderConfig {
       .or( () -> this.findConfig( extension, Path.of( "" ).toAbsolutePath() ) );
   }
 
+  @SuppressWarnings("checkstyle:ReturnCount")
   Optional<Path> findConfig( String extension, Path searchDir ) {
     var configFile = searchDir.resolve( ".config" )
       .resolve( "brix" )
