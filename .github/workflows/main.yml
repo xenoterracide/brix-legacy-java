@@ -1,7 +1,7 @@
 name: Main
 on:
   schedule:
-    - cron: "0 6 * * *"
+  - cron: "0 6 * * *"
   push:
     paths:
     - '**.java'
@@ -20,23 +20,23 @@ jobs:
     timeout-minutes: 5
     steps:
     - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - run: ./gradlew --version
-      - run: ./gradlew build --info --stacktrace
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/v')
-        with:
-          files: build/distributions/*.tar.gz
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+    - run: ./gradlew --version
+    - run: ./gradlew build --info --stacktrace
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/v')
+      with:
+        files: build/distributions/*.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
