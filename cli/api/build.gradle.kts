@@ -4,9 +4,9 @@ plugins {
 }
 
 dependencies {
-  testFixturesAnnotationProcessor("org.immutables:value")
-  testFixturesCompileOnly("org.immutables:value-annotations")
-  testFixturesImplementation("io.vavr:vavr")
+  testFixturesAnnotationProcessor(immutables.processor)
+  testFixturesCompileOnly(immutables.annotations)
+  testFixturesImplementation(libs.vavr)
   testFixturesImplementation("org.apache.commons:commons-lang3")
   testFixturesImplementation("org.springframework:spring-test")
   testFixturesImplementation("org.springframework.boot:spring-boot-autoconfigure")

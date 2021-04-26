@@ -11,9 +11,9 @@ dependencies {
   testRuntimeOnly(testFixtures(project(":util")))
 
   implementation("org.apache.commons:commons-lang3")
-  implementation("commons-io:commons-io")
-  implementation("org.apache.tika:tika-core")
-  implementation("io.vavr:vavr")
+  implementation(libs.commons.io)
+  implementation(libs.tika)
+  implementation(libs.vavr)
 
   implementation("com.fasterxml.jackson.core:jackson-core")
   implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")

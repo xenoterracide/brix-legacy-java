@@ -1,4 +1,5 @@
 import net.ltgt.gradle.errorprone.errorprone
+import org.gradle.accessors.dm.LibrariesForChecker
 import java.nio.file.Files
 
 plugins {
@@ -9,11 +10,13 @@ plugins {
   id("org.checkerframework")
 }
 
+val checker = the<LibrariesForChecker>()
+
 dependencies {
   errorprone("com.google.errorprone:error_prone_core:2.4.+")
-  checkerFramework("org.checkerframework:checker")
-  compileOnly("org.checkerframework:checker-qual")
-  testFixturesCompileOnly("org.checkerframework:checker-qual")
+  checkerFramework(checker.processor)
+  compileOnly(checker.annotations)
+  testFixturesCompileOnly(checker.annotations)
 }
 
 java {

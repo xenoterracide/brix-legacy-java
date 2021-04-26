@@ -1,7 +1,7 @@
+
 import com.github.spotbugs.snom.Confidence
 import com.github.spotbugs.snom.Effort
 import com.github.spotbugs.snom.SpotBugsTask
-import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.accessors.dm.LibrariesForSpring
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
@@ -20,7 +20,6 @@ dependencyLocking {
   lockAllConfigurations()
 }
 
-val libs = the<LibrariesForLibs>()
 val spring = the<LibrariesForSpring>()
 
 dependencies {

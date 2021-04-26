@@ -1,13 +1,15 @@
 plugins {
-  java
+  `java-base`
 }
 
 configurations.configureEach {
   resolutionStrategy {
     componentSelection {
       all {
-        val nonRelease = Regex("^[\\d.]+-(M|ea|beta).*$")
-        if (candidate.version.matches(nonRelease)) reject("no pre-release")
+        if (!this@configureEach.name.matches(Regex("^spotbugs.*"))) {
+          val nonRelease = Regex("^[\\d.]+-(M|ea|beta).*$")
+          if (candidate.version.matches(nonRelease)) reject("no pre-release")
+        }
       }
     }
   }

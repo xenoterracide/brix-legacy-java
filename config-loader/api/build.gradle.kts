@@ -3,11 +3,10 @@ plugins {
 }
 
 dependencies {
-  annotationProcessor("org.immutables:value")
-  compileOnly("org.immutables:value-annotations")
+  annotationProcessor(immutables.processor)
+  compileOnly(immutables.annotations)
   implementation("org.apache.commons:commons-lang3")
   implementation("com.fasterxml.jackson.core:jackson-databind")
   implementation("org.springframework:spring-context")
-  runtimeOnly("io.pebbletemplates:pebble-spring-boot-starter")
-  implementation("io.pebbletemplates:pebble")
+  implementation(libs.pebble)
 }
