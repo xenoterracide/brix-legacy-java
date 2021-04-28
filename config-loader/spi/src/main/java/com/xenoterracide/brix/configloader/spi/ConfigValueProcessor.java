@@ -10,6 +10,7 @@ import com.xenoterracide.brix.configloader.api.ProcessedFileConfiguration;
 import io.vavr.control.Try;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.stereotype.Component;
 
 import java.io.StringWriter;
@@ -41,12 +42,7 @@ public class ConfigValueProcessor {
     this.engine = stringEngine;
     this.cliConfiguration = cliConfiguration;
     this.mapper = mapper;
-    if ( Objects.nonNull( foundConfig.getParent() ) ) {
-      this.configDir = foundConfig.getParent();
-    }
-    else {
-      throw new IllegalArgumentException( foundConfig + " parent is null" );
-    }
+    this.configDir = Objects.requireNonNull( foundConfig.getParent() );
   }
 
   public ProcessedConfig from( RawConfig config ) {
@@ -74,8 +70,8 @@ public class ConfigValueProcessor {
   }
 
   @SuppressWarnings("unchecked")
-  Map<String, Object> getContext( Map<String, String> context ) {
-    var map = new HashMap<String, Object>();
+  Map<String, @Nullable Object> getContext( Map<String, String> context ) {
+    var map = new HashMap<String, @Nullable Object>();
     map.putAll( context );
     map.putAll( mapper.convertValue( cliConfiguration, Map.class ) );
     map.put( "configDir", configDir.getParent() );

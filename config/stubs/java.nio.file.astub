@@ -2,6 +2,8 @@ package java.nio.file;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-public class Path {
+public interface Path
+    extends Comparable<Path>, Iterable<Path>, Watchable
+{
   @Nullable Path getParent();
 }

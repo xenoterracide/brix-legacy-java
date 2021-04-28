@@ -11,7 +11,7 @@ import java.util.Map;
 @Value.Immutable
 public abstract class ProcessedFileConfiguration {
 
-  public abstract Map<String, Object> getContext();
+  public abstract Map<String, @Nullable Object> getContext();
 
   public abstract @Nullable Boolean getOverwrite();
 

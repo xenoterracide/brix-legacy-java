@@ -1,10 +1,9 @@
 package java.util;
 
-import org.checkerframework.checker.nullness.qual.PolyNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.qual.PolyNull;
 
-public class HashMap<K,V> extends AbstractMap<K,V>
-    implements Map<K,V>, Cloneable, Serializable {
-
-    @PolyNull V put( @Nullable K key, @PolyNull V value);
+public final class Objects {
+    public static <T> T requireNonNull( @Nullable T obj);
+    public static <T> T requireNonNull( @Nullable T obj, String message);
 }
