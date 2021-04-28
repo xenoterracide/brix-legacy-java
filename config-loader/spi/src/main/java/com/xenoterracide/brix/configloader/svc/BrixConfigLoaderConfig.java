@@ -11,7 +11,7 @@ import com.mitchellbosecke.pebble.loader.StringLoader;
 import com.xenoterracide.brix.cli.api.CliConfiguration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.tika.Tika;
+import org.apache.tika.mime.MimeType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -36,17 +36,17 @@ class BrixConfigLoaderConfig {
 
   private final Path home;
 
-  private final List<String> extensions;
+  private final List<MimeType> mimeTypes;
 
   BrixConfigLoaderConfig(
     @Value("${user.home}")
       Path home,
     CliConfiguration config,
-    List<String> extensions
+    List<MimeType> mimeTypes
   ) {
     this.config = config;
     this.home = home;
-    this.extensions = extensions;
+    this.mimeTypes = mimeTypes;
   }
 
   @Bean
@@ -65,13 +65,10 @@ class BrixConfigLoaderConfig {
   }
 
   @Bean
-  Tika tika() {
-    return new Tika();
-  }
-
-  @Bean
   Path foundConfig() {
-    return this.extensions.stream()
+    return this.mimeTypes.stream()
+      .map( MimeType::getExtensions )
+      .flatMap( List::stream )
       .map( this::findConfig )
       .flatMap( Optional::stream )
       .findFirst()

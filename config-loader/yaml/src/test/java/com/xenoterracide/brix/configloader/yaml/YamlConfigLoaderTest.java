@@ -14,16 +14,13 @@ import java.nio.file.Path;
 @SpringBootTest
 class YamlConfigLoaderTest {
 
-  private final ConfigLoader loader;
+  @Autowired ConfigLoader loader;
 
-  @Autowired
-  YamlConfigLoaderTest( ConfigLoader loader ) {
-    this.loader = loader;
-  }
+  @Autowired Path foundConfig;
 
   @Test
   void load() {
-    this.loader.load( Path.of( "module" ) );
+    this.loader.load( foundConfig );
   }
 
 
