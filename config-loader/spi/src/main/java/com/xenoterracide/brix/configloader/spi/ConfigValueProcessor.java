@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -40,7 +41,12 @@ public class ConfigValueProcessor {
     this.engine = stringEngine;
     this.cliConfiguration = cliConfiguration;
     this.mapper = mapper;
-    this.configDir = foundConfig.getParent();
+    if ( Objects.nonNull( foundConfig.getParent() ) ) {
+      this.configDir = foundConfig.getParent();
+    }
+    else {
+      throw new IllegalArgumentException( foundConfig + " parent is null" );
+    }
   }
 
   public ProcessedConfig from( RawConfig config ) {

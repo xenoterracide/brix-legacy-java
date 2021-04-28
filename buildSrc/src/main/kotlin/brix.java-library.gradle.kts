@@ -1,6 +1,9 @@
+
 import net.ltgt.gradle.errorprone.errorprone
+import org.checkerframework.gradle.plugin.CheckerFrameworkExtension
 import org.gradle.accessors.dm.LibrariesForChecker
 import java.nio.file.Files
+import java.nio.file.Path
 
 plugins {
   `java-library`
@@ -13,7 +16,7 @@ plugins {
 val checker = the<LibrariesForChecker>()
 
 dependencies {
-  errorprone("com.google.errorprone:error_prone_core:2.4.+")
+  errorprone("com.google.errorprone:error_prone_core:2.+")
   checkerFramework(checker.processor)
   compileOnly(checker.annotations)
   testFixturesCompileOnly(checker.annotations)
@@ -25,15 +28,14 @@ java {
   }
 }
 
-checkerFramework {
+configure<CheckerFrameworkExtension> {
   excludeTests = true
-  if (Files.exists(buildDir.toPath().resolve("../config/stubs"))) {
-    extraJavacArgs.addAll(listOf("-Astubs=$buildDir/../config/stubs"))
+  val path = project.rootDir.toPath().resolve(Path.of("config", "stubs"))
+  if (Files.exists(path)) {
+    extraJavacArgs.addAll(listOf("-Astubs=$path"))
   }
-  checkers.addAll(
-    listOf(
-      "org.checkerframework.checker.nullness.NullnessChecker"
-    )
+  checkers = listOf(
+    "org.checkerframework.checker.nullness.NullnessChecker"
   )
 }
 
@@ -49,7 +51,7 @@ tasks.withType<JavaCompile>().configureEach {
   options.errorprone {
     disableWarningsInGeneratedCode.set(true)
     excludedPaths.set(".*/build/generated/sources/annotationProcessor/.*")
-    error(
+    val errors = mutableListOf(
       "AmbiguousMethodReference",
       "ArgumentSelectionDefectChecker",
       "ArrayAsKeyOfSetOrMap",
@@ -113,7 +115,6 @@ tasks.withType<JavaCompile>().configureEach {
       "JavaLocalDateTimeGetNano",
       "JavaLocalTimeGetNano",
       "JavaTimeDefaultTimeZone",
-      // "JavaUtilDate",
       "LockNotBeforeTry",
       "LockOnBoxedPrimitive",
       "LogicalAssignment",
@@ -152,9 +153,7 @@ tasks.withType<JavaCompile>().configureEach {
       "ShortCircuitBoolean",
       "StaticAssignmentInConstructor",
       "StaticGuardedByInstance",
-      // "StaticMockMember",
       "StreamResourceLeak",
-      // "StreamToIterable",
       "StringSplitter",
       "SynchronizeOnNonFinalField",
       "ThreadJoinLoop",
@@ -172,7 +171,6 @@ tasks.withType<JavaCompile>().configureEach {
       "UnnecessaryAnonymousClass",
       "UnnecessaryLambda",
       "UnnecessaryMethodInvocationMatcher",
-      // "UnnecessaryMethodReference",
       "UnnecessaryParentheses", // sketchy
       "UnsafeFinalization",
       "UnsafeReflectiveConstructionCast",
@@ -180,7 +178,6 @@ tasks.withType<JavaCompile>().configureEach {
       "UnusedMethod",
       "UnusedNestedClass",
       "UseCorrectAssertInTests",
-      // "UseTimeInScope",
       "VariableNameSameAsType",
       "WaitNotInLoop",
       "ClassName",
@@ -192,17 +189,14 @@ tasks.withType<JavaCompile>().configureEach {
       "IterablePathParameter",
       "LongLiteralLowerCaseSuffix",
       "NumericEquality",
-      "ParameterPackage",
       "StaticQualifiedUsingExpression",
       "AnnotationPosition",
       "AssertFalse",
       "CheckedExceptionNotThrown",
-      // "DifferentNameButSame",
       "EmptyTopLevelDeclaration",
       "EqualsBrokenForNull",
       "ExpectedExceptionChecker",
       "InconsistentOverloads",
-      // "InitializeInline",
       "InterruptedExceptionSwallowed",
       "InterfaceWithOnlyStatics",
       "NonCanonicalStaticMemberImport",
@@ -217,9 +211,9 @@ tasks.withType<JavaCompile>().configureEach {
       "MultipleTopLevelClasses",
       "PackageLocation",
       "RemoveUnusedImports",
-      "ParameterNotNullable",
       "WildcardImport",
       "Var"
     )
+    error(*errors.toTypedArray())
   }
 }

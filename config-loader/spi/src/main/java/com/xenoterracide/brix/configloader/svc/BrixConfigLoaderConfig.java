@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 import java.io.FileNotFoundException;
 import java.io.UncheckedIOException;
@@ -27,7 +26,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Configuration
-@PropertySource("classpath:jackson.properties")
 class BrixConfigLoaderConfig {
 
   private final Logger log = LogManager.getLogger( BrixConfigLoaderConfig.class );
@@ -96,7 +94,7 @@ class BrixConfigLoaderConfig {
       return Optional.of( configFile );
     }
 
-    if ( Objects.equals( home, searchDir ) ) {
+    if ( Objects.equals( home, searchDir ) || Objects.isNull( searchDir.getParent() ) ) {
       return Optional.empty();
     }
     return this.findConfig( extension, searchDir.getParent() );

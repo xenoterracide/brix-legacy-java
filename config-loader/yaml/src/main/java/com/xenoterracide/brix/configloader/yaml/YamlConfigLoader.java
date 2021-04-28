@@ -44,7 +44,7 @@ class YamlConfigLoader implements ConfigLoader {
   public boolean canLoad( Path path ) {
     return Try.of( () -> tika.detect( path ) )
       .map( MediaType::parse )
-      .map( mt -> mt.equals( MediaType.application( "yaml" ) ) )
+      .map( mt -> mt.equals( MediaType.text( "x-yaml" ) ) )
       .getOrElse( false );
   }
 
