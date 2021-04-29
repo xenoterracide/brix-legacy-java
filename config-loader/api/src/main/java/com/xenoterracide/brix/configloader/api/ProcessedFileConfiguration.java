@@ -1,3 +1,8 @@
+/*
+ * Copyright © 2021 Caleb Cushing.
+ * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+ * https://choosealicense.com/licenses/apache-2.0/#
+ */
 package com.xenoterracide.brix.configloader.api;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -56,7 +61,8 @@ public class ProcessedFileConfiguration {
     return destination;
   }
 
-  public static class Builder {
+  @SuppressWarnings("checkstyle:HiddenField")
+  public static final class Builder {
     private Map<String, @Nullable Object> context = Map.of();
 
     private @Nullable Boolean overwrite;
