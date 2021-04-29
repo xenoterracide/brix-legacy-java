@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.xenoterracide.brix.cli.api.CliConfiguration;
 import com.xenoterracide.brix.configloader.api.ImmutableProcessedConfig;
-import com.xenoterracide.brix.configloader.api.ImmutableProcessedFileConfiguration;
 import com.xenoterracide.brix.configloader.api.ProcessedConfig;
 import com.xenoterracide.brix.configloader.api.ProcessedFileConfiguration;
 import io.vavr.control.Try;
@@ -58,8 +57,8 @@ public class ConfigValueProcessor {
   }
 
   ProcessedFileConfiguration from( RawFileConfiguration config ) {
-    var context = this.getContext( config.getContext() );
-    var bldr = ImmutableProcessedFileConfiguration.builder();
+    Map<String, @Nullable Object> context = this.getContext( config.getContext() );
+    var bldr = ProcessedFileConfiguration.builder();
     bldr.overwrite( config.getOverwrite() );
     bldr.context( context );
 
@@ -71,14 +70,14 @@ public class ConfigValueProcessor {
 
   @SuppressWarnings("unchecked")
   Map<String, @Nullable Object> getContext( Map<String, String> context ) {
-    var map = new HashMap<String, @Nullable Object>();
+    Map<String, @Nullable Object> map = new HashMap<>();
     map.putAll( context );
     map.putAll( mapper.convertValue( cliConfiguration, Map.class ) );
     map.put( "configDir", configDir.getParent() );
     return Collections.unmodifiableMap( map );
   }
 
-  String processTemplate( String template, Map<String, Object> context ) {
+  String processTemplate( String template, Map<String, @Nullable Object> context ) {
     var writer = new StringWriter();
     Try.run( () -> engine.getTemplate( template ).evaluate( writer, context ) ).get();
     return writer.toString();

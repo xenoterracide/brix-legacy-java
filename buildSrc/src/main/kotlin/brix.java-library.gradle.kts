@@ -1,6 +1,5 @@
 
 import net.ltgt.gradle.errorprone.errorprone
-import org.checkerframework.gradle.plugin.CheckerFrameworkExtension
 import org.gradle.accessors.dm.LibrariesForChecker
 import java.nio.file.Files
 import java.nio.file.Path
@@ -28,7 +27,7 @@ java {
   }
 }
 
-configure<CheckerFrameworkExtension> {
+checkerFramework {
   excludeTests = true
   val path = project.rootDir.toPath().resolve(Path.of("config", "stubs"))
   if (Files.exists(path)) {
