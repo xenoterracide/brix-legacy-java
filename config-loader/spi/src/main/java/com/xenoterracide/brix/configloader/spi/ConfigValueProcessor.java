@@ -77,6 +77,7 @@ public class ConfigValueProcessor {
     return Collections.unmodifiableMap( map );
   }
 
+  @SuppressWarnings("nullness:argument.type.incompatible")
   String processTemplate( String template, Map<String, @Nullable Object> context ) {
     var writer = new StringWriter();
     Try.run( () -> engine.getTemplate( template ).evaluate( writer, context ) ).get();
