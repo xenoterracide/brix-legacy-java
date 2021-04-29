@@ -1,4 +1,3 @@
-
 import net.ltgt.gradle.errorprone.errorprone
 import org.gradle.accessors.dm.LibrariesForChecker
 import java.nio.file.Files
@@ -15,7 +14,8 @@ plugins {
 val checker = the<LibrariesForChecker>()
 
 dependencies {
-  errorprone("com.google.errorprone:error_prone_core:2.+")
+  errorprone("com.google.errorprone:error_prone_core:2.5.+")
+  errorprone("com.uber.nullaway:nullaway:0.+")
   checkerFramework(checker.processor)
   compileOnly(checker.annotations)
   testFixturesCompileOnly(checker.annotations)
@@ -50,6 +50,7 @@ tasks.withType<JavaCompile>().configureEach {
   options.errorprone {
     disableWarningsInGeneratedCode.set(true)
     excludedPaths.set(".*/build/generated/sources/annotationProcessor/.*")
+    option("NullAway:AnnotatedPackages", "com.xenoterracide")
     val errors = mutableListOf(
       "AmbiguousMethodReference",
       "ArgumentSelectionDefectChecker",
@@ -213,6 +214,7 @@ tasks.withType<JavaCompile>().configureEach {
       "WildcardImport",
       "Var"
     )
+    if (name != "javaTestCompile") errors.add("NullAway")
     error(*errors.toTypedArray())
   }
 }
