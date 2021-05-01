@@ -1,5 +1,6 @@
 plugins {
   `java-base`
+  id("com.github.ben-manes.versions")
 }
 
 configurations.configureEach {

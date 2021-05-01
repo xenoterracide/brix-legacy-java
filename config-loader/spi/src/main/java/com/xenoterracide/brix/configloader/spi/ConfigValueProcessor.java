@@ -1,3 +1,8 @@
+/*
+ * Copyright © 2021 Caleb Cushing.
+ * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+ * https://choosealicense.com/licenses/apache-2.0/#
+ */
 package com.xenoterracide.brix.configloader.spi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +22,6 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -36,12 +40,12 @@ public class ConfigValueProcessor {
     CliConfiguration cliConfiguration,
     PebbleEngine stringEngine,
     ObjectMapper mapper,
-    Path foundConfig
+    Path foundConfigDir
   ) {
     this.engine = stringEngine;
     this.cliConfiguration = cliConfiguration;
     this.mapper = mapper;
-    this.configDir = Objects.requireNonNull( foundConfig.getParent() );
+    this.configDir = foundConfigDir;
   }
 
   public ProcessedConfig from( RawConfig config ) {
@@ -57,7 +61,7 @@ public class ConfigValueProcessor {
   }
 
   ProcessedFileConfiguration from( RawFileConfiguration config ) {
-    Map<String, @Nullable Object> context = this.getContext( config.getContext() );
+    var context = this.getContext( config.getContext() );
     var bldr = ProcessedFileConfiguration.builder();
     bldr.overwrite( config.getOverwrite() );
     bldr.context( context );
@@ -70,14 +74,13 @@ public class ConfigValueProcessor {
 
   @SuppressWarnings("unchecked")
   Map<String, @Nullable Object> getContext( Map<String, String> context ) {
-    Map<String, @Nullable Object> map = new HashMap<>();
+    var map = new HashMap<String, @Nullable Object>();
     map.putAll( context );
     map.putAll( mapper.convertValue( cliConfiguration, Map.class ) );
     map.put( "configDir", configDir.getParent() );
     return Collections.unmodifiableMap( map );
   }
 
-  @SuppressWarnings("nullness:argument.type.incompatible")
   String processTemplate( String template, Map<String, @Nullable Object> context ) {
     var writer = new StringWriter();
     Try.run( () -> engine.getTemplate( template ).evaluate( writer, context ) ).get();

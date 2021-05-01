@@ -95,8 +95,8 @@ public class ProcessedFileConfiguration {
     }
 
     public ProcessedFileConfiguration build() {
-      Objects.requireNonNull( destination, "destination" );
-      return new ProcessedFileConfiguration( context, overwrite, source, destination );
+      var dest = Objects.requireNonNull( destination, "destination" );
+      return new ProcessedFileConfiguration( context, overwrite, source, dest );
     }
   }
 }

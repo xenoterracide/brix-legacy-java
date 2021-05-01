@@ -63,6 +63,11 @@ class BrixConfigLoaderConfig {
   }
 
   @Bean
+  Path foundConfigDir( Path foundConfig ) {
+    return foundConfig.getParent();
+  }
+
+  @Bean
   Path foundConfig() {
     return this.mimeTypes.stream()
       .map( MimeType::getExtensions )

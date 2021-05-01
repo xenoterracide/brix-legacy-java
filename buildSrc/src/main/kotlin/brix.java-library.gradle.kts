@@ -1,41 +1,27 @@
 import net.ltgt.gradle.errorprone.errorprone
 import org.gradle.accessors.dm.LibrariesForChecker
-import java.nio.file.Files
-import java.nio.file.Path
 
 plugins {
   `java-library`
   `java-test-fixtures`
   id("brix.bom")
   id("net.ltgt.errorprone")
-  id("org.checkerframework")
 }
 
 val checker = the<LibrariesForChecker>()
 
 dependencies {
-  errorprone("com.google.errorprone:error_prone_core:2.5.+")
+  errorprone("com.google.errorprone:error_prone_core:2.+")
   errorprone("com.uber.nullaway:nullaway:0.+")
-  checkerFramework(checker.processor)
   compileOnly(checker.annotations)
   testFixturesCompileOnly(checker.annotations)
+  testCompileOnly(checker.annotations)
 }
 
 java {
   toolchain {
     languageVersion.set(JavaLanguageVersion.of(11))
   }
-}
-
-checkerFramework {
-  excludeTests = true
-  val path = project.rootDir.toPath().resolve(Path.of("config", "stubs"))
-  if (Files.exists(path)) {
-    extraJavacArgs.addAll(listOf("-Astubs=$path"))
-  }
-  checkers = listOf(
-    "org.checkerframework.checker.nullness.NullnessChecker"
-  )
 }
 
 tasks.withType<JavaCompile>().configureEach {
@@ -214,7 +200,12 @@ tasks.withType<JavaCompile>().configureEach {
       "WildcardImport",
       "Var"
     )
-    if (name != "javaTestCompile") errors.add("NullAway")
+
+    // if (name != "compileTestJava") errors.add("NullAway")
+    if (name == "compileTestJava") option(
+      "NullAway:ExcludedFieldAnnotations",
+      "org.springframework.beans.factory.annotation.Autowired"
+    )
     error(*errors.toTypedArray())
   }
 }
