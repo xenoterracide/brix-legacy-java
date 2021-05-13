@@ -5,21 +5,23 @@
  */
 package com.xenoterracide.brix.configloader.spi;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.immutables.value.Value;
 
 import java.util.List;
+import java.util.Objects;
 
-@Value.Immutable
-@Value.Style(deepImmutablesDetection = true)
-@JsonDeserialize(as = ImmutableRawConfig.class)
-public abstract class RawConfig {
 
-  @Value.Default
+public class RawConfig {
+
+  private final List<RawFileConfiguration> fileConfigurations;
+
+  RawConfig( List<RawFileConfiguration> fileConfigurations ) {
+    this.fileConfigurations = Objects.requireNonNullElseGet( fileConfigurations, List::of );
+  }
+
   public List<RawFileConfiguration> getFileConfigurations() {
-    return List.of();
+    return fileConfigurations;
   }
 
   @Override

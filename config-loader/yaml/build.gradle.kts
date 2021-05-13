@@ -18,10 +18,15 @@ dependencies {
   implementation("com.fasterxml.jackson.core:jackson-core")
   implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
   runtimeOnly("com.fasterxml.jackson.core:jackson-databind")
-  runtimeOnly("com.fasterxml.jackson.module:jackson-module-parameter-names")
+  implementation("com.fasterxml.jackson.module:jackson-module-parameter-names")
 
   implementation("org.springframework:spring-context")
 
+  testImplementation("org.springframework:spring-test")
   testImplementation("org.springframework.boot:spring-boot-test")
   testImplementation("org.springframework.boot:spring-boot-autoconfigure")
+  testImplementation("org.springframework.boot:spring-boot-test-autoconfigure")
+  testRuntimeOnly("org.springframework.boot:spring-boot-starter-json")
+  testRuntimeOnly("org.springframework:spring-web")
+  testRuntimeOnly("com.jayway.jsonpath:json-path")
 }

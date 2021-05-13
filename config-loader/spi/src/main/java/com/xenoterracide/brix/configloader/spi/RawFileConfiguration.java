@@ -5,29 +5,53 @@
  */
 package com.xenoterracide.brix.configloader.spi;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.immutables.value.Value;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
-@Value.Immutable
-@JsonDeserialize(as = ImmutableRawFileConfiguration.class)
-public abstract class RawFileConfiguration {
+public class RawFileConfiguration {
 
-  @Value.Default
-  public Map<String, String> getContext() {
-    return Map.of();
+  private final Map<String, String> context;
+
+  private final @Nullable Boolean overwrite;
+
+  private final @Nullable String source;
+
+  private final String destination;
+
+  @JsonCreator
+  RawFileConfiguration(
+    Map<String, String> context,
+    @Nullable Boolean overwrite,
+    @Nullable String source,
+    String destination
+  ) {
+    this.context = Objects.requireNonNullElse( context, Map.of() );
+    this.overwrite = overwrite;
+    this.source = source;
+    this.destination = destination;
   }
 
-  public abstract @Nullable Boolean getOverwrite();
+  public Map<String, String> getContext() {
+    return context;
+  }
 
-  public abstract Optional<String> getSource();
+  public @Nullable Boolean getOverwrite() {
+    return overwrite;
+  }
 
-  public abstract String getDestination();
+  public Optional<String> getSource() {
+    return Optional.ofNullable( source );
+  }
+
+  public String getDestination() {
+    return destination;
+  }
 
   @Override
   public String toString() {

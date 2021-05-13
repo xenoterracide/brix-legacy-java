@@ -204,7 +204,8 @@ tasks.withType<JavaCompile>().configureEach {
     // if (name != "compileTestJava") errors.add("NullAway")
     if (name == "compileTestJava") option(
       "NullAway:ExcludedFieldAnnotations",
-      "org.springframework.beans.factory.annotation.Autowired"
+      "org.springframework.beans.factory.annotation.Autowired," +
+        "org.springframework.beans.factory.annotation.Value"
     )
     error(*errors.toTypedArray())
   }
