@@ -5,7 +5,6 @@ import org.immutables.value.Value;
 import java.util.List;
 
 @Value.Immutable
-@Value.Style(deepImmutablesDetection = true)
 public abstract class ProcessedConfig {
 
   @Value.Default

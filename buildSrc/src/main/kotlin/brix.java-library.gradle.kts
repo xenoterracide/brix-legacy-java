@@ -28,16 +28,21 @@ tasks.withType<JavaCompile>().configureEach {
   options.compilerArgs.addAll(
     listOf(
       "-parameters",
-      "-Xlint:deprecation",
-      "-Xlint:unchecked"
+      "-g",
+      "-Xlint:all",
+      "-Xlint:-processing",
+      "-Xlint:-fallthrough" // handled by error prone in a smarter way
     )
   )
+
+  if (this.name != "compileTestJava") options.compilerArgs.add("-Werror")
 
   options.errorprone {
     disableWarningsInGeneratedCode.set(true)
     excludedPaths.set(".*/build/generated/sources/annotationProcessor/.*")
     option("NullAway:AnnotatedPackages", "com.xenoterracide")
     val errors = mutableListOf(
+      "NullAway",
       "AmbiguousMethodReference",
       "ArgumentSelectionDefectChecker",
       "ArrayAsKeyOfSetOrMap",

@@ -1,7 +1,7 @@
 package com.xenoterracide.brix.configloader.svc;
 
 import com.xenoterracide.brix.cli.api.CliConfiguration;
-import com.xenoterracide.brix.cli.api.ImmutableTestCliConfiguration;
+import com.xenoterracide.brix.cli.api.TestCliConfiguration;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.tika.mime.MimeType;
@@ -58,7 +58,7 @@ class BrixConfigLoaderConfigTest {
 
     @Bean
     CliConfiguration cliConfiguration() {
-      return ImmutableTestCliConfiguration.builder()
+      return TestCliConfiguration.builder()
         .language( "brixTestDir" )
         .moduleType( "home" )
         .build();

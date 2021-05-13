@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class ConfigValueProcessor {
-  private final Logger log = LogManager.getLogger( this.getClass() );
+  private final Logger log = LogManager.getLogger( ConfigValueProcessor.class );
 
   private final PebbleEngine engine;
 
@@ -65,6 +65,7 @@ public class ConfigValueProcessor {
     var bldr = ProcessedFileConfiguration.builder();
     bldr.overwrite( config.getOverwrite() );
     bldr.context( context );
+    bldr.destination( Path.of( this.processTemplate( config.getDestination(), context ) ) );
 
     config.getSource().ifPresent( src -> {
       bldr.source( Path.of( this.processTemplate( src, context ) ) );

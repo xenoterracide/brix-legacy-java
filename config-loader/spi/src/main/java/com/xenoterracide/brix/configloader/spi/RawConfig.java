@@ -5,6 +5,7 @@
  */
 package com.xenoterracide.brix.configloader.spi;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -16,6 +17,7 @@ public class RawConfig {
 
   private final List<RawFileConfiguration> fileConfigurations;
 
+  @JsonCreator
   RawConfig( List<RawFileConfiguration> fileConfigurations ) {
     this.fileConfigurations = Objects.requireNonNullElseGet( fileConfigurations, List::of );
   }

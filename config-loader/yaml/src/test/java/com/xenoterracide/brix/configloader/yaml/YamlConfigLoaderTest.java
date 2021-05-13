@@ -6,7 +6,7 @@
 package com.xenoterracide.brix.configloader.yaml;
 
 import com.xenoterracide.brix.cli.api.CliConfiguration;
-import com.xenoterracide.brix.cli.api.ImmutableTestCliConfiguration;
+import com.xenoterracide.brix.cli.api.TestCliConfiguration;
 import com.xenoterracide.brix.configloader.api.ConfigLoader;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ class YamlConfigLoaderTest {
 
     @Bean
     CliConfiguration cliConfiguration() {
-      return ImmutableTestCliConfiguration.builder()
+      return TestCliConfiguration.builder()
         .classLoader( this.getClass().getClassLoader() )
         .build();
     }
