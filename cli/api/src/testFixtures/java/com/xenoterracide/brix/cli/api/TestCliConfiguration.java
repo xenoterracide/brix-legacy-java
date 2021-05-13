@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Optional;
 
+@SuppressWarnings("checkstyle:HiddenField")
 public class TestCliConfiguration implements CliConfiguration {
   private final @MonotonicNonNull String name;
 
@@ -101,6 +102,7 @@ public class TestCliConfiguration implements CliConfiguration {
 
     private @MonotonicNonNull String project;
 
+    @SuppressWarnings("checkstyle:MagicNumber")
     public CliConfiguration build() {
       return new TestCliConfiguration(
         this.name,
