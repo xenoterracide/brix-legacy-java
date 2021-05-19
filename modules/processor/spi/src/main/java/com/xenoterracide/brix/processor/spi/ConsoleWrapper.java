@@ -1,7 +1,7 @@
-package com.xenoterracide.brix.processor;
+package com.xenoterracide.brix.processor.spi;
 
-class ConsoleWrapper {
-  String readLine( String fmt, Object... args ) {
+public class ConsoleWrapper {
+  public String readLine( String fmt, Object... args ) {
     var console = System.console();
     if ( console == null ) {
       throw new IllegalStateException( "unable to prompt for overwrite, console is not " +
