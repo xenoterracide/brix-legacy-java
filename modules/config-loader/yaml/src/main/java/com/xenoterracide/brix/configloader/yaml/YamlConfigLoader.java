@@ -10,11 +10,12 @@ import com.xenoterracide.brix.configloader.api.ConfigLoader;
 import com.xenoterracide.brix.configloader.api.ProcessedConfig;
 import com.xenoterracide.brix.configloader.spi.ConfigValueProcessor;
 import com.xenoterracide.brix.configloader.spi.RawConfig;
+import com.xenoterracide.brix.util.FileService;
 import io.vavr.control.Try;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.tika.Tika;
 import org.apache.tika.mime.MediaType;
+import org.apache.tika.mime.MimeType;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
@@ -26,24 +27,24 @@ class YamlConfigLoader implements ConfigLoader {
 
   private final ObjectMapper mapper;
 
-  private final Tika tika;
+  private final FileService fs;
 
   private final ConfigValueProcessor processor;
 
   YamlConfigLoader(
     ObjectMapper mapper,
-    Tika tika,
+    FileService fs,
     ConfigValueProcessor processor
   ) {
     this.mapper = mapper;
-    this.tika = tika;
+    this.fs = fs;
     this.processor = processor;
   }
 
   @Override
   public boolean canLoad( Path path ) {
-    return Try.of( () -> tika.detect( path ) )
-      .map( MediaType::parse )
+    return Try.of( () -> fs.detect( path ) )
+      .map( MimeType::getType )
       .map( mt -> mt.equals( MediaType.text( "x-yaml" ) ) )
       .getOrElse( false );
   }

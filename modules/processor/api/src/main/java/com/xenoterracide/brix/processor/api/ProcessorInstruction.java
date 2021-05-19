@@ -1,3 +1,8 @@
+/*
+ * Copyright © 2021 Caleb Cushing.
+ * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+ * https://choosealicense.com/licenses/apache-2.0/#
+ */
 package com.xenoterracide.brix.processor.api;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -10,18 +15,17 @@ import java.util.Map;
 import java.util.Optional;
 
 @Value.Immutable
-abstract class ProcessorInstruction {
+public abstract class ProcessorInstruction {
 
-  abstract Map<String, String> getContext();
+  public abstract Map<String, String> getContext();
 
-  abstract @Nullable
-  Boolean getOverwrite();
+  public abstract @Nullable Boolean getOverwrite();
 
-  abstract Path getConfigDir();
+  public abstract Path getConfigDir();
 
-  abstract Optional<Path> getSource();
+  public abstract Optional<Path> getSource();
 
-  abstract Path getDestination();
+  public abstract Path getDestination();
 
   @Override
   public String toString() {

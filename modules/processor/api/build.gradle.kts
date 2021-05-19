@@ -1,7 +1,9 @@
 plugins {
-  id("brix.java-library")
+  id("brix.bom")
+  id("brix.java-convention")
 }
 
 dependencies {
-  testFixturesImplementation("org.springframework.boot:spring-boot-autoconfigure")
+  compileOnly(immutables.annotations)
+  implementation("org.apache.commons:commons-lang3")
 }

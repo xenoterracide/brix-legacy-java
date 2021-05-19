@@ -6,12 +6,14 @@ plugins {
 dependencies {
   implementation(projects.processor.spi)
   api(projects.processor.api)
+  implementation(projects.configLoader.api)
+  implementation(projects.cli.api)
+  implementation(projects.util)
 
-  implementation("io.pebbletemplates:pebble:3.+")
-  implementation("org.springframework:spring-context")
+  implementation(commons.lang)
+  implementation(libs.pebble)
+  implementation(spring.context)
+  implementation(libs.vavr)
 
-  testImplementation("org.springframework:spring-test")
-  testImplementation("org.springframework.boot:spring-boot-test")
-  testImplementation("org.springframework.boot:spring-boot-autoconfigure")
-  testImplementation("org.springframework.boot:spring-boot-test-autoconfigure")
+  testImplementation(spring.bundles.test)
 }

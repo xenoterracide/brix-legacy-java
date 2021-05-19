@@ -21,11 +21,20 @@ dependencyResolutionManagement {
     create("libs") {
       alias("vavr").to("io.vavr:vavr:0.+")
       alias("pebble").to("io.pebbletemplates:pebble:3.+")
-      alias("commons-io").to("commons-io:commons-io:2.+")
       alias("tika").to("org.apache.tika:tika-core:1.+")
+    }
+    create("commons") {
+      alias("io").to("commons-io:commons-io:2.+")
+      alias("lang").to("org.apache.commons", "commons-lang3").withoutVersion()
     }
     create("spring") {
       alias("platform").to("org.springframework.boot:spring-boot-starter-parent:2.+")
+      alias("context").to("org.springframework", "spring-context").withoutVersion()
+      alias("test").to("org.springframework", "spring-test").withoutVersion()
+      alias("boot-test-lib").to("org.springframework.boot", "spring-boot-test").withoutVersion()
+      alias("boot-autoconfigure").to("org.springframework.boot", "spring-boot-autoconfigure").withoutVersion()
+      alias("boot-test-autoconfigure").to("org.springframework.boot", "spring-boot-test-autoconfigure").withoutVersion()
+      bundle("test", listOf("test", "boot-test-lib", "boot-test-autoconfigure", "boot-autoconfigure"))
     }
     create("checker") {
       version("checker", "3.+")
@@ -36,6 +45,9 @@ dependencyResolutionManagement {
       version("immutables", "2.+")
       alias("processor").to("org.immutables", "value").versionRef("immutables")
       alias("annotations").to("org.immutables", "value-annotations").versionRef("immutables")
+    }
+    create("jackson") {
+      alias("databind").to("com.fasterxml.jackson.core", "jackson-databind").withoutVersion()
     }
   }
 }

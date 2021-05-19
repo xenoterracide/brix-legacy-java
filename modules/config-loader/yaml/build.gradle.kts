@@ -4,15 +4,15 @@ plugins {
 }
 
 dependencies {
-  api(project(":config-loader:api"))
-  implementation(project(":config-loader:spi"))
-  implementation(project(":cli:api"))
-  testImplementation(testFixtures(project(":cli:api")))
-  testRuntimeOnly(testFixtures(project(":util")))
+  api(projects.configLoader.api)
+  implementation(projects.configLoader.spi)
+  implementation(projects.cli.api)
+  testImplementation(testFixtures(projects.cli.api))
+  testRuntimeOnly(projects.testUtil)
 
-  implementation("org.apache.commons:commons-lang3")
-  implementation(libs.commons.io)
-  implementation(libs.tika)
+  implementation(commons.lang)
+  implementation(commons.io)
+  implementation(projects.util)
   implementation(libs.vavr)
 
   implementation("com.fasterxml.jackson.core:jackson-core")
@@ -20,11 +20,7 @@ dependencies {
   runtimeOnly("com.fasterxml.jackson.core:jackson-databind")
   implementation("com.fasterxml.jackson.module:jackson-module-parameter-names")
 
-  implementation("org.springframework:spring-context")
-
-  testImplementation("org.springframework:spring-test")
-  testImplementation("org.springframework.boot:spring-boot-test")
-  testImplementation("org.springframework.boot:spring-boot-autoconfigure")
-  testImplementation("org.springframework.boot:spring-boot-test-autoconfigure")
+  implementation(spring.context)
+  testImplementation(spring.bundles.test)
   testRuntimeOnly("com.jayway.jsonpath:json-path")
 }
