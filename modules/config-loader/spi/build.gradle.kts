@@ -7,6 +7,7 @@ dependencies {
   implementation(projects.configLoader.api)
   implementation(projects.cli.api)
   testImplementation(testFixtures(projects.cli.api))
+  testRuntimeOnly(projects.testUtil)
   annotationProcessor(immutables.processor)
   compileOnly(immutables.annotations)
   implementation(libs.vavr)
