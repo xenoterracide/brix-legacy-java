@@ -15,5 +15,8 @@ dependencies {
   implementation(spring.context)
   implementation(libs.vavr)
 
+  testImplementation(projects.testUtil)
   testImplementation(spring.bundles.test)
+  testImplementation(libs.mockito)
+  testImplementation(commons.io)
 }

@@ -22,6 +22,7 @@ dependencyResolutionManagement {
       alias("vavr").to("io.vavr:vavr:0.+")
       alias("pebble").to("io.pebbletemplates:pebble:3.+")
       alias("tika").to("org.apache.tika:tika-core:1.+")
+      alias("mockito").to("org.mockito", "mockito-core").withoutVersion()
     }
     create("commons") {
       alias("io").to("commons-io:commons-io:2.+")
