@@ -62,7 +62,7 @@ class PebbleTemplateProcessor implements Processor {
     var sourceTemplate = fileEngine.getTemplate( template.toAbsolutePath().toString() );
     var overwrite = fc.getOverwrite();
 
-    if ( Files.exists( dest.toAbsolutePath() ) ) {
+    if ( Files.exists( dest ) ) {
       log.debug( "file {} exists", dest.toAbsolutePath() );
       if ( overwrite == null ) {
         askWhetherToWriteTemplate( sourceTemplate, dest, context );
