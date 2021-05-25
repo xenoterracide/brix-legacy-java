@@ -49,7 +49,7 @@ public class TestCliConfiguration implements CliConfiguration {
   }
 
   @Override
-  public Optional<Path> getConfigDir() {
+  public Optional<Path> getRepo() {
     return Try.ofSupplier( this::getClassLoader )
       .filter( Objects::nonNull )
       .mapTry( cl -> cl.getResource( "config" ) )

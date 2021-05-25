@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 public interface CliConfiguration {
-  Optional<Path> getConfigDir();
+  Optional<Path> getRepo();
 
   Path getWorkdir();
 

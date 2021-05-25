@@ -8,5 +8,8 @@ plugins {
 }
 
 dependencies {
+  implementation(projects.cli.config)
   implementation(spring.boot.autoconfigure)
+  implementation(picocli.core)
+  runtimeOnly(picocli.starter)
 }

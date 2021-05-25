@@ -24,6 +24,11 @@ dependencyResolutionManagement {
       alias("tika").to("org.apache.tika:tika-core:1.+")
       alias("mockito").to("org.mockito", "mockito-core").withoutVersion()
     }
+    create("picocli") {
+      version("picocli", "4.+")
+      alias("core").to("info.picocli", "picocli").versionRef("picocli")
+      alias("starter").to("info.picocli", "picocli-spring-boot-starter").versionRef("picocli")
+    }
     create("commons") {
       alias("io").to("commons-io:commons-io:2.+")
       alias("lang").to("org.apache.commons", "commons-lang3").withoutVersion()

@@ -61,7 +61,7 @@ public class ConfigLoaderService {
   private Stream<Path> configSearchPath( CliConfiguration cli ) {
     var localDir = Path.of( ".config", "brix" );
     var homeDir = SystemUtils.getUserHome().toPath().resolve( localDir );
-    return Stream.concat( cli.getConfigDir().stream(), Stream.of( localDir, homeDir ) )
+    return Stream.concat( cli.getRepo().stream(), Stream.of( localDir, homeDir ) )
       .peek( p -> log.debug( "searching: {}", p.toAbsolutePath() ) )
       .filter( Files::exists );
   }
