@@ -11,5 +11,10 @@ dependencyResolutionManagement {
       alias("annotations").to("org.checkerframework", "checker-qual").versionRef("checker")
       alias("processor").to("org.checkerframework", "checker").versionRef("checker")
     }
+    create("ep") {
+      version("ep", "2.+")
+      alias("core").to("com.google.errorprone", "error_prone_core").versionRef("ep")
+      alias("annotations").to("com.google.errorprone", "error_prone_annotations").versionRef("ep")
+    }
   }
 }

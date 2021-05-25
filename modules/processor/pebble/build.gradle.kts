@@ -4,18 +4,18 @@ plugins {
 }
 
 dependencies {
-  implementation(projects.processor.spi)
+  implementation(projects.util.lang)
   api(projects.processor.api)
   implementation(projects.configLoader.api)
   implementation(projects.cli.api)
-  implementation(projects.util)
+  implementation(projects.util.file)
 
   implementation(commons.lang)
   implementation(libs.pebble)
   implementation(spring.context)
   implementation(libs.vavr)
 
-  testImplementation(projects.testUtil)
+  testImplementation(projects.util.test)
   testImplementation(spring.bundles.test)
   testImplementation(libs.mockito)
   testImplementation(commons.io)

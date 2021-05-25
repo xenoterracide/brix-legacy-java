@@ -1,5 +1,0 @@
-workdir:
-templates:
-  testTemplate.text:
-    source: testTemplate.java.peb
-    destination: 'testTemplate.txt'

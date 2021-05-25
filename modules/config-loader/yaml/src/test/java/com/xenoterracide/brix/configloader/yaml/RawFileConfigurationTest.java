@@ -5,7 +5,7 @@
  */
 package com.xenoterracide.brix.configloader.yaml;
 
-import com.xenoterracide.brix.configloader.spi.RawFileConfiguration;
+import com.xenoterracide.brix.configloader.api.RawFileConfiguration;
 import org.apache.tika.config.TikaConfig;
 import org.apache.tika.mime.MimeTypes;
 import org.junit.jupiter.api.Test;

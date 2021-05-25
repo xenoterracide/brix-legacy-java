@@ -1,5 +1,6 @@
 import net.ltgt.gradle.errorprone.errorprone
 import org.gradle.accessors.dm.LibrariesForChecker
+import org.gradle.accessors.dm.LibrariesForEp
 
 plugins {
   `java-library`
@@ -9,10 +10,12 @@ plugins {
 }
 
 val checker = the<LibrariesForChecker>()
+val ep = the<LibrariesForEp>()
 
 dependencies {
-  errorprone("com.google.errorprone:error_prone_core:2.+")
+  errorprone(ep.core)
   errorprone("com.uber.nullaway:nullaway:0.+")
+  compileOnly(ep.annotations)
   compileOnly(checker.annotations)
   testFixturesCompileOnly(checker.annotations)
   testCompileOnly(checker.annotations)

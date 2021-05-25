@@ -22,4 +22,8 @@ public interface CliConfiguration {
   String getModuleType();
 
   @Nullable String getName();
+
+  default Path configPath( String extension ) {
+    return Path.of( getLanguage(), getModuleType() + extension );
+  }
 }

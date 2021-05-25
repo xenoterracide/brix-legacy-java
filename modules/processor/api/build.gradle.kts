@@ -4,6 +4,5 @@ plugins {
 }
 
 dependencies {
-  compileOnly(immutables.annotations)
-  implementation("org.apache.commons:commons-lang3")
+  api(projects.configLoader.api)
 }

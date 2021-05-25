@@ -9,19 +9,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import org.apache.tika.mime.MimeType;
-import org.apache.tika.mime.MimeTypeException;
-import org.apache.tika.mime.MimeTypes;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration()
 class YamlConfig {
-
-  @Bean
-  MimeType yaml( MimeTypes mimeTypes ) throws MimeTypeException {
-    return mimeTypes.forName( "text/x-yaml" );
-  }
 
   @Bean
   ObjectMapper yamlMapper() {

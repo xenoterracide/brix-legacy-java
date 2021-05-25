@@ -5,11 +5,24 @@
  */
 package com.xenoterracide.brix.configloader.api;
 
+import com.xenoterracide.brix.cli.api.CliConfiguration;
+import org.apache.tika.mime.MimeType;
+
+import java.io.IOException;
 import java.nio.file.Path;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 public interface ConfigLoader {
 
-  boolean canLoad( Path path );
+  RawConfig load( Path config ) throws IOException;
 
-  ProcessedConfig load( Path path );
+  default Function<Path, Stream<Path>> extensions( CliConfiguration cli ) {
+    return path -> mimeType()
+      .getExtensions()
+      .stream()
+      .map( ext -> path.resolve( cli.configPath( ext ) ) );
+  }
+
+  MimeType mimeType();
 }

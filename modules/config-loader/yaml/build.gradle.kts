@@ -5,14 +5,11 @@ plugins {
 
 dependencies {
   api(projects.configLoader.api)
-  implementation(projects.configLoader.spi)
   implementation(projects.cli.api)
   testImplementation(testFixtures(projects.cli.api))
-  testRuntimeOnly(projects.testUtil)
+  testRuntimeOnly(projects.util.test)
+  testRuntimeOnly(projects.util.file)
 
-  implementation(commons.lang)
-  implementation(commons.io)
-  implementation(projects.util)
   implementation(libs.vavr)
 
   implementation("com.fasterxml.jackson.core:jackson-core")

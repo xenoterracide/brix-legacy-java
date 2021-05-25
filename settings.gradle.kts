@@ -5,7 +5,7 @@ enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 file("modules").walkTopDown().maxDepth(3).onEnter { f ->
-  f.isDirectory // &&
+  f.isDirectory
 }.asIterable()
   .filter { f -> Files.exists(f.toPath().resolve("build.gradle.kts")) }
   .map { f -> f.toPath().toString() }
@@ -49,6 +49,11 @@ dependencyResolutionManagement {
     }
     create("jackson") {
       alias("databind").to("com.fasterxml.jackson.core", "jackson-databind").withoutVersion()
+    }
+    create("ep") {
+      version("ep", "2.+")
+      alias("core").to("com.google.errorprone", "error_prone_core").versionRef("ep")
+      alias("annotations").to("com.google.errorprone", "error_prone_annotations").versionRef("ep")
     }
   }
 }

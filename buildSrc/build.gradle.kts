@@ -15,6 +15,7 @@ dependencyLocking {
 
 dependencies {
   implementation(files(spring.javaClass.superclass.protectionDomain.codeSource.location))
+  implementation(files(ep.javaClass.superclass.protectionDomain.codeSource.location))
   implementation(files(checker.javaClass.superclass.protectionDomain.codeSource.location))
   implementation("com.diffplug.spotless:spotless-plugin-gradle:5.+")
   implementation("gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.+")

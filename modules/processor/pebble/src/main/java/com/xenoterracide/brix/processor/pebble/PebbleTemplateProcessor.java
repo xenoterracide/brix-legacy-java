@@ -7,13 +7,14 @@ package com.xenoterracide.brix.processor.pebble;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
+import com.xenoterracide.brix.configloader.api.ProcessedFileConfiguration;
 import com.xenoterracide.brix.processor.api.Processor;
-import com.xenoterracide.brix.processor.api.ProcessorInstruction;
-import com.xenoterracide.brix.processor.spi.ConsoleWrapper;
-import com.xenoterracide.brix.util.FileService;
+import com.xenoterracide.brix.util.file.FileService;
+import com.xenoterracide.brix.util.lang.ConsoleWrapper;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
@@ -23,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 class PebbleTemplateProcessor implements Processor {
@@ -46,33 +48,20 @@ class PebbleTemplateProcessor implements Processor {
   }
 
   @Override
-  public boolean shouldProcess( ProcessorInstruction instruction ) {
-    return instruction.getSource().isPresent() && !fs.isBinary( instruction.getSource().get() );
+  public boolean shouldProcess( ProcessedFileConfiguration fc ) {
+    return fc.getSource() != null && !fs.isBinary( fc.getSource() );
   }
 
   @Override
-  public void process(
-    Path configDir,
-    ProcessorInstruction instruction,
-    Map<String, Object> context
-  ) {
-    log.debug( "context: {}", context );
-    var template = instruction.getSource().orElseThrow();
+  public void process( ProcessedFileConfiguration fc ) {
+    var template = Objects.requireNonNull( fc.getSource() );
     log.debug( "processing: {}", template.toAbsolutePath() );
 
-    writeFile( template, instruction.getDestination(), instruction, context );
-  }
-
-
-  void writeFile(
-    Path template,
-    Path dest,
-    ProcessorInstruction skel,
-    Map<String, Object> context
-  )
-    throws UncheckedIOException {
+    var dest = fc.getDestination();
+    var context = fc.getContext();
     var sourceTemplate = fileEngine.getTemplate( template.toAbsolutePath().toString() );
-    var overwrite = skel.getOverwrite();
+    var overwrite = fc.getOverwrite();
+
     if ( Files.exists( dest.toAbsolutePath() ) ) {
       log.debug( "file {} exists", dest.toAbsolutePath() );
       if ( overwrite == null ) {
@@ -87,7 +76,11 @@ class PebbleTemplateProcessor implements Processor {
     }
   }
 
-  void askWhetherToWriteTemplate( PebbleTemplate source, Path dest, Map<String, Object> context ) {
+  void askWhetherToWriteTemplate(
+    PebbleTemplate source,
+    Path dest,
+    Map<String, @Nullable Object> context
+  ) {
     var line = console.readLine( "Overwrite [yN] %s ", dest );
     if ( BooleanUtils.toBoolean( line ) ) {
       writeTemplate( source, dest, context );
