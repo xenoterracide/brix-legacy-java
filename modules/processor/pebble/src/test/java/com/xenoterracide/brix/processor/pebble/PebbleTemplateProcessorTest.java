@@ -6,8 +6,8 @@
 package com.xenoterracide.brix.processor.pebble;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
-import com.xenoterracide.brix.processor.spi.ConsoleWrapper;
-import com.xenoterracide.brix.util.FileService;
+import com.xenoterracide.brix.util.file.FileService;
+import com.xenoterracide.brix.util.lang.ConsoleWrapper;
 import org.apache.commons.io.file.PathUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

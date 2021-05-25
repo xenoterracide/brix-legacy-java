@@ -90,7 +90,7 @@ class PebbleTemplateProcessor implements Processor {
     }
   }
 
-  void writeTemplate( PebbleTemplate source, Path dest, Map<String, Object> context ) {
+  void writeTemplate( PebbleTemplate source, Path dest, Map<String, @Nullable Object> context ) {
     try {
       var parent = dest.getParent();
 
