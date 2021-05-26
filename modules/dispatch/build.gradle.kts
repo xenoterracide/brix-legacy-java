@@ -10,7 +10,7 @@ dependencies {
   implementation(projects.configLoader.service)
   implementation(projects.processor.api)
   implementation(projects.cli.api)
-  implementation(commons.lang)
-  implementation(spring.context)
+  implementation(libs.commons.lang)
+  implementation(libs.spring.context)
   implementation(libs.vavr)
 }

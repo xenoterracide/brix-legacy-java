@@ -1,6 +1,4 @@
 import net.ltgt.gradle.errorprone.errorprone
-import org.gradle.accessors.dm.LibrariesForChecker
-import org.gradle.accessors.dm.LibrariesForEp
 
 plugins {
   `java-library`
@@ -9,16 +7,13 @@ plugins {
   id("net.ltgt.errorprone")
 }
 
-val checker = the<LibrariesForChecker>()
-val ep = the<LibrariesForEp>()
+val libs = the<org.gradle.accessors.dm.LibrariesForLibs>();
 
 dependencies {
-  errorprone(ep.core)
-  errorprone("com.uber.nullaway:nullaway:0.+")
-  compileOnly(ep.annotations)
-  compileOnly(checker.annotations)
-  testFixturesCompileOnly(checker.annotations)
-  testCompileOnly(checker.annotations)
+  errorprone(libs.bundles.ep)
+  compileOnly(libs.bundles.compile.annotations)
+  testFixturesCompileOnly(libs.bundles.compile.annotations)
+  testCompileOnly(libs.bundles.compile.annotations)
 }
 
 java {
@@ -44,6 +39,9 @@ tasks.withType<JavaCompile>().configureEach {
     disableWarningsInGeneratedCode.set(true)
     excludedPaths.set(".*/build/generated/sources/annotationProcessor/.*")
     option("NullAway:AnnotatedPackages", "com.xenoterracide")
+    option("NullAway:ExcludedFieldAnnotations", "picocli.CommandLine.Option")
+    option("NullAway:ExternalInitAnnotations", "picocli.CommandLine.Option")
+    option("NullAway:CustomInitializerAnnotations", "picocli.CommandLine.Option")
     val errors = mutableListOf(
       "NullAway",
       "AmbiguousMethodReference",
@@ -168,9 +166,6 @@ tasks.withType<JavaCompile>().configureEach {
       "UnnecessaryParentheses", // sketchy
       "UnsafeFinalization",
       "UnsafeReflectiveConstructionCast",
-      "UnusedVariable",
-      "UnusedMethod",
-      "UnusedNestedClass",
       "UseCorrectAssertInTests",
       "VariableNameSameAsType",
       "WaitNotInLoop",
@@ -208,6 +203,16 @@ tasks.withType<JavaCompile>().configureEach {
       "WildcardImport",
       "Var"
     )
+
+    if (System.getProperty("idea.active")?.toBoolean() == false) {
+      errors.addAll(
+        listOf(
+          "UnusedVariable",
+          "UnusedMethod",
+          "UnusedNestedClass",
+        )
+      )
+    }
 
     // if (name != "compileTestJava") errors.add("NullAway")
     if (name == "compileTestJava") option(

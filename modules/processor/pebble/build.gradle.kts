@@ -10,13 +10,13 @@ dependencies {
   implementation(projects.cli.api)
   implementation(projects.util.file)
 
-  implementation(commons.lang)
+  implementation(libs.commons.lang)
   implementation(libs.pebble)
-  implementation(spring.context)
+  implementation(libs.spring.context)
   implementation(libs.vavr)
 
   testImplementation(projects.util.test)
-  testImplementation(spring.bundles.test)
+  testImplementation(libs.bundles.spring.test)
   testImplementation(libs.mockito)
-  testImplementation(commons.io)
+  testImplementation(libs.commons.io)
 }

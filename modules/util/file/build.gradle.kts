@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
-  compileOnly("biz.aQute.bnd:bndlib:2.+") // missing transient dependency of tika
+  compileOnlyApi(libs.bndlib)
   implementation(libs.vavr)
   api(libs.tika)
-  implementation(spring.context)
+  implementation(libs.spring.context)
 }

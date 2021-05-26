@@ -2,7 +2,7 @@
 import com.github.spotbugs.snom.Confidence
 import com.github.spotbugs.snom.Effort
 import com.github.spotbugs.snom.SpotBugsTask
-import org.gradle.accessors.dm.LibrariesForSpring
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
@@ -20,23 +20,14 @@ dependencyLocking {
   lockAllConfigurations()
 }
 
-val spring = the<LibrariesForSpring>()
+val libs = the<LibrariesForLibs>()
 
 dependencies {
-  implementation(platform(spring.platform))
-  testFixturesImplementation(platform(spring.platform))
-
-  runtimeOnly("org.springframework.boot:spring-boot-starter-log4j2")
-
-  implementation("org.apache.logging.log4j:log4j-api")
-  testFixturesImplementation("org.apache.logging.log4j:log4j-api")
-
-  testImplementation("org.junit.jupiter:junit-jupiter-params")
-  testImplementation("org.assertj:assertj-core")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-
-  testRuntimeOnly("org.springframework:spring-test")
-  testImplementation("org.springframework.boot:spring-boot-test")
+  implementation(platform(libs.spring.platform))
+  runtimeOnly(libs.spring.boot.starter.log4j2)
+  implementation(libs.log4j.api)
+  testImplementation(libs.bundles.test)
+  testRuntimeOnly(libs.junit.engine)
 }
 
 tasks.test {

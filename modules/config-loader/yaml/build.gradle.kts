@@ -11,13 +11,11 @@ dependencies {
   testRuntimeOnly(projects.util.file)
 
   implementation(libs.vavr)
+  implementation(libs.bundles.jackson.config)
+  implementation(libs.jackson.dataformat.yaml)
+  runtimeOnly(libs.jackson.databind)
 
-  implementation("com.fasterxml.jackson.core:jackson-core")
-  implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
-  runtimeOnly("com.fasterxml.jackson.core:jackson-databind")
-  implementation("com.fasterxml.jackson.module:jackson-module-parameter-names")
-
-  implementation(spring.context)
-  testImplementation(spring.bundles.test)
+  implementation(libs.spring.context)
+  testImplementation(libs.bundles.spring.test)
   testRuntimeOnly("com.jayway.jsonpath:json-path")
 }

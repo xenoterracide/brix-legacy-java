@@ -6,7 +6,8 @@ plugins {
 dependencies {
   api(projects.cli.api)
   implementation(projects.dispatch)
-  implementation(spring.context)
-  implementation(commons.lang)
-  implementation(picocli.core)
+  compileOnly(libs.errorprone.core)
+  implementation(libs.spring.context)
+  implementation(libs.commons.lang)
+  implementation(libs.picocli.core)
 }

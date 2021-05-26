@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-  implementation(spring.boot.autoconfigure)
+  implementation(libs.spring.boot.autoconfigure)
 }
