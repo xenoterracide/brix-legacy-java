@@ -1,4 +1,5 @@
 import net.ltgt.gradle.errorprone.errorprone
+import org.gradle.accessors.dm.LibrariesForLibs
 
 plugins {
   `java-library`
@@ -7,7 +8,7 @@ plugins {
   id("net.ltgt.errorprone")
 }
 
-val libs = the<org.gradle.accessors.dm.LibrariesForLibs>();
+val libs = the<LibrariesForLibs>();
 
 dependencies {
   errorprone(libs.bundles.ep)
@@ -20,6 +21,10 @@ java {
   toolchain {
     languageVersion.set(JavaLanguageVersion.of(11))
   }
+}
+
+tasks.withType<Jar> {
+  archiveBaseName.set(project.path.substring(1).replace(":", "-"))
 }
 
 tasks.withType<JavaCompile>().configureEach {
@@ -39,9 +44,7 @@ tasks.withType<JavaCompile>().configureEach {
     disableWarningsInGeneratedCode.set(true)
     excludedPaths.set(".*/build/generated/sources/annotationProcessor/.*")
     option("NullAway:AnnotatedPackages", "com.xenoterracide")
-    option("NullAway:ExcludedFieldAnnotations", "picocli.CommandLine.Option")
-    option("NullAway:ExternalInitAnnotations", "picocli.CommandLine.Option")
-    option("NullAway:CustomInitializerAnnotations", "picocli.CommandLine.Option")
+    option("NullAway:CustomInitializerAnnotations", "picocli.CommandLine.Parameters")
     val errors = mutableListOf(
       "NullAway",
       "AmbiguousMethodReference",
@@ -215,11 +218,15 @@ tasks.withType<JavaCompile>().configureEach {
     }
 
     // if (name != "compileTestJava") errors.add("NullAway")
-    if (name == "compileTestJava") option(
-      "NullAway:ExcludedFieldAnnotations",
-      "org.springframework.beans.factory.annotation.Autowired," +
+
+    if (name == "compileTestJava") {
+      val excluded = listOf(
+        "org.springframework.beans.factory.annotation.Autowired",
         "org.springframework.beans.factory.annotation.Value"
-    )
+      )
+      option("NullAway:ExcludedFieldAnnotations", excluded.joinToString(","))
+    }
+
     error(*errors.toTypedArray())
   }
 }

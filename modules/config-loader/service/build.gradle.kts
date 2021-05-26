@@ -17,7 +17,8 @@ dependencies {
   implementation(libs.tika)
   implementation(libs.jackson.databind)
   implementation(libs.spring.context)
-  testImplementation(libs.spring.test)
   implementation(libs.spring.boot.autoconfigure)
   implementation(libs.pebble)
+
+  testImplementation(libs.bundles.spring.test)
 }
