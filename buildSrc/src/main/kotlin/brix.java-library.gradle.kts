@@ -34,6 +34,9 @@ tasks.withType<JavaCompile>().configureEach {
       "-g",
       "-Xlint:all",
       "-Xlint:-processing",
+      "-Xlint:-exports",
+      "-Xlint:-requires-transitive-automatic",
+      "-Xlint:-requires-automatic",
       "-Xlint:-fallthrough" // handled by error prone in a smarter way
     )
   )
@@ -205,8 +208,17 @@ tasks.withType<JavaCompile>().configureEach {
       "Var"
     )
 
+    if (name == "compileTestJava") {
+      options.compilerArgs.addAll(
+        listOf(
+          "-Xlint:-unchecked",
+          "-Xlint:-varargs",
+        )
+      )
+    }
+
     if (!providers.systemProperty("idea.active").forUseAtConfigurationTime().isPresent) {
-      // if (name != "compileTestJava") options.compilerArgs.add("-Werror")
+      if (name != "compileTestJava") options.compilerArgs.add("-Werror")
       errors.addAll(
         listOf(
           "UnusedVariable",
