@@ -61,7 +61,7 @@ class ConfigValueProcessor {
     bldr.destination( Path.of( this.processTemplate( config.getDestination(), context ) ) );
 
     config.getSource().ifPresent( src -> {
-      bldr.source( Path.of( this.processTemplate( src, context ) ) );
+      bldr.source( toConfig.getParent().resolve( this.processTemplate( src, context ) ) );
     } );
     return bldr.build();
   }

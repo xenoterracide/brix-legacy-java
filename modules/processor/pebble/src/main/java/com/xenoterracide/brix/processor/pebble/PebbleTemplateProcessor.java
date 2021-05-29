@@ -92,6 +92,7 @@ class PebbleTemplateProcessor implements Processor {
 
   void writeTemplate( PebbleTemplate source, Path dest, Map<String, @Nullable Object> context ) {
     try {
+      log.debug( "outputting to: '{}'", dest.toAbsolutePath() );
       var parent = dest.getParent();
 
       // this shouldn't happen because dest, should be a file and so it should always have a parent
@@ -100,14 +101,14 @@ class PebbleTemplateProcessor implements Processor {
       }
 
       if ( !Files.exists( parent ) ) {
-        log.debug( "creating directory: {}", parent );
+        log.trace( "creating directory: {}", parent.toAbsolutePath() );
         Files.createDirectories( parent );
       }
     }
     catch ( IOException e ) {
       throw new UncheckedIOException( e );
     }
-    log.debug( "creating file: {}", dest );
+    log.trace( "creating file: {}", dest.toAbsolutePath() );
     try ( var fw = new FileWriter( dest.toFile(), StandardCharsets.UTF_8 ) ) {
       source.evaluate( fw, context );
     }
