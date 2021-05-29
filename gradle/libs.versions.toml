@@ -30,6 +30,7 @@ picocli-core = { module = "info.picocli:picocli", version.ref = "picocli" }
 picocli-starter = { module = "info.picocli:picocli-spring-boot-starter", version.ref = "picocli" }
 spring-platform = "org.springframework.boot:spring-boot-starter-parent:2.+"
 spring-context = { module = "org.springframework:spring-context" }
+spring-core = { module = "org.springframework:spring-core" }
 spring-test = { module = "org.springframework:spring-test" }
 spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure" }
 spring-boot-starter-core = { module = "org.springframework.boot:spring-boot-starter" }

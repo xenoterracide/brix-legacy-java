@@ -5,25 +5,30 @@
  */
 package com.xenoterracide.brix;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.FileSystemUtils;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ApplicationTest {
 
   @Test
-  void main() throws URISyntaxException {
+  void main() throws URISyntaxException, IOException {
     var resourceRoot = this.getClass().getClassLoader().getResource( "brix" ).toURI();
-    var proj = RandomStringUtils.randomAlphanumeric( 10 );
+    var proj = "tmp-" + UUID.randomUUID().toString();
 
     Application.exec( "--repo", Path.of( resourceRoot ).toString(), "java", "module", proj );
 
-    assertThat( Path.of( proj ).resolve( "test.txt" ).toAbsolutePath() )
+    var projPath = Path.of( proj );
+    assertThat( projPath.resolve( "test.txt" ).toAbsolutePath() )
       .exists()
       .hasContent( "java" );
+
+    FileSystemUtils.deleteRecursively( projPath );
   }
 }

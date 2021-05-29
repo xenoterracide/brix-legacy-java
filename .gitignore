@@ -56,7 +56,7 @@ hs_err_pid*
 ### Eclipse template
 .metadata
 bin/
-tmp/
+tmp*/
 *.tmp
 *.bak
 *.swp

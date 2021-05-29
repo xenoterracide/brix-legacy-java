@@ -15,5 +15,5 @@ dependencies {
   runtimeOnly(libs.spring.boot.starter.core)
   implementation(libs.picocli.core)
   runtimeOnly(libs.picocli.starter)
-  testImplementation(libs.commons.lang)
+  testImplementation(libs.spring.core)
 }
