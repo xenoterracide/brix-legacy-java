@@ -1,4 +1,4 @@
-package com.xenoterracide.cli.config;
+package com.xenoterracide.brix.cli.config;
 
 import com.xenoterracide.brix.cli.api.CliConfiguration;
 import com.xenoterracide.brix.dispatch.Dispatcher;
