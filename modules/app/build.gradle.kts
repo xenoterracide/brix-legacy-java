@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 group = "com.xenoterracide.brix"
 version = "0.1.0"
 
@@ -16,4 +18,11 @@ dependencies {
   implementation(libs.picocli.core)
   runtimeOnly(libs.picocli.starter)
   testImplementation(libs.spring.core)
+}
+
+tasks.withType<BootJar> {
+  mainClass.set("com.xenoterracide.brix.Application")
+  layered {
+    isEnabled = true
+  }
 }

@@ -206,7 +206,7 @@ tasks.withType<JavaCompile>().configureEach {
     )
 
     if (!providers.systemProperty("idea.active").forUseAtConfigurationTime().isPresent) {
-      if (name != "compileTestJava") options.compilerArgs.add("-Werror")
+      // if (name != "compileTestJava") options.compilerArgs.add("-Werror")
       errors.addAll(
         listOf(
           "UnusedVariable",
