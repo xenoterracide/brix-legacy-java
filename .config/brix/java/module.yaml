@@ -1,0 +1,3 @@
+fileConfigurations:
+- source: TestApplication.java.peb
+  destination: '{{moduleType}}/src/test/java/com/xenoterracide/TestApplication.java'
