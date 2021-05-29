@@ -20,8 +20,10 @@ class ApplicationTest {
     var resourceRoot = this.getClass().getClassLoader().getResource( "brix" ).toURI();
     var proj = RandomStringUtils.randomAlphanumeric( 10 );
 
-    Application.main( "--repo", Path.of( resourceRoot ).toString(), "java", "module", proj );
+    Application.exec( "--repo", Path.of( resourceRoot ).toString(), "java", "module", proj );
 
-    assertThat( Path.of( proj ) ).exists();
+    assertThat( Path.of( proj ).resolve( "test.txt" ).toAbsolutePath() )
+      .exists()
+      .hasContent( "java" );
   }
 }

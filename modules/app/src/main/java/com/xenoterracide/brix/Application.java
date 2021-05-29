@@ -33,7 +33,11 @@ public class Application
 
   public static void main( String... args ) {
     // let Spring instantiate and inject dependencies
-    System.exit( SpringApplication.exit( SpringApplication.run( Application.class, args ) ) );
+    System.exit( exec( args ) );
+  }
+
+  static int exec( String... args ) {
+    return SpringApplication.exit( SpringApplication.run( Application.class, args ) );
   }
 
   @Override
