@@ -32,7 +32,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
     - run: ./gradlew --version
-    - run: ./gradlew build --info
+    - run: ./gradlew build --parallel
     - name: Release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/v')
