@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -61,7 +62,8 @@ class ConfigValueProcessor {
     bldr.destination( Path.of( this.processTemplate( config.getDestination(), context ) ) );
 
     config.getSource().ifPresent( src -> {
-      bldr.source( toConfig.getParent().resolve( this.processTemplate( src, context ) ) );
+      var parent = Objects.requireNonNull( toConfig.getParent() );
+      bldr.source( parent.resolve( this.processTemplate( src, context ) ) );
     } );
     return bldr.build();
   }
@@ -70,7 +72,7 @@ class ConfigValueProcessor {
   Map<String, @Nullable Object> getContext( Path toConfig, Map<String, String> context ) {
     var map = new HashMap<String, @Nullable Object>( context );
     map.put( "name", cliConfiguration.getName() );
-    map.put( "module", cliConfiguration.getModuleType() );
+    map.put( "moduleType", cliConfiguration.getModuleType() );
     map.put( "language", cliConfiguration.getLanguage() );
     map.put( "project", cliConfiguration.getProject() );
     map.put( "configDir", toConfig.getParent() );

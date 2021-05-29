@@ -8,10 +8,13 @@
   </Match>
   <Match>
     <And>
-      <And>
-        <Class name="com.xenoterracide.brix.configloader.service.BrixConfigLoaderConfig"/>
-        <Method name="findConfig" returns="java.util.Optional" params="java.lang.String, java.nio.file.Path"/>
-      </And>
+      <Or>
+        <And>
+          <Class name="com.xenoterracide.brix.configloader.service.BrixConfigLoaderConfig"/>
+          <Method name="findConfig" returns="java.util.Optional" params="java.lang.String, java.nio.file.Path"/>
+        </And>
+        <Class name="com.xenoterracide.brix.configloader.service.ConfigValueProcessor"/>
+      </Or>
       <Bug pattern="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"/>
     </And>
   </Match>
