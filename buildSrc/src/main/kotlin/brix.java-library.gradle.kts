@@ -38,8 +38,6 @@ tasks.withType<JavaCompile>().configureEach {
     )
   )
 
-  if (this.name != "compileTestJava") options.compilerArgs.add("-Werror")
-
   options.errorprone {
     disableWarningsInGeneratedCode.set(true)
     excludedPaths.set(".*/build/generated/sources/annotationProcessor/.*")
@@ -207,7 +205,8 @@ tasks.withType<JavaCompile>().configureEach {
       "Var"
     )
 
-    if (System.getProperty("idea.active")?.toBoolean() == false) {
+    if (!providers.systemProperty("idea.active").forUseAtConfigurationTime().isPresent) {
+      if (name != "compileTestJava") options.compilerArgs.add("-Werror")
       errors.addAll(
         listOf(
           "UnusedVariable",
