@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 @Component
-@Scope(proxyMode = ScopedProxyMode.INTERFACES)
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CliCommand implements CliConfiguration, Runnable {
 
   private final Dispatcher dispatcher;

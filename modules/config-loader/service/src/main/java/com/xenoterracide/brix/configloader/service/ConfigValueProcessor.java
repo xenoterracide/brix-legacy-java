@@ -5,7 +5,6 @@
  */
 package com.xenoterracide.brix.configloader.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.xenoterracide.brix.cli.api.CliConfiguration;
 import com.xenoterracide.brix.configloader.api.ImmutableProcessedConfig;
@@ -34,16 +33,12 @@ class ConfigValueProcessor {
 
   private final CliConfiguration cliConfiguration;
 
-  private final ObjectMapper mapper;
-
   ConfigValueProcessor(
     CliConfiguration cliConfiguration,
-    PebbleEngine stringEngine,
-    ObjectMapper objectMapper
+    PebbleEngine stringEngine
   ) {
     this.engine = stringEngine;
     this.cliConfiguration = cliConfiguration;
-    this.mapper = objectMapper;
   }
 
   public ProcessedConfig from( Path toConfig, RawConfig config ) {
@@ -73,9 +68,11 @@ class ConfigValueProcessor {
 
   @SuppressWarnings("unchecked")
   Map<String, @Nullable Object> getContext( Path toConfig, Map<String, String> context ) {
-    var map = new HashMap<String, @Nullable Object>();
-    map.putAll( context );
-    map.putAll( mapper.convertValue( cliConfiguration, Map.class ) );
+    var map = new HashMap<String, @Nullable Object>( context );
+    map.put( "name", cliConfiguration.getName() );
+    map.put( "module", cliConfiguration.getModuleType() );
+    map.put( "language", cliConfiguration.getLanguage() );
+    map.put( "project", cliConfiguration.getProject() );
     map.put( "configDir", toConfig.getParent() );
     return Collections.unmodifiableMap( map );
   }
