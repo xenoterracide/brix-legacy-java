@@ -49,7 +49,9 @@ class ConfigValueProcessor {
       .map( c -> this.from( toConfig, c ) )
       .collect( Collectors.toList() );
 
-    var processed = ImmutableProcessedConfig.builder().fileConfigurations( fcs ).build();
+    var processed = ImmutableProcessedConfig.builder()
+      .fileConfigurations( fcs )
+      .build();
     log.debug( "processed: {}", processed );
     return processed;
   }
