@@ -13,36 +13,32 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 @Component
-public class Dispatcher implements Runnable {
+public class Dispatcher implements Consumer<CliConfiguration> {
   private final Logger log = LogManager.getLogger( Dispatcher.class );
 
   private final List<Processor> processors;
-
-  private final CliConfiguration cliConfig;
 
   private final ConfigLoaderService loaderService;
 
   Dispatcher(
     List<Processor> processors,
-    CliConfiguration cliConfig,
     ConfigLoaderService loaderService
   ) {
     this.processors = processors;
-    this.cliConfig = cliConfig;
     this.loaderService = loaderService;
   }
 
   @Override
-  public void run() {
-    log.debug( "processed args: {}", cliConfig );
+  public void accept( CliConfiguration cliConfiguration ) {
+    log.debug( "processed args: {}", cliConfiguration );
 
-    var config = loaderService.findAndLoad( cliConfig );
+    var config = loaderService.findAndLoad( cliConfiguration );
 
     config.getFileConfigurations().forEach( fileConfig -> {
       processors.forEach( p -> p.process( fileConfig ) );
     } );
   }
-
 }

@@ -9,6 +9,8 @@ plugins {
 
 dependencies {
   implementation(projects.cli.config)
+  runtimeOnly(projects.configLoader.yaml)
+  runtimeOnly(projects.processor.pebble)
   implementation(libs.spring.boot.autoconfigure)
   runtimeOnly(libs.spring.boot.starter.core)
   implementation(libs.picocli.core)

@@ -6,7 +6,6 @@
 package com.xenoterracide.brix;
 
 import com.xenoterracide.brix.cli.api.CliConfiguration;
-import com.xenoterracide.brix.cli.config.CliCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.CommandLineRunner;
@@ -27,7 +26,7 @@ public class Application
 
   private int exitCode;
 
-  Application( CommandLine.IFactory factory, CliCommand cliCommand ) {
+  Application( CommandLine.IFactory factory, CliConfiguration cliCommand ) {
     this.factory = factory;
     this.cliCommand = cliCommand;
   }

@@ -5,6 +5,8 @@ import com.xenoterracide.brix.dispatch.Dispatcher;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
 
@@ -13,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 @Component
+@Scope(proxyMode = ScopedProxyMode.INTERFACES)
 public class CliCommand implements CliConfiguration, Runnable {
 
   private final Dispatcher dispatcher;
@@ -124,7 +127,8 @@ public class CliCommand implements CliConfiguration, Runnable {
   }
 
   @Override
+  @CommandLine.Command
   public void run() {
-    dispatcher.run();
+    dispatcher.accept( this );
   }
 }
