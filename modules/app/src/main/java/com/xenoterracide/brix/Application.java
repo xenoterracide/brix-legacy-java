@@ -31,7 +31,7 @@ public class Application
     this.cliCommand = cliCommand;
   }
 
-  public static void main( String[] args ) {
+  public static void main( String... args ) {
     // let Spring instantiate and inject dependencies
     System.exit( SpringApplication.exit( SpringApplication.run( Application.class, args ) ) );
   }

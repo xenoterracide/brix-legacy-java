@@ -31,6 +31,7 @@ spring-platform = "org.springframework.boot:spring-boot-starter-parent:2.+"
 spring-context = { module = "org.springframework:spring-context" }
 spring-test = { module = "org.springframework:spring-test" }
 spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure" }
+spring-boot-starter-core = { module = "org.springframework.boot:spring-boot-starter" }
 spring-boot-starter-log4j2 = { module = "org.springframework.boot:spring-boot-starter-log4j2" }
 spring-boot-test-core = { module = "org.springframework.boot:spring-boot-test" }
 spring-boot-test-autoconfigure = { module = "org.springframework.boot:spring-boot-test-autoconfigure" }
