@@ -208,15 +208,6 @@ tasks.withType<JavaCompile>().configureEach {
       "Var"
     )
 
-    if (name == "compileTestJava") {
-      options.compilerArgs.addAll(
-        listOf(
-          "-Xlint:-unchecked",
-          "-Xlint:-varargs",
-        )
-      )
-    }
-
     if (!providers.systemProperty("idea.active").forUseAtConfigurationTime().isPresent) {
       if (name != "compileTestJava") options.compilerArgs.add("-Werror")
       errors.addAll(
@@ -231,6 +222,12 @@ tasks.withType<JavaCompile>().configureEach {
     // if (name != "compileTestJava") errors.add("NullAway")
 
     if (name == "compileTestJava") {
+      options.compilerArgs.addAll(
+        listOf(
+          "-Xlint:-unchecked",
+          "-Xlint:-varargs",
+        )
+      )
       val excluded = listOf(
         "org.springframework.beans.factory.annotation.Autowired",
         "org.springframework.beans.factory.annotation.Value"
