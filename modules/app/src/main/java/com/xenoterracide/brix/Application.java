@@ -290,7 +290,6 @@ public class Application
   }
 
   public static void main( String... args ) {
-    // let Spring instantiate and inject dependencies
     System.exit( exec( args ) );
   }
 
