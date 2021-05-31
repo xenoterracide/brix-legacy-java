@@ -1,8 +1,8 @@
 /*
-* Copyright © 2020-2021 Caleb Cushing.
-* Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
-* https://choosealicense.com/licenses/apache-2.0/#
-*/
+ * Copyright © 2020-2021 Caleb Cushing.
++ * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+ * https://choosealicense.com/licenses/apache-2.0/#
+ */
 package com.xenoterracide.brix.configloader.yaml;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +11,7 @@ import com.xenoterracide.brix.configloader.api.RawConfig;
 import io.vavr.control.Try;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypes;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -21,11 +22,11 @@ class YamlConfigLoader implements ConfigLoader {
 
   private final ObjectMapper mapper;
 
-  private final MimeTypes mimeTypes;
+  private final ObjectFactory<MimeTypes> mimeTypes;
 
   YamlConfigLoader(
     ObjectMapper yamlMapper,
-    MimeTypes mimeTypes
+    ObjectFactory<MimeTypes> mimeTypes
   ) {
     this.mapper = yamlMapper;
     this.mimeTypes = mimeTypes;
@@ -38,6 +39,6 @@ class YamlConfigLoader implements ConfigLoader {
 
   @Override
   public MimeType mimeType() {
-    return Try.of( () -> mimeTypes.forName( "text/x-yaml" ) ).get();
+    return Try.of( () -> mimeTypes.getObject().forName( "text/x-yaml" ) ).get();
   }
 }
