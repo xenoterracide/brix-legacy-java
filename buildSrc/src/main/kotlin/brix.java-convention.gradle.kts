@@ -97,7 +97,7 @@ spotless {
     licenseHeader(
       String.format(
         "/*%n" +
-          " * $copyright%n+" +
+          " * $copyright%n" +
           " * $license%n" +
           " * $licenseSimple%n" +
           " */%n"
