@@ -1,4 +1,3 @@
-
 import com.github.spotbugs.snom.Confidence
 import com.github.spotbugs.snom.Effort
 import com.github.spotbugs.snom.SpotBugsTask
@@ -95,13 +94,11 @@ spotless {
   ratchetFrom = "HEAD"
   java {
     licenseHeader(
-      String.format(
-        "/*%n" +
-          " * $copyright%n" +
-          " * $license%n" +
-          " * $licenseSimple%n" +
-          " */%n"
-      )
+      "/*\n" +
+        " * $copyright\n" +
+        " * $license\n" +
+        " * $licenseSimple\n" +
+        " */\n"
     )
   }
 }
