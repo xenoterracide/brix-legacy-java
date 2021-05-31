@@ -9,9 +9,9 @@ file("modules").walkTopDown().maxDepth(3).onEnter { f ->
 }.asIterable()
   .filter { f -> Files.exists(f.toPath().resolve("build.gradle.kts")) }
   .map { f -> f.toPath().toString() }
-  .map { path -> path.substringAfter("/modules") }
+  .map { path -> path.substringAfter(File.separator + "modules") }
   .forEach { relPath ->
-    val proj = relPath.replace("/", ":")
+    val proj = relPath.replace(File.separator, ":")
     include(proj)
     project(proj).projectDir = file("modules$relPath")
   }
