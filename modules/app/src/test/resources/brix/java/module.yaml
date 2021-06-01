@@ -1,3 +1,0 @@
-fileConfigurations:
-- source: test.txt.peb
-  destination: '{{project}}/test.txt'
