@@ -17,5 +17,5 @@ fn next(matches: ArgMatches<'static>) -> Result<(), Box<dyn std::error::Error>> 
     let config = Config::new(matches);
     println!("{}", config);
 
-    Ok(())
+    process::exit(0);
 }
