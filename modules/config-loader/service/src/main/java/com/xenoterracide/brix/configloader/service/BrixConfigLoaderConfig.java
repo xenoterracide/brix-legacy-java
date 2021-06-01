@@ -10,16 +10,20 @@ import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.loader.StringLoader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 
 @Configuration
 class BrixConfigLoaderConfig {
 
   @Bean
+  @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
   ObjectMapper objectMapper() {
     return new ObjectMapper();
   }
 
   @Bean
+  @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
   PebbleEngine stringEngine() {
     return new PebbleEngine.Builder()
       .newLineTrimming( false )

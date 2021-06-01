@@ -1,4 +1,3 @@
-
 import com.github.spotbugs.snom.Confidence
 import com.github.spotbugs.snom.Effort
 import com.github.spotbugs.snom.SpotBugsTask
@@ -96,10 +95,10 @@ spotless {
   java {
     licenseHeader(
       "/*\n" +
-        "* $copyright\n" +
-        "* $license\n" +
-        "* $licenseSimple\n" +
-        "*/"
+        " * $copyright\n" +
+        " * $license\n" +
+        " * $licenseSimple\n" +
+        " */\n"
     )
   }
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2021 Caleb Cushing.
- * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
++ * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
  * https://choosealicense.com/licenses/apache-2.0/#
  */
 package com.xenoterracide.brix.configloader.yaml;
@@ -11,11 +11,14 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 
 @Configuration()
 class YamlConfig {
 
   @Bean
+  @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
   ObjectMapper yamlMapper() {
     return new ObjectMapper( new YAMLFactory() )
       .registerModule( new ParameterNamesModule() )

@@ -10,6 +10,7 @@ import org.apache.tika.Tika;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -19,9 +20,9 @@ import java.nio.file.Path;
 public class FileService {
   private final Tika tika;
 
-  private final MimeTypes mimeTypes;
+  private final ObjectFactory<MimeTypes> mimeTypes;
 
-  FileService( Tika tika, MimeTypes mimeTypes ) {
+  FileService( Tika tika, ObjectFactory<MimeTypes> mimeTypes ) {
     this.tika = tika;
     this.mimeTypes = mimeTypes;
   }
@@ -34,6 +35,6 @@ public class FileService {
   }
 
   public MimeType detect( Path path ) throws IOException, MimeTypeException {
-    return mimeTypes.forName( tika.detect( path ) );
+    return mimeTypes.getObject().forName( tika.detect( path ) );
   }
 }

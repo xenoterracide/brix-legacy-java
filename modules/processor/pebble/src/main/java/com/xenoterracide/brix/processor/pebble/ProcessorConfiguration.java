@@ -10,6 +10,8 @@ import com.mitchellbosecke.pebble.loader.FileLoader;
 import com.xenoterracide.brix.util.lang.ConsoleWrapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 
 @Configuration
 class ProcessorConfiguration {
@@ -20,6 +22,7 @@ class ProcessorConfiguration {
   }
 
   @Bean
+  @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
   PebbleEngine fileEngine() {
     return new PebbleEngine.Builder()
       .newLineTrimming( false )
