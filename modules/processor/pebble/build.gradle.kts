@@ -8,7 +8,8 @@ dependencies {
   api(projects.processor.api)
   implementation(projects.configLoader.api)
   implementation(projects.cli.api)
-  implementation(projects.util.file)
+  implementation(projects.service.file)
+  runtimeOnly(projects.service.console)
 
   implementation(libs.commons.lang)
   implementation(libs.pebble)

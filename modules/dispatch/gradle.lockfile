@@ -2,6 +2,7 @@
 # Manual edits can break the build and are not advised.
 # This file is expected to be part of source control.
 antlr:antlr:2.7.7=checkstyle
+biz.aQute.bnd:bndlib:2.4.0=compileClasspath,testCompileClasspath
 com.fasterxml.jackson.core:jackson-annotations:2.12.3=runtimeClasspath,testFixturesRuntimeClasspath,testRuntimeClasspath
 com.fasterxml.jackson.core:jackson-core:2.12.3=runtimeClasspath,testFixturesRuntimeClasspath,testRuntimeClasspath
 com.fasterxml.jackson.core:jackson-databind:2.12.3=runtimeClasspath,testFixturesRuntimeClasspath,testRuntimeClasspath
@@ -32,6 +33,7 @@ com.puppycrawl.tools:checkstyle:8.37=checkstyle
 com.uber.nullaway:nullaway:0.9.1=annotationProcessor,errorprone,testAnnotationProcessor,testFixturesAnnotationProcessor
 commons-beanutils:commons-beanutils:1.9.4=checkstyle
 commons-collections:commons-collections:3.2.2=checkstyle
+commons-io:commons-io:2.9.0=runtimeClasspath,testFixturesRuntimeClasspath,testRuntimeClasspath
 info.picocli:picocli:4.5.2=checkstyle
 io.github.java-diff-utils:java-diff-utils:4.0=annotationProcessor,errorprone,testAnnotationProcessor,testFixturesAnnotationProcessor
 io.pebbletemplates:pebble:3.1.5=runtimeClasspath,testFixturesRuntimeClasspath,testRuntimeClasspath
@@ -52,7 +54,7 @@ org.apache.tika:tika-core:1.26=compileClasspath,runtimeClasspath,testCompileClas
 org.apiguardian:apiguardian-api:1.1.0=testCompileClasspath,testRuntimeClasspath
 org.assertj:assertj-core:3.19.0=testCompileClasspath,testRuntimeClasspath
 org.checkerframework:checker-qual:2.11.1=checkstyle
-org.checkerframework:checker-qual:3.13.0=compileClasspath,testCompileClasspath,testFixturesCompileClasspath
+org.checkerframework:checker-qual:3.14.0=compileClasspath,testCompileClasspath,testFixturesCompileClasspath
 org.checkerframework:checker-qual:3.8.0=annotationProcessor,errorprone,testAnnotationProcessor,testFixturesAnnotationProcessor
 org.checkerframework:dataflow-shaded:3.11.0=annotationProcessor,errorprone,testAnnotationProcessor,testFixturesAnnotationProcessor
 org.checkerframework:dataflow:3.6.0=annotationProcessor,errorprone,testAnnotationProcessor,testFixturesAnnotationProcessor
@@ -68,6 +70,7 @@ org.junit.platform:junit-platform-engine:1.7.2=testRuntimeClasspath
 org.junit:junit-bom:5.7.1=spotbugs
 org.junit:junit-bom:5.7.2=testCompileClasspath,testRuntimeClasspath
 org.opentest4j:opentest4j:1.2.0=testCompileClasspath,testRuntimeClasspath
+org.osgi:org.osgi.core:4.3.1=compileClasspath,testCompileClasspath
 org.ow2.asm:asm-analysis:9.1=spotbugs
 org.ow2.asm:asm-commons:9.1=spotbugs
 org.ow2.asm:asm-tree:9.1=spotbugs

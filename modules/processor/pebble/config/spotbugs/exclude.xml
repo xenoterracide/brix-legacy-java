@@ -6,11 +6,17 @@
   <Match>
     <And>
       <And>
-        <Class name="com.xenoterracide.brix.processor.pebble.PebbleTemplateProcessor"/>
+        <Class name="com.xenoterracide.brix.processor.copy.PebbleTemplateProcessor"/>
         <Method name="process" returns="void"
                 params="com.xenoterracide.brix.configloader.api.ProcessedFileConfiguration"/>
       </And>
       <Bug pattern="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"/>
+    </And>
+  </Match>
+  <Match>
+    <And>
+      <Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR"/>
+      <Class name="com.xenoterracide.brix.processor.pebble.PebbleTemplateProcessorTest"/>
     </And>
   </Match>
 </FindBugsFilter>

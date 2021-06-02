@@ -12,6 +12,7 @@ import com.xenoterracide.brix.configloader.api.ProcessedConfig;
 import com.xenoterracide.brix.configloader.api.ProcessedFileConfiguration;
 import com.xenoterracide.brix.configloader.api.RawConfig;
 import com.xenoterracide.brix.configloader.api.RawFileConfiguration;
+import com.xenoterracide.brix.util.lang.ObjectUtils;
 import io.vavr.control.Try;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +24,6 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -64,7 +64,7 @@ class ConfigValueProcessor {
     bldr.destination( Path.of( this.processTemplate( config.getDestination(), context ) ) );
 
     config.getSource().ifPresent( src -> {
-      var parent = Objects.requireNonNull( toConfig.getParent() );
+      var parent = ObjectUtils.requireNonNull( toConfig.getParent(), "config parent" );
       bldr.source( parent.resolve( this.processTemplate( src, context ) ) );
     } );
     return bldr.build();

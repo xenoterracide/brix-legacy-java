@@ -47,7 +47,6 @@ tasks.withType<JavaCompile>().configureEach {
     option("NullAway:AnnotatedPackages", "com.xenoterracide")
     option("NullAway:CustomInitializerAnnotations", "picocli.CommandLine.Parameters")
     val errors = mutableListOf(
-      "NullAway",
       "AmbiguousMethodReference",
       "ArgumentSelectionDefectChecker",
       "ArrayAsKeyOfSetOrMap",
@@ -209,7 +208,6 @@ tasks.withType<JavaCompile>().configureEach {
     )
 
     if (!providers.systemProperty("idea.active").forUseAtConfigurationTime().isPresent) {
-      if (name != "compileTestJava") options.compilerArgs.add("-Werror")
       errors.addAll(
         listOf(
           "UnusedVariable",
@@ -219,7 +217,10 @@ tasks.withType<JavaCompile>().configureEach {
       )
     }
 
-    // if (name != "compileTestJava") errors.add("NullAway")
+    if (name != "compileTestJava") {
+      options.compilerArgs.add("-Werror")
+      errors.add("NullAway")
+    }
 
     if (name == "compileTestJava") {
       options.compilerArgs.addAll(
@@ -228,11 +229,6 @@ tasks.withType<JavaCompile>().configureEach {
           "-Xlint:-varargs",
         )
       )
-      val excluded = listOf(
-        "org.springframework.beans.factory.annotation.Autowired",
-        "org.springframework.beans.factory.annotation.Value"
-      )
-      option("NullAway:ExcludedFieldAnnotations", excluded.joinToString(","))
     }
 
     error(*errors.toTypedArray())

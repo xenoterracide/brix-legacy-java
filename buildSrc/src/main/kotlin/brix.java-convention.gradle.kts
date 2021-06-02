@@ -94,11 +94,13 @@ spotless {
   ratchetFrom = "HEAD"
   java {
     licenseHeader(
-      "/*\n" +
-        " * $copyright\n" +
-        " * $license\n" +
-        " * $licenseSimple\n" +
-        " */\n"
+      String.format(
+        "/*%n" +
+        " * $copyright%n" +
+        " * $license%n" +
+        " * $licenseSimple%n" +
+        " */%n"
+      )
     )
   }
 }

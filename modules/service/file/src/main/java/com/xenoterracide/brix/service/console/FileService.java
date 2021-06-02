@@ -3,7 +3,7 @@
  * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
  * https://choosealicense.com/licenses/apache-2.0/#
  */
-package com.xenoterracide.brix.util.file;
+package com.xenoterracide.brix.service.console;
 
 import io.vavr.control.Try;
 import org.apache.tika.Tika;
@@ -30,7 +30,7 @@ public class FileService {
   public boolean isBinary( Path path ) {
     return Try.of( () -> {
       var mimeType = this.detect( path );
-      return mimeType.getType().getType().equals( "text" );
+      return !mimeType.getType().getType().equals( "text" );
     } ).getOrElse( false );
   }
 

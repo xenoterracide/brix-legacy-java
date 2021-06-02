@@ -8,7 +8,7 @@ dependencies {
   implementation(projects.cli.api)
   testImplementation(testFixtures(projects.cli.api))
   testRuntimeOnly(projects.util.test)
-  testRuntimeOnly(projects.util.file)
+  testRuntimeOnly(projects.service.file)
 
   implementation(libs.vavr)
   implementation(libs.bundles.jackson.config)

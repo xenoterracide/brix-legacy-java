@@ -5,6 +5,7 @@
  */
 package com.xenoterracide.brix.configloader.api;
 
+import com.xenoterracide.brix.util.lang.ObjectUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
@@ -12,7 +13,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.nio.file.Path;
 import java.util.Map;
-import java.util.Objects;
 
 public class ProcessedFileConfiguration {
 
@@ -95,7 +95,7 @@ public class ProcessedFileConfiguration {
     }
 
     public ProcessedFileConfiguration build() {
-      var dest = Objects.requireNonNull( destination, "destination" );
+      var dest = ObjectUtils.requireNonNull( destination, "destination" );
       return new ProcessedFileConfiguration( context, overwrite, source, dest );
     }
   }

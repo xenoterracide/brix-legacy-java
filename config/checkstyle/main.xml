@@ -179,11 +179,11 @@
     <!-- Checks for whitespace                               -->
     <!-- See https://checkstyle.org/config_whitespace.html -->
     <module name="OperatorWrap">
-      <property name="tokens" value="QUESTION, COLON"/>
+      <property name="tokens" value="QUESTION, COLON, LAND, LOR"/>
     </module>
     <module name="OperatorWrap">
       <property name="tokens" value="EQUAL, NOT_EQUAL, DIV, PLUS, MINUS, STAR, MOD, SR, BSR, GE, GT, SL, LE, LT, BXOR,
-     BOR, LOR, BAND, LAND, TYPE_EXTENSION_AND, LITERAL_INSTANCEOF"
+     BOR, BAND, TYPE_EXTENSION_AND, LITERAL_INSTANCEOF"
       />
       <property name="option" value="eol"/>
     </module>
