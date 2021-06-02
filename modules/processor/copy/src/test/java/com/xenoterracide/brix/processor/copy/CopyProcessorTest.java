@@ -58,6 +58,24 @@ class CopyProcessorTest {
     assertThat( processor.shouldProcess( config ) ).isEqualTo( shouldProcess );
   }
 
+  @ParameterizedTest
+  @ArgumentsSource(Source.class)
+  void process( String filename ) {
+    var dir = Path.of( "../../../gradle/wrapper" );
+
+    var config = ProcessedFileConfiguration.builder()
+      .context( Map.of() )
+      .overwrite( true )
+      .source( dir.resolve( filename ) )
+      .destination( workdir.resolve( filename ) )
+      .build();
+
+    assertThat( config.getSource().toAbsolutePath() ).exists();
+    assertThat( config.getDestination().toAbsolutePath() ).doesNotExist();
+    processor.process( config );
+    assertThat( config.getDestination().toAbsolutePath() ).exists();
+  }
+
   static class Source implements ArgumentsProvider {
 
     @Override
