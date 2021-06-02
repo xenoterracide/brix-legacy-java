@@ -3,7 +3,7 @@
  * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
  * https://choosealicense.com/licenses/apache-2.0/#
  */
-package com.xenoterracide.brix.processor.copy;
+package com.xenoterracide.brix.processor.pebble;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.xenoterracide.brix.configloader.api.ProcessedFileConfiguration;
@@ -46,6 +46,7 @@ class PebbleTemplateProcessor extends AbstractProcessorBase {
     return fc.getSource() != null && !fs.isBinary( fc.getSource() );
   }
 
+  @Override
   protected void writeTemplate( Path source, Path dest, Map<String, @Nullable Object> context ) {
     var template = fileEngine.getTemplate( source.toAbsolutePath().toString() );
     log.trace( "creating file: {}", dest.toAbsolutePath() );
