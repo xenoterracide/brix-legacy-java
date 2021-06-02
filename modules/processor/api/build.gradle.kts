@@ -9,4 +9,6 @@ dependencies {
   api(projects.service.file)
   api(projects.util.lang)
   implementation(libs.commons.lang)
+  testImplementation(libs.mockito)
+  testImplementation(libs.commons.io)
 }

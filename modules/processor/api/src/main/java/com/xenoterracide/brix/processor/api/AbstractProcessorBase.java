@@ -38,7 +38,7 @@ public abstract class AbstractProcessorBase implements Processor {
 
       // this shouldn't happen because dest, should be a file and so it should always have a parent
       if ( parent == null ) {
-        throw new RuntimeException( "destination should have a parent directory" );
+        throw new IllegalArgumentException( "destination should have a parent directory" );
       }
 
       if ( !Files.exists( parent ) ) {
