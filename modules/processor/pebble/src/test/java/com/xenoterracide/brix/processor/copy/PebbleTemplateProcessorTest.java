@@ -3,10 +3,10 @@
  * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
  * https://choosealicense.com/licenses/apache-2.0/#
  */
-package com.xenoterracide.brix.processor.pebble;
+package com.xenoterracide.brix.processor.copy;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
-import com.xenoterracide.brix.util.file.FileService;
+import com.xenoterracide.brix.service.console.FileService;
 import com.xenoterracide.brix.util.lang.ConsoleWrapper;
 import org.apache.commons.io.file.PathUtils;
 import org.junit.jupiter.api.Test;

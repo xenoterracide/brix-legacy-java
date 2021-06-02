@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-  runtimeOnly(projects.util.file)
+  runtimeOnly(projects.service.file)
   api(projects.configLoader.api)
   implementation(projects.cli.api)
   implementation(projects.util.lang)

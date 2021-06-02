@@ -1,4 +1,3 @@
-import net.ltgt.gradle.errorprone.errorprone
 import org.gradle.accessors.dm.LibrariesForLibs
 
 plugins {
@@ -47,7 +46,6 @@ tasks.withType<JavaCompile>().configureEach {
     option("NullAway:AnnotatedPackages", "com.xenoterracide")
     option("NullAway:CustomInitializerAnnotations", "picocli.CommandLine.Parameters")
     val errors = mutableListOf(
-      "NullAway",
       "AmbiguousMethodReference",
       "ArgumentSelectionDefectChecker",
       "ArrayAsKeyOfSetOrMap",
@@ -212,6 +210,7 @@ tasks.withType<JavaCompile>().configureEach {
       if (name != "compileTestJava") options.compilerArgs.add("-Werror")
       errors.addAll(
         listOf(
+          "NullAway",
           "UnusedVariable",
           "UnusedMethod",
           "UnusedNestedClass",

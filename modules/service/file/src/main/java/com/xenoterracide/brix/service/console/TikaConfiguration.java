@@ -3,7 +3,7 @@
 + * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
  * https://choosealicense.com/licenses/apache-2.0/#
  */
-package com.xenoterracide.brix.util.file;
+package com.xenoterracide.brix.service.console;
 
 import org.apache.tika.Tika;
 import org.apache.tika.config.TikaConfig;

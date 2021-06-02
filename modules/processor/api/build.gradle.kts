@@ -5,4 +5,8 @@ plugins {
 
 dependencies {
   api(projects.configLoader.api)
+  runtimeOnly(projects.service.console)
+  api(projects.service.file)
+  api(projects.util.lang)
+  implementation(libs.commons.lang)
 }
