@@ -5,10 +5,14 @@ use std::process;
 
 use crate::app;
 
+// Positional arguments
 pub const LANGUAGE: &str = "LANGUAGE";
 pub const CONFIG_NAME: &str = "CONFIG_NAME";
 pub const PROJECT: &str = "PROJECT";
 pub const MODULE: &str = "MODULE";
+
+// Flags
+pub const CONFIG_DIR: &str = "CONFIG_DIR";
 
 pub fn clap_matches() -> Result<clap::ArgMatches<'static>, Box<dyn std::error::Error>> {
     let err = match app::app().get_matches_from_safe(env::args_os()) {

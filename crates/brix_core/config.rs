@@ -1,4 +1,5 @@
 use clap::ArgMatches;
+use std::borrow::Cow;
 use std::fmt::{self, Display, Formatter};
 
 use crate::args;
@@ -8,6 +9,8 @@ pub struct Config {
     pub config_name: String,
     pub project: String,
     pub module: String,
+
+    pub config_dir: String,
     // TODO: Add flags
     pub raw_matches: ArgMatches<'static>,
 }
@@ -21,11 +24,14 @@ impl Config {
         let project = matches.value_of_lossy(args::PROJECT).unwrap().to_string();
         let module = matches.value_of_lossy(args::MODULE).unwrap().to_string();
 
+        let config_dir = matches.value_of_lossy(args::CONFIG_DIR).unwrap_or(Cow::from(".config/brix")).to_string();
+
         Self {
             raw_matches: matches,
             language,
             config_name,
             project,
+            config_dir,
             module,
         }
     }
@@ -35,8 +41,8 @@ impl Display for Config {
     fn fmt(&self, formatter: &mut Formatter) -> fmt::Result {
         write!(
             formatter,
-            "(LANGUAGE: {}, CONFIG_NAME: {}, PROJECT: {}, MODULE: {})",
-            self.language, self.config_name, self.project, self.module
+            "[LANGUAGE: {}, CONFIG_NAME: {}, PROJECT: {}, MODULE: {}, CONFIG_DIR: {}]",
+            self.language, self.config_name, self.project, self.module, self.config_dir
         )
     }
 }

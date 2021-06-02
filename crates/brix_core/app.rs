@@ -4,7 +4,7 @@ use clap::{self, crate_authors, crate_version, App, AppSettings, Arg};
 const USAGE: &str = "
     brix [LANGUAGE] [CONFIG NAME] [PROJECT] [MODULE]
     brix [OPTIONS] --config-dir | -d [CONFIG DIRECTORY]
-    brix [OPTIONS] --workdir [WORKING DIRECTORY]
+    brix [OPTIONS] --workdir | -w [WORKING DIRECTORY]
 ";
 
 /// Creates the clap application and sets args
@@ -22,6 +22,7 @@ pub fn app() -> App<'static, 'static> {
     app = app.arg(arg_config_name());
     app = app.arg(arg_project());
     app = app.arg(arg_module());
+    app = app.arg(flag_config_dir());
 
     app
 }
@@ -56,4 +57,17 @@ fn arg_module() -> Arg<'static, 'static> {
         .value_name("module")
         .help(HELP)
         .required(true)
+}
+
+fn flag_config_dir() -> Arg<'static, 'static> {
+    const HELP: &str = "
+        Directory path from the current working directory.
+        Templates and configs are looked up relative to here.
+        If the config isn't found here, then ~/.config/brix will be searched
+    ";
+    Arg::with_name(args::CONFIG_DIR)
+        .value_name("config dir")
+        .help(HELP)
+        .long("config-dir")
+        .short("d")
 }
