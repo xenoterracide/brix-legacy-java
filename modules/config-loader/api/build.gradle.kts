@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+  implementation(projects.util.lang)
   implementation(projects.cli.api)
   api(libs.tika)
   implementation(libs.commons.lang)

@@ -62,7 +62,7 @@ class AbstractProcessorBaseTest {
       .build();
 
     assertThatThrownBy( () -> processor.process( config ) )
-      .isInstanceOf( NullPointerException.class );
+      .isInstanceOf( IllegalArgumentException.class );
   }
 
   @Test
@@ -115,8 +115,8 @@ class AbstractProcessorBaseTest {
 
     processor.process( config );
 
-    verify( processor, times(1) ).askWhetherToWriteTemplate( any(), any(), any() );
-    verify( processor, times(1) ).writeTemplate( any(), any(), any() );
+    verify( processor, times( 1 ) ).askWhetherToWriteTemplate( any(), any(), any() );
+    verify( processor, times( 1 ) ).writeTemplate( any(), any(), any() );
   }
 
   @Test
@@ -138,7 +138,7 @@ class AbstractProcessorBaseTest {
 
     processor.process( config );
 
-    verify( processor, times(1) ).askWhetherToWriteTemplate( any(), any(), any() );
+    verify( processor, times( 1 ) ).askWhetherToWriteTemplate( any(), any(), any() );
     verify( processor, never() ).writeTemplate( any(), any(), any() );
   }
 
@@ -156,7 +156,7 @@ class AbstractProcessorBaseTest {
     processor.process( config );
 
     verify( processor, never() ).askWhetherToWriteTemplate( any(), any(), any() );
-    verify( processor, times(1) ).writeTemplate( any(), any(), any() );
+    verify( processor, times( 1 ) ).writeTemplate( any(), any(), any() );
   }
 
   @Test

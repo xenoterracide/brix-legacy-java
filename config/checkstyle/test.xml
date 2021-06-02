@@ -282,6 +282,7 @@
     <module name="ModifierOrder"/>
     <module name="RedundantModifier"/>
     <module name="AbstractClassName">
+      <property name="ignoreModifier" value="true"/>
       <property name="ignoreName" value="true"/>
     </module>
 

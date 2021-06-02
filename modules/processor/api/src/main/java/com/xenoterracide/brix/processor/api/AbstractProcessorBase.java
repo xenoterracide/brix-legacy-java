@@ -1,7 +1,13 @@
+/*
+ * Copyright © 2021 Caleb Cushing.
+ * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+ * https://choosealicense.com/licenses/apache-2.0/#
+ */
 package com.xenoterracide.brix.processor.api;
 
 import com.xenoterracide.brix.configloader.api.ProcessedFileConfiguration;
 import com.xenoterracide.brix.util.lang.ConsoleWrapper;
+import com.xenoterracide.brix.util.lang.ObjectUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,11 +18,10 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
-import java.util.Objects;
 
 public abstract class AbstractProcessorBase implements Processor {
 
-  protected final ConsoleWrapper console;
+  private final ConsoleWrapper console;
 
   private final Logger log = LogManager.getLogger( AbstractProcessorBase.class );
 
@@ -26,7 +31,7 @@ public abstract class AbstractProcessorBase implements Processor {
 
   @Override
   public void process( ProcessedFileConfiguration fc ) {
-    var source = Objects.requireNonNull( fc.getSource() );
+    var source = ObjectUtils.requireNonNull( fc.getSource(), "source" );
     var dest = fc.getDestination();
     var context = fc.getContext();
     var overwrite = fc.getOverwrite();
@@ -34,12 +39,7 @@ public abstract class AbstractProcessorBase implements Processor {
     log.debug( "processing: '{}'", source.toAbsolutePath() );
 
     try {
-      var parent = dest.getParent();
-
-      // this shouldn't happen because dest, should be a file and so it should always have a parent
-      if ( parent == null ) {
-        throw new IllegalArgumentException( "destination should have a parent directory" );
-      }
+      var parent = ObjectUtils.requireNonNull( dest.getParent(), "parent directory" );
 
       if ( !Files.exists( parent ) ) {
         log.trace( "creating directory: {}", parent.toAbsolutePath() );
@@ -79,7 +79,7 @@ public abstract class AbstractProcessorBase implements Processor {
     }
   }
 
-  abstract protected void writeTemplate(
+  protected abstract void writeTemplate(
     Path source,
     Path dest,
     Map<String, @Nullable Object> context

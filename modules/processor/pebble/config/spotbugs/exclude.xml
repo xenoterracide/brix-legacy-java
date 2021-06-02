@@ -13,4 +13,10 @@
       <Bug pattern="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"/>
     </And>
   </Match>
+  <Match>
+    <And>
+      <Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR"/>
+      <Class name="com.xenoterracide.brix.processor.pebble.PebbleTemplateProcessorTest"/>
+    </And>
+  </Match>
 </FindBugsFilter>
