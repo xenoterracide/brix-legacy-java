@@ -57,7 +57,8 @@ class ConfigValueProcessor {
   }
 
   ProcessedFileConfiguration from( Path toConfig, RawFileConfiguration config ) {
-    var cwd = Path.of( "" );
+    var cwd = Path.of( "" ).toAbsolutePath();
+    log.trace( "CWD: '{}'", cwd );
     var context = this.getContext( toConfig, config.getContext() );
 
     var bldr = ProcessedFileConfiguration.builder();
