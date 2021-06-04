@@ -1,3 +1,8 @@
+/*
+ * Copyright © 2021 Caleb Cushing.
+ * Apache 2.0. See https://github.com/xenoterracide/brix/LICENSE
+ * https://choosealicense.com/licenses/apache-2.0/#
+ */
 package com.xenoterracide.brix.cli.config;
 
 import com.xenoterracide.brix.cli.api.CliConfiguration;
@@ -27,6 +32,8 @@ public class CliCommand implements CliConfiguration, Runnable {
   private String moduleType;
 
   private String project;
+
+  private System.Logger.Level log = System.Logger.Level.ERROR;
 
   private @MonotonicNonNull String name;
 
@@ -124,6 +131,17 @@ public class CliCommand implements CliConfiguration, Runnable {
   )
   public void setLanguage( String language ) {
     this.language = language;
+  }
+
+  public System.Logger.Level getLog() {
+    return log;
+  }
+
+  @CommandLine.Option(
+    names = {"--logging.level.com.xenoterracide.brix"}
+  )
+  public void setLog( System.Logger.Level log ) {
+    this.log = log;
   }
 
   @Override

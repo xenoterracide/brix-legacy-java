@@ -23,11 +23,4 @@ dependencies {
 tasks.withType<BootJar> {
   mainClass.set("com.xenoterracide.brix.Application")
   archiveBaseName.set("brix")
-  launchScript {
-    properties(
-      mapOf(
-        "spring.config.location" to "classpath:application.properties"
-      )
-    )
-  }
 }

@@ -57,11 +57,13 @@ class ConfigValueProcessor {
   }
 
   ProcessedFileConfiguration from( Path toConfig, RawFileConfiguration config ) {
+    var cwd = Path.of( "" );
     var context = this.getContext( toConfig, config.getContext() );
+
     var bldr = ProcessedFileConfiguration.builder();
     bldr.overwrite( config.getOverwrite() );
     bldr.context( context );
-    bldr.destination( Path.of( this.processTemplate( config.getDestination(), context ) ) );
+    bldr.destination( cwd.resolve( this.processTemplate( config.getDestination(), context ) ) );
 
     config.getSource().ifPresent( src -> {
       var parent = ObjectUtils.requireNonNull( toConfig.getParent(), "config parent" );
