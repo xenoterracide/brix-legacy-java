@@ -23,4 +23,5 @@ dependencies {
 tasks.withType<BootJar> {
   mainClass.set("com.xenoterracide.brix.Application")
   archiveBaseName.set("brix")
+  archiveVersion.set("")
 }
