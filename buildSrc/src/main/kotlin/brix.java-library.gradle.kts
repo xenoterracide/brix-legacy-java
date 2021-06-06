@@ -8,7 +8,7 @@ plugins {
   id("net.ltgt.errorprone")
 }
 
-val libs = the<LibrariesForLibs>();
+val libs = the<LibrariesForLibs>()
 
 dependencies {
   errorprone(libs.bundles.ep)

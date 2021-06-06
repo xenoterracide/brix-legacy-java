@@ -22,31 +22,5 @@ dependencies {
 
 tasks.withType<BootJar> {
   mainClass.set("com.xenoterracide.brix.Application")
-  /*
-  // add all classes from brix
-  parent?.subprojects?.filterNot { p -> p == project }?.forEach { p ->
-    println(p)
-    if (p.plugins.hasPlugin("java-platform")) {
-      from(p.sourceSets["main"].output.classesDirs) {
-        into("BOOT-INFO/classes")
-      }
-    }
-  }
-  // filter jars from brix
-  exclude { ft ->
-    parent
-      ?.subprojects
-      ?.flatMap { p -> p.tasks }
-      ?.filterIsInstance<Jar>()
-      ?.any { j -> j.archiveFileName.get() == ft.name }
-      ?: false
-  }
-*/
-  launchScript {
-    properties(
-      mapOf(
-        "spring.config.location" to "classpath:application.properties"
-      )
-    )
-  }
+  archiveBaseName.set("brix")
 }

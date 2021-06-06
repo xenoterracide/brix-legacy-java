@@ -36,13 +36,13 @@ public abstract class AbstractProcessorBase implements Processor {
     var context = fc.getContext();
     var overwrite = fc.getOverwrite();
 
-    log.debug( "processing: '{}'", source.toAbsolutePath() );
+    log.debug( "processing: '{}'", source::toAbsolutePath );
 
     try {
       var parent = ObjectUtils.requireNonNull( dest.getParent(), "parent directory" );
 
       if ( !Files.exists( parent ) ) {
-        log.trace( "creating directory: {}", parent.toAbsolutePath() );
+        log.debug( "creating directory: {}", parent::toAbsolutePath );
         Files.createDirectories( parent );
       }
     }
@@ -50,9 +50,9 @@ public abstract class AbstractProcessorBase implements Processor {
       throw new UncheckedIOException( e );
     }
 
-    log.debug( "outputting: '{}'", dest.toAbsolutePath() );
+    log.debug( "outputting: '{}'", dest::toAbsolutePath );
     if ( Files.exists( dest ) ) {
-      log.debug( "file '{}' exists", dest.toAbsolutePath() );
+      log.debug( "file '{}' exists", dest::toAbsolutePath );
       if ( overwrite == null ) {
         askWhetherToWriteTemplate( source, dest, context );
       }
@@ -75,7 +75,7 @@ public abstract class AbstractProcessorBase implements Processor {
       writeTemplate( source, dest, context );
     }
     else {
-      log.debug( "skipping file {}", dest.toAbsolutePath() );
+      log.debug( "skipping file '{}'", dest::toAbsolutePath );
     }
   }
 
